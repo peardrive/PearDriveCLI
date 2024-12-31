@@ -51,6 +51,7 @@ async function main() {
   const args = {
     corestorePath: CORESTORE_DIR,
     localDrivePath: LOCALDRIVE_DIR,
+    relayMode: true,
   };
 
   pearDrive = new PearDrive(args);
