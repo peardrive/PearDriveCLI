@@ -47,8 +47,15 @@ async function main() {
   //  "Enter the network key: (leave blank for new)"
   //);
 
+  // Retrieve save data if exists
+  let savedData;
+  if (fs.existsSync(SAVE_FILE)) {
+    console.log("Save data found, running from save data");
+    savedData = JSON.parse(fs.readFileSync(SAVE_FILE, "utf8"));
+  }
+
   // PD args
-  const args = {
+  const args = savedData || {
     corestorePath: CORESTORE_DIR,
     localDrivePath: LOCALDRIVE_DIR,
     relayMode: true,
@@ -57,6 +64,10 @@ async function main() {
   pearDrive = new PearDrive(args);
   await pearDrive.ready();
   await pearDrive.joinNetwork();
+
+  const saveData = pearDrive.getSaveData();
+  // Save data to SAVE_FILE
+  fs.writeFileSync(SAVE_FILE, JSON.stringify(saveData, null, 2));
   console.log(
     "pearDrive running on network",
     pearDrive.getSaveData().networkKey
