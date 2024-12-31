@@ -16,6 +16,8 @@
     "pear-interface": "^1.0.0"
   },
   "dependencies": {
+    "bare-fs": "^4.0.1",
+    "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",
     "bare-readline": "^1.0.6",
     "bare-tty": "^5.0.1",
