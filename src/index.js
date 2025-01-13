@@ -7,7 +7,8 @@ import process from "bare-process";
 import PearDrive from "peardrive-core-alpha";
 
 import * as C from "./constants.js";
-import * as U from "./utils.js";
+import * as utils from "./utils.js";
+import * as log from "./log.js";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Globals
@@ -41,21 +42,31 @@ async function initialize() {
   if (!fs.existsSync(C.SAVE_DIR)) fs.mkdirSync(C.SAVE_DIR);
   if (!fs.existsSync(C.LOG_DIR)) fs.mkdirSync(C.LOG_DIR);
 
-  // Logging
+  // Init logging
   if (fs.existsSync(C.LOG_FILE)) fs.unlinkSync(C.LOG_FILE);
   fs.writeFileSync(C.LOG_FILE, "");
-  U.log("INFO", "Initializing PearDrive CLI");
+  log.info("Initializing PearDrive CLI");
 
   // Load PearDrive networks if any exist
   if (fs.existsSync(C.SAVE_FILE)) {
-    const saveData = JSON.parse(fs.readFileSync(C.SAVE_FILE));
-    if (saveData) console.log("Save data", saveData);
   }
-  // Run PearDrive instances if any exist
+
+  // Load PearDrive networks (if any exist)
+  const data = utils.getSaveData();
+  if (data) {
+    log.info("Save data found, loading PearDrive networks");
+    for (const network of data) {
+      await loadPearDrive(network);
+    }
+  }
+
+  log.info("PearDrive CLI initialized");
 }
 
 /** Create a new PearDrive instance */
 async function createPearDrive() {
+  log.info("Creating new PearDrive instance", pearDriveArgs);
+
   try {
     const drive = new PearDrive(pearDriveArgs);
     await drive.ready();
@@ -63,10 +74,10 @@ async function createPearDrive() {
 
     const saveData = drive.getSaveData();
     savePearDrive(saveData);
-    console.log("Save data from new pearDrive:", saveData);
 
     pearDrives.push(drive);
   } catch (error) {
+    log.error("Error creating PearDrive instance", error);
     console.error("Error creating PearDrive instance", error);
     currentState = C.CLI_STATE.MAIN;
     reqMainMenu();
@@ -74,18 +85,36 @@ async function createPearDrive() {
 }
 
 /** Load existing PearDrive instance from args */
-async function loadPearDrive(args) {
-  //
+async function loadPearDrive(saveData) {
+  log.info("Loading PearDrive instance from save data", saveData.networkKey);
+
+  try {
+    const drive = new PearDrive(saveData);
+    await drive.ready();
+    await drive.joinNetwork();
+
+    pearDrives.push(drive);
+  } catch (error) {
+    log.error("Error loading PearDrive instance", error);
+    console.error("Error loading PearDrive instance", error);
+  }
 }
 
 /** Save a new PearDrive network data */
-async function savePearDrive(args) {
-  //
+async function savePearDrive(saveData) {
+  log.info("Saving PearDrive network data", saveData.networkKey);
+  utils.addSave(saveData);
 }
 
 /** Delete a specific PearDrive network save data */
 async function deletePearDrive(networkKey) {
-  //
+  log.info("Deleting saved PearDrive network data", networkKey);
+  const pearDrive = pearDrives.find((d) => d.networkKey === networkKey);
+  if (pearDrive) {
+    await pearDrive.close();
+    pearDrives = pearDrives.filter((d) => d !== pearDrive);
+  }
+  utils.removeSave(networkKey);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +167,7 @@ function resMainMenu(response) {
 ////////////////////////////////////////////////////////////////////////////////
 // CREATE.RELAY_MODE
 
+/** CREATE.RELAY_MODE prompt */
 function reqCreateRelayMode() {
   currentState = C.CLI_STATE.CREATE.RELAY_MODE;
   console.log("Enter relay mode(T/f):");
