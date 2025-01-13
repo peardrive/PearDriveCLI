@@ -24,7 +24,7 @@ const rl = readline.createInterface({
 let pearDrives = [];
 
 /** PearDrive arguments for PearDrive to be created */
-let pearDriveArgs = undefined;
+let pearDriveArgs = {};
 
 /** Current state of CLI */
 let currentState = C.CLI_STATE.MAIN;
@@ -146,11 +146,11 @@ function resMainMenu(response) {
       break;
 
     case "2": // Join existing PearDrive network
-      currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
-      console.log("Enter network key:");
+      reqJoinExistingNetworkKey();
       break;
 
     case "3": /// List all PearDrive networks
+      reqListNetworkAll();
       break;
 
     case "4": // Delete a PearDrive network
@@ -174,20 +174,21 @@ function reqCreateRelayMode() {
 }
 /** CREATE.RELAY_MODE response handler */
 function resCreateRelayMode(response) {
-  //
-  if (response === "f" || response === "false") {
-    pearDriveArgs = {
-      corestorePath: C.CORESTORE_DIR,
-      localDrivePath: C.LOCALDRIVE_DIR,
-      relayMode: false,
-    };
-  } else {
-    pearDriveArgs = {
-      corestorePath: C.CORESTORE_DIR,
-      localDrivePath: C.LOCALDRIVE_DIR,
-      relayMode: true,
-    };
+  // Check for existing networkKey
+  let networkKey = undefined;
+  if (Object.keys(pearDriveArgs).includes("networkKey")) {
+    networkKey = pearDriveArgs["networkKey"];
   }
+
+  let relayMode = true;
+  if (response === "f" || response === "false") relayMode = true;
+
+  pearDriveArgs = {
+    corestorePath: C.CORESTORE_DIR,
+    localDrivePath: C.LOCALDRIVE_DIR,
+    relayMode,
+    networkKey,
+  };
 
   reqCreateLocaldrivePath();
 }
@@ -195,6 +196,7 @@ function resCreateRelayMode(response) {
 ////////////////////////////////////////////////////////////////////////////////
 // CREATE.LOCALDRIVE_PATH
 
+/** CREATE.LOCALDRIVE_PATH prompt */
 function reqCreateLocaldrivePath() {
   currentState = C.CLI_STATE.CREATE.LOCALDRIVE_PATH;
   console.log("Enter local drive path (blank for random in default folder):");
@@ -204,7 +206,58 @@ function reqCreateLocaldrivePath() {
 function resCreateLocaldrivePath(response) {
   if (response.length) pearDriveArgs.localDrivePath = response;
   else pearDriveArgs.localDrivePath = path.join(C.LOCALDRIVE_DIR, "default");
-  createPearDrive();
+  createPearDrive().then(() => {
+    reqMainMenu();
+  });
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// JOIN_EXISTING.NETWORK_KEY
+
+/** JOIN_EXISTING.NETWORK_KEY prompt */
+function reqJoinExistingNetworkKey() {
+  currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
+  console.log("Enter network key:");
+}
+
+/** JOIN_EXISTING.NETWORK_KEY response handler */
+function resJoinExistingNetworkKey(response) {
+  pearDriveArgs.networkKey = response;
+  reqCreateRelayMode();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// LIST_NETWORK.ALL prompt
+
+/** LIST_NETWORK.all prompt */
+function reqListNetworkAll() {
+  currentState = C.CLI_STATE.LIST_NETWORK.ALL;
+  if (!pearDrives.length) {
+    console.log("No saved PearDrive networks");
+    reqMainMenu();
+    return;
+  }
+
+  pearDrives.map((pearDrive) => {
+    const pearDriveData = pearDrive.getSaveData();
+    const index = pearDrives.indexOf(pearDrive);
+
+    console.log("PearDrive", index);
+    console.log("-----------------");
+    console.log(
+      "Connection:",
+      pearDrive.connected ? "Connected" : "Disconnected"
+    );
+    console.log("Peer seed:", pearDriveData.seed);
+    console.log("Network key:", pearDriveData.networkKey);
+    console.log("Local drive path:", pearDriveData.localDrivePath);
+    console.log("Relay mode:", pearDriveData.relayMode);
+  });
+}
+
+/** LIST_NETWORK.ALL response handler  */
+function resListNetworkAll() {
+  // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -231,7 +284,11 @@ rl.on("data", async (res) => {
       break;
 
     case C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY:
-      // Join existing network
+      resJoinExistingNetworkKey(res);
+      break;
+
+    case C.CLI_STATE.LIST_NETWORK.ALL:
+      resListNetworkAll();
       break;
   }
   //

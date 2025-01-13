@@ -36,4 +36,8 @@ export const CLI_STATE = {
     SEED: "SEED",
     LOCALDRIVE_PATH: "LOCALDRIVE_PATH",
   },
+  LIST_NETWORK: {
+    ALL: "ALL",
+    NETWORK: "NETWORK",
+  },
 };
