@@ -26,6 +26,9 @@ let pearDrives = [];
 /** PearDrive arguments for PearDrive to be created */
 let pearDriveArgs = {};
 
+/** Selected network (an index on the pearDrives array) */
+let selectedNetwork = -1;
+
 /** Current state of CLI */
 let currentState = C.CLI_STATE.MAIN;
 
@@ -35,6 +38,7 @@ let currentState = C.CLI_STATE.MAIN;
 
 /** On CLI startup */
 async function initialize() {
+  currentState = C.CLI_STATE.INITIALIZING;
   // Ensure folders exist
   if (!fs.existsSync(C.DATA_DIR)) fs.mkdirSync(C.DATA_DIR);
   if (!fs.existsSync(C.CORESTORE_DIR)) fs.mkdirSync(C.CORESTORE_DIR);
@@ -45,11 +49,9 @@ async function initialize() {
   // Init logging
   if (fs.existsSync(C.LOG_FILE)) fs.unlinkSync(C.LOG_FILE);
   fs.writeFileSync(C.LOG_FILE, "");
-  log.info("Initializing PearDrive CLI");
 
-  // Load PearDrive networks if any exist
-  if (fs.existsSync(C.SAVE_FILE)) {
-  }
+  log.info("Initializing PearDrive CLI");
+  console.log("Initializing PearDrive CLI");
 
   // Load PearDrive networks (if any exist)
   const data = utils.getSaveData();
@@ -57,6 +59,8 @@ async function initialize() {
     log.info("Save data found, loading PearDrive networks");
     for (const network of data) {
       await loadPearDrive(network);
+      console.log("Loaded PearDrive network", network.networkKey);
+      log.info("Loaded PearDrive network", network.networkKey);
     }
   }
 
@@ -154,6 +158,7 @@ function resMainMenu(response) {
       break;
 
     case "4": // Delete a PearDrive network
+      reqDeleteNetworkSelect();
       break;
 
     case "0":
@@ -227,7 +232,7 @@ function resJoinExistingNetworkKey(response) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// LIST_NETWORK.ALL prompt
+// LIST_NETWORK.ALL
 
 /** LIST_NETWORK.all prompt */
 function reqListNetworkAll() {
@@ -253,22 +258,35 @@ function reqListNetworkAll() {
     console.log("Local drive path:", pearDriveData.localDrivePath);
     console.log("Relay mode:", pearDriveData.relayMode);
   });
+
+  console.log("------------------");
+  console.log("Press enter to return to the main menu.");
 }
 
 /** LIST_NETWORK.ALL response handler  */
-function resListNetworkAll() {
-  // TODO
+function resListNetworkAll(res) {
+  reqMainMenu();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Main
+// DELETE_NETWORK.SELECT
+
+/** DELETE_NETWORK.SELECT prompt */
+function reqDeleteNetworkSelect() {
+  //
+}
+
+/** DELETE_NETWORK.SELECT response handler */
+function resDeleteNetworkSelect(res) {
+  reqMainMenu();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// I/O
 ////////////////////////////////////////////////////////////////////////////////
 
-initialize();
-
-reqMainMenu();
 rl.on("data", async (res) => {
-  if (res === "quit") process.kill(process.pid, "SIGINT");
+  if (res === "quit()") process.kill(process.pid, "SIGINT");
 
   switch (currentState) {
     case C.CLI_STATE.MAIN:
@@ -297,3 +315,14 @@ rl.on("data", async (res) => {
 rl.on("close", () => {
   process.kill(process.pid, "SIGINT");
 });
+
+////////////////////////////////////////////////////////////////////////////////
+// Main
+////////////////////////////////////////////////////////////////////////////////
+
+async function main() {
+  await initialize();
+  reqMainMenu();
+}
+
+main();
