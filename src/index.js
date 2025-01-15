@@ -210,7 +210,10 @@ function reqCreateLocaldrivePath() {
 /** CREATE.LOCALDRIVE_PATH response handler */
 function resCreateLocaldrivePath(response) {
   if (response.length) pearDriveArgs.localDrivePath = response;
-  else pearDriveArgs.localDrivePath = path.join(C.LOCALDRIVE_DIR, "default");
+  else {
+    fs.mkdirSync(path.join(C.LOCALDRIVE_DIR, "default"), { recursive: true });
+    pearDriveArgs.localDrivePath = path.join(C.LOCALDRIVE_DIR, "default");
+  }
   createPearDrive().then(() => {
     reqMainMenu();
   });
