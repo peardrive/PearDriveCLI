@@ -74,7 +74,7 @@ async function createPearDrive() {
   try {
     const drive = new PearDrive(pearDriveArgs);
     await drive.ready();
-    await drive.joinNetwork();
+    await drive.joinNetwork(pearDriveArgs.networkKey);
 
     const saveData = drive.getSaveData();
     savePearDrive(saveData);
@@ -134,38 +134,40 @@ function reqMainMenu() {
   console.log(
     "Welcome to PearDrive CLI\n\
 Enter 'quit' at any time to end the process\n\
-    1. Create new PearDrive\n\
-    2. Join existing PearDrive network\n\
-    3. List all saved PearDrive networks\n\
-    4. Delete a saved PearDrive network\n\
-    0. Exit"
+  1. 'create' Create new PearDrive\n\
+  2. 'join' Join existing PearDrive network\n\
+  3. 'list' List all saved PearDrive networks\n\
+  4. 'delete' Delete a saved PearDrive network\n\
+  0. 'exit' Exit"
   );
 }
 
 /** MAIN response handler */
 function resMainMenu(response) {
   switch (response) {
-    case "1": // Create new PearDrive
+    case "1" || "create": // Create new PearDrive
       reqCreateRelayMode();
       break;
 
-    case "2": // Join existing PearDrive network
+    case "2" || "join": // Join existing PearDrive network
       reqJoinExistingNetworkKey();
       break;
 
-    case "3": /// List all PearDrive networks
+    case "3" || "list": /// List all PearDrive networks
       reqListNetworkAll();
       break;
 
-    case "4": // Delete a PearDrive network
+    case "4" || "delete": // Delete a PearDrive network
       reqDeleteNetworkSelect();
       break;
 
-    case "0":
+    case "0" || "exit":
       process.kill(process.pid, "SIGINT");
       break;
+
     default:
       console.log("Invalid input, please try again");
+      break;
   }
 }
 
@@ -177,6 +179,7 @@ function reqCreateRelayMode() {
   currentState = C.CLI_STATE.CREATE.RELAY_MODE;
   console.log("Enter relay mode(T/f):");
 }
+
 /** CREATE.RELAY_MODE response handler */
 function resCreateRelayMode(response) {
   // Check for existing networkKey
@@ -214,6 +217,7 @@ function resCreateLocaldrivePath(response) {
     fs.mkdirSync(path.join(C.LOCALDRIVE_DIR, "default"), { recursive: true });
     pearDriveArgs.localDrivePath = path.join(C.LOCALDRIVE_DIR, "default");
   }
+
   createPearDrive().then(() => {
     reqMainMenu();
   });
@@ -276,7 +280,8 @@ function resListNetworkAll(res) {
 
 /** DELETE_NETWORK.SELECT prompt */
 function reqDeleteNetworkSelect() {
-  //
+  // Get peardrive data
+  const pearDriveData = pearDrives.forEach((drive) => {});
 }
 
 /** DELETE_NETWORK.SELECT response handler */
