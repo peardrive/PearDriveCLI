@@ -21,8 +21,11 @@ export const SAVE_FILE = path.join(SAVE_DIR, "save.json");
 /** Logs path */
 export const LOG_DIR = path.join(DATA_DIR, "logs");
 
+/** Core logs path */
+export const CORE_LOG_DIR = path.join(LOG_DIR, "core");
+
 /** Log file path */
-export const LOG_FILE = path.join(LOG_DIR, "log.txt");
+export const LOG_FILE = path.join(LOG_DIR, "log.log");
 
 /** Different states of the CLI, what is the next input for */
 export const CLI_STATE = {

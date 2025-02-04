@@ -73,7 +73,10 @@ async function createPearDrive() {
 
   try {
     const corestorePath = utils.createCorestoreFolder();
+    const logFilePath = utils.createCoreLogFile();
     pearDriveArgs.corestorePath = corestorePath;
+    pearDriveArgs.logToFile = true;
+    pearDriveArgs.logFilePath = logFilePath;
     const drive = new PearDrive(pearDriveArgs);
     await drive.ready();
     await drive.joinNetwork(pearDriveArgs.networkKey);
@@ -97,7 +100,7 @@ async function loadPearDrive(saveData) {
   try {
     const drive = new PearDrive(saveData);
     await drive.ready();
-    await drive.joinNetwork();
+    await drive.joinNetwork(saveData.networkKey);
 
     pearDrives.push(drive);
   } catch (error) {
@@ -273,7 +276,6 @@ function reqListNetworkAll() {
       const index = pearDrives.indexOf(pearDrive);
 
       console.log("PearDrive", index);
-      console.log("-----------------");
       console.log(
         "Connection:",
         pearDrive.connected ? "Connected" : "Disconnected"
@@ -282,6 +284,7 @@ function reqListNetworkAll() {
       console.log("Network key:", pearDriveData.networkKey);
       console.log("Local drive path:", pearDriveData.localDrivePath);
       console.log("Relay mode:", pearDriveData.relayMode);
+      console.log("-----------------");
     })
     .join(" ");
 
