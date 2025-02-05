@@ -1,6 +1,7 @@
 {
   "name": "peardrive-cli-alpha",
   "main": "src/index.js",
+  "version": "0.0.2",
   "pear": {
     "name": "tmp",
     "type": "terminal"
