@@ -6,9 +6,10 @@ import fs from "bare-fs";
 import process from "bare-process";
 import PearDrive from "peardrive-core-alpha";
 
-import * as C from "./constants.js";
-import * as utils from "./utils.js";
-import * as log from "./log.js";
+import globalState from "./globalState";
+import * as C from "./constants";
+import * as utils from "./utils";
+import * as log from "./log";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Globals
@@ -20,25 +21,13 @@ const rl = readline.createInterface({
   output: new tty.WriteStream(1),
 });
 
-/** Running PearDrive instances */
-let pearDrives = [];
-
-/** PearDrive arguments for PearDrive to be created */
-let pearDriveArgs = {};
-
-/** Selected network (an index on the pearDrives a  rray) */
-let selectedNetwork = -1;
-
-/** Current state of CLI */
-let currentState = C.CLI_STATE.MAIN;
-
 ////////////////////////////////////////////////////////////////////////////////
 // Util functions
 ////////////////////////////////////////////////////////////////////////////////
 
 /** On CLI startup */
 async function initialize() {
-  currentState = C.CLI_STATE.INITIALIZING;
+  globalState.currentState = C.CLI_STATE.INITIALIZING;
   // Ensure folders exist
   if (!fs.existsSync(C.DATA_DIR)) fs.mkdirSync(C.DATA_DIR);
   if (!fs.existsSync(C.CORESTORE_DIR)) fs.mkdirSync(C.CORESTORE_DIR);
@@ -69,22 +58,22 @@ async function initialize() {
 
 /** Create a new PearDrive instance */
 async function createPearDrive() {
-  log.info("Creating new PearDrive instance", pearDriveArgs);
+  log.info("Creating new PearDrive instance...");
 
   try {
     const corestorePath = utils.createCorestoreFolder();
     const logFilePath = utils.createCoreLogFile();
-    pearDriveArgs.corestorePath = corestorePath;
-    pearDriveArgs.logToFile = true;
-    pearDriveArgs.logFilePath = logFilePath;
-    const drive = new PearDrive(pearDriveArgs);
+    globalState.createNewPearDriveArgs.corestorePath = corestorePath;
+    globalState.createNewPearDriveArgs.logToFile = true;
+    globalState.createNewPearDriveArgs.logFilePath = logFilePath;
+    const drive = new PearDrive(createNewPearDriveArgs);
     await drive.ready();
     await drive.joinNetwork(pearDriveArgs.networkKey);
 
     const saveData = drive.getSaveData();
     savePearDrive(saveData);
 
-    pearDrives.push(drive);
+    globalState.pearDrives.push(drive);
   } catch (error) {
     log.error("Error creating PearDrive instance", error);
     console.error("Error creating PearDrive instance", error);
@@ -102,7 +91,7 @@ async function loadPearDrive(saveData) {
     await drive.ready();
     await drive.joinNetwork(saveData.networkKey);
 
-    pearDrives.push(drive);
+    globalState.pearDrives.push(drive);
   } catch (error) {
     log.error("Error loading PearDrive instance", error);
     console.error("Error loading PearDrive instance", error);
@@ -118,10 +107,15 @@ async function savePearDrive(saveData) {
 /** Delete a specific PearDrive network save data */
 async function deletePearDrive(networkKey) {
   log.info("Deleting saved PearDrive network data", networkKey);
-  const pearDrive = pearDrives.find((d) => d.networkKey === networkKey);
+  const pearDrive = globalState.pearDrives.find(
+    (d) => d.networkKey === networkKey
+  );
   if (pearDrive) {
     await pearDrive.close();
-    pearDrives = pearDrives.filter((d) => d !== pearDrive);
+    globalState.pearDrives = globalState.pearDrives.filter(
+      (d) => d !== pearDrive
+    );
+    // TODO fix ^^^
   }
   utils.removeSave(networkKey);
 }
@@ -326,7 +320,7 @@ function resDeleteNetworkSelect(res) {
 ////////////////////////////////////////////////////////////////////////////////
 
 rl.on("data", async (res) => {
-  if (res === "quit()") process.kill(process.pid, "SIGINT");
+  if (res === "quit()") process.exit(0);
 
   switch (currentState) {
     case C.CLI_STATE.INITIALIZING:
