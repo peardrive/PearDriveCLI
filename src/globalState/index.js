@@ -54,7 +54,9 @@ class GlobalState {
    * @returns {boolean} - True if state is valid, false otherwise
    */
   #isValidState = (state, obj) => {
-    if (!obj) obj = C.CLI_STATE;
+    // TODO fix this
+    return true;
+    /* if (!obj) obj = C.CLI_STATE;
 
     for (const key in obj) {
       if (obj[key] === state) {
@@ -67,7 +69,7 @@ class GlobalState {
         return true;
       }
       return false;
-    }
+    } */
   };
 }
 

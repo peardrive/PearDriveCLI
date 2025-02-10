@@ -1,5 +1,6 @@
 export { addSave } from "./addSave";
 export { clearTerminal } from "./clearTerminal";
+export { configureIO } from "./configureIO";
 export { createCoreLogFile } from "./createCoreLogFile";
 export { createCorestoreFolder } from "./createCorestoreFolder";
 export { createNewFolderPath } from "./createNewFolderPath";
