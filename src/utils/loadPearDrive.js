@@ -1,0 +1,17 @@
+import globalState from "../globalState";
+
+/** Load existing PearDrive instance from args */
+export async function loadPearDrive(saveData) {
+  log.info("Loading PearDrive instance from save data", saveData.networkKey);
+
+  try {
+    const drive = new PearDrive(saveData);
+    await drive.ready();
+    await drive.joinNetwork(saveData.networkKey);
+
+    globalState.pearDrives.push(drive);
+  } catch (error) {
+    log.error("Error loading PearDrive instance", error);
+    console.error("Error loading PearDrive instance", error);
+  }
+}
