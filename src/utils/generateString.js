@@ -1,3 +1,9 @@
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
+import path from "bare-path";
+
 /**
  *  Generate a random string of specified length
  *

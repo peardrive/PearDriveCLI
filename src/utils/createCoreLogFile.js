@@ -1,4 +1,8 @@
 import path from "bare-path";
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
 
 import * as C from "../constants";
 

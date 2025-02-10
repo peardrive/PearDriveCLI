@@ -1,6 +1,14 @@
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
+import path from "bare-path";
+import PearDrive from "peardrive-core-alpha";
+
 import * as utils from ".";
 import globalState from "../globalState";
 import * as handlers from "../handlers";
+import * as log from "../log";
 
 /** Create a new PearDrive instance */
 export async function createPearDrive() {
@@ -20,7 +28,7 @@ export async function createPearDrive() {
     await drive.joinNetwork(globalState.createNewPearDriveArgs.networkKey);
 
     const saveData = drive.getSaveData();
-    savePearDrive(saveData);
+    utils.savePearDrive(saveData);
 
     globalState.pearDrives.push(drive);
   } catch (error) {

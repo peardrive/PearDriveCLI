@@ -1,6 +1,10 @@
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
 import path from "bare-path";
 
-import { generateString } from "./generateString";
+import * as utils from ".";
 
 /**
  * Create a new folder path of given length
@@ -12,5 +16,5 @@ import { generateString } from "./generateString";
  * @returns {string} - New folder path
  */
 export function createNewFolderPath(basePath, length = 8) {
-  return path.join(basePath, generateString(length));
+  return path.join(basePath, utils.generateString(length));
 }

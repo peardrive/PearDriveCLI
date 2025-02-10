@@ -1,5 +1,12 @@
-import globalState from "./globalState";
-import * as utils from "./utils";
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
+import path from "bare-path";
+
+import globalState from "../globalState";
+import * as utils from ".";
+import * as log from "../log";
 
 /** Delete a specific PearDrive network save data */
 export async function deletePearDrive(networkKey) {

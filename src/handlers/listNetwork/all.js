@@ -1,3 +1,9 @@
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
+import path from "bare-path";
+
 import * as C from "../../constants";
 import globalState from "../../globalState";
 import * as utils from "../../utils";
@@ -9,7 +15,7 @@ export function req() {
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.ALL;
   if (!globalState.pearDrives.length) {
     console.log("No saved PearDrive networks");
-    reqMainMenu();
+    mainMenu.req();
     return;
   }
 

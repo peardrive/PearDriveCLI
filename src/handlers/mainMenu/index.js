@@ -1,6 +1,12 @@
-import globalState from "../globalState";
-import * as C from "../constants";
-import * as utils from "../utils";
+import readline from "bare-readline";
+import tty from "bare-tty";
+import fs from "bare-fs";
+import process from "bare-process";
+import path from "bare-path";
+
+import globalState from "../../globalState";
+import * as C from "../../constants";
+import * as utils from "../../utils";
 import * as handlers from "..";
 
 /** MAIN_MENU request handler */
