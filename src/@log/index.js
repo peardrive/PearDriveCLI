@@ -1,6 +1,6 @@
 import fs from "bare-fs";
 
-import * as C from "../constants";
+import * as C from "../@constants";
 
 /**
  * Log to logfile

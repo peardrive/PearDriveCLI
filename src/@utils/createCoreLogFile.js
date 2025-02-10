@@ -1,10 +1,6 @@
 import path from "bare-path";
-import readline from "bare-readline";
-import tty from "bare-tty";
-import fs from "bare-fs";
-import process from "bare-process";
 
-import * as C from "../constants";
+import * as C from "../@constants";
 
 /** Create log file for an instance of PearDrive core */
 export function createCoreLogFile(name = generateString()) {

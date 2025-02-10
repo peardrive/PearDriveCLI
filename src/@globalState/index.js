@@ -1,5 +1,5 @@
-import * as C from "../constants";
-import * as log from "../log";
+import * as C from "../@constants";
+import * as log from "../@log";
 
 /** Global state singleton */
 class GlobalState {

@@ -1,12 +1,7 @@
-import readline from "bare-readline";
-import tty from "bare-tty";
-import fs from "bare-fs";
-import process from "bare-process";
-import path from "bare-path";
 import PearDrive from "peardrive-core-alpha";
 
-import globalState from "../globalState";
-import * as log from "../log";
+import globalState from "../@globalState";
+import * as log from "../@log";
 
 /** Load existing PearDrive instance from args */
 export async function loadPearDrive(saveData) {

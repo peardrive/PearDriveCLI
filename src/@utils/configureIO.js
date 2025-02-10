@@ -2,9 +2,9 @@ import readline from "bare-readline";
 import tty from "bare-tty";
 import process from "bare-process";
 
-import * as C from "../constants";
-import globalState from "../globalState";
-import * as handlers from "../handlers";
+import * as C from "../@constants";
+import globalState from "../@globalState";
+import * as handlers from "../@handlers";
 
 /**
  * Set up readline IO interface

@@ -1,12 +1,6 @@
-import readline from "bare-readline";
-import tty from "bare-tty";
-import fs from "bare-fs";
-import process from "bare-process";
-import path from "bare-path";
-
-import * as C from "../../constants";
-import globalState from "../../globalState";
-import * as utils from "../../utils";
+import * as C from "../../@constants";
+import globalState from "../../@globalState";
+import * as utils from "../../@utils";
 import { mainMenu } from "..";
 
 /** LIST_NETWORK.all request handler */

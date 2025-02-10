@@ -1,11 +1,11 @@
 /** @typedef {import('pear-interface')} */ /* global Pear */
 import fs from "bare-fs";
 
-import globalState from "./globalState";
-import * as C from "./constants";
-import * as utils from "./utils";
-import * as log from "./log";
-import * as handlers from "./handlers";
+import globalState from "./@globalState";
+import * as C from "./@constants";
+import * as utils from "./@utils";
+import * as log from "./@log";
+import * as handlers from "./@handlers";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Main
