@@ -10,6 +10,7 @@ import globalState from "./globalState";
 import * as C from "./constants";
 import * as utils from "./utils";
 import * as log from "./log";
+import * as handlers from "./handlers";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Globals
@@ -68,7 +69,7 @@ async function createPearDrive() {
     globalState.createNewPearDriveArgs.logFilePath = logFilePath;
     const drive = new PearDrive(createNewPearDriveArgs);
     await drive.ready();
-    await drive.joinNetwork(pearDriveArgs.networkKey);
+    await drive.joinNetwork(globalState.createNewPearDriveArgs.networkKey);
 
     const saveData = drive.getSaveData();
     savePearDrive(saveData);
@@ -121,201 +122,6 @@ async function deletePearDrive(networkKey) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Interface functions
-////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////
-// MAIN MENU
-
-/** MAIN text */
-function reqMainMenu() {
-  utils.clearTerminal();
-  currentState = C.CLI_STATE.MAIN;
-  console.log(
-    "Welcome to PearDrive CLI\n\
-Enter 'quit' at any time to end the process\n\
-  1. 'create' Create new PearDrive\n\
-  2. 'join' Join existing PearDrive network\n\
-  3. 'list' List all saved PearDrive networks\n\
-  4. 'delete' Delete a saved PearDrive network\n\
-  0. 'exit' Exit"
-  );
-}
-
-/** MAIN response handler */
-function resMainMenu(response) {
-  switch (response) {
-    // Create new PearDrive
-    case "1":
-    case "create":
-      reqCreateRelayMode();
-      break;
-
-    // Join existing PearDrive network
-    case "2":
-    case "join":
-      reqJoinExistingNetworkKey();
-      break;
-
-    // List all PearDrive networks
-    case "3":
-    case "list":
-      reqListNetworkAll();
-      break;
-
-    // Delete a PearDrive network
-    case "4":
-    case "delete":
-      reqDeleteNetworkSelect();
-      break;
-
-    // Stop program
-    case "0":
-    case "exit":
-      process.kill(process.pid, "SIGINT");
-      break;
-
-    default:
-      console.log("Invalid input, please try again");
-      break;
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// CREATE.RELAY_MODE
-
-/** CREATE.RELAY_MODE prompt */
-function reqCreateRelayMode() {
-  utils.clearTerminal();
-  currentState = C.CLI_STATE.CREATE.RELAY_MODE;
-  console.log("Enter relay mode(T/f):");
-}
-
-/** CREATE.RELAY_MODE response handler */
-function resCreateRelayMode(response) {
-  // Check for existing networkKey
-  let networkKey = undefined;
-  if (Object.keys(pearDriveArgs).includes("networkKey")) {
-    networkKey = pearDriveArgs["networkKey"];
-  }
-
-  let relayMode = true;
-  if (response === "f" || response === "false") relayMode = false;
-
-  pearDriveArgs = {
-    corestorePath: C.CORESTORE_DIR,
-    localDrivePath: C.LOCALDRIVE_DIR,
-    relayMode,
-    networkKey,
-  };
-
-  reqCreateLocaldrivePath();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// CREATE.LOCALDRIVE_PATH
-
-/** CREATE.LOCALDRIVE_PATH prompt */
-function reqCreateLocaldrivePath() {
-  utils.clearTerminal();
-  currentState = C.CLI_STATE.CREATE.LOCALDRIVE_PATH;
-  console.log("Enter local drive path (blank for random in default folder):");
-}
-
-/** CREATE.LOCALDRIVE_PATH response handler */
-function resCreateLocaldrivePath(response) {
-  if (response.length) pearDriveArgs.localDrivePath = response;
-  else {
-    fs.mkdirSync(path.join(C.LOCALDRIVE_DIR, "default"), { recursive: true });
-    pearDriveArgs.localDrivePath = path.join(C.LOCALDRIVE_DIR, "default");
-  }
-
-  createPearDrive().then(() => {
-    reqMainMenu();
-  });
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// JOIN_EXISTING.NETWORK_KEY
-
-/** JOIN_EXISTING.NETWORK_KEY prompt */
-function reqJoinExistingNetworkKey() {
-  utils.clearTerminal();
-  currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
-  console.log("Enter network key:");
-}
-
-/** JOIN_EXISTING.NETWORK_KEY response handler */
-function resJoinExistingNetworkKey(response) {
-  pearDriveArgs.networkKey = response;
-  reqCreateRelayMode();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// LIST_NETWORK.ALL
-
-/** LIST_NETWORK.all prompt */
-function reqListNetworkAll() {
-  utils.clearTerminal();
-  currentState = C.CLI_STATE.LIST_NETWORK.ALL;
-  if (!pearDrives.length) {
-    console.log("No saved PearDrive networks");
-    reqMainMenu();
-    return;
-  }
-
-  pearDrives
-    .map((pearDrive) => {
-      const pearDriveData = pearDrive.getSaveData();
-      const index = pearDrives.indexOf(pearDrive);
-
-      console.log("PearDrive", index);
-      console.log(
-        "Connection:",
-        pearDrive.connected ? "Connected" : "Disconnected"
-      );
-      console.log("Peer seed:", pearDriveData.seed);
-      console.log("Network key:", pearDriveData.networkKey);
-      console.log("Local drive path:", pearDriveData.localDrivePath);
-      console.log("Relay mode:", pearDriveData.relayMode);
-      console.log("-----------------");
-    })
-    .join(" ");
-
-  console.log("------------------");
-  console.log("Press enter to return to the main menu.");
-}
-
-/** LIST_NETWORK.ALL response handler  */
-function resListNetworkAll(res) {
-  reqMainMenu();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// DELETE_NETWORK.SELECT
-
-/** DELETE_NETWORK.SELECT prompt */
-function reqDeleteNetworkSelect() {
-  utils.clearTerminal();
-  // Get peardrive data
-  const pearDriveData = pearDrives.map((drive) => {
-    const saveData = drive.getSaveData();
-    const pdData = {
-      key: saveData.networkKey,
-      nickname: saveData.networkNickname.name,
-    };
-    return pdData;
-  });
-
-  console.log("Data", pearDriveData);
-}
-
-/** DELETE_NETWORK.SELECT response handler */
-function resDeleteNetworkSelect(res) {
-  reqMainMenu();
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // I/O
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -327,31 +133,31 @@ rl.on("data", async (res) => {
       break;
 
     case C.CLI_STATE.MAIN:
-      resMainMenu(res);
+      handlers.mainMenu.res(res);
       break;
 
     case C.CLI_STATE.CREATE.RELAY_MODE:
-      resCreateRelayMode(res);
+      handlers.mainMenu.res(res);
       break;
 
     case C.CLI_STATE.CREATE.LOCALDRIVE_PATH:
-      resCreateLocaldrivePath(res);
+      handlers.create.localDrivePath.res(res);
       break;
 
     case C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY:
-      resJoinExistingNetworkKey(res);
+      handlers.joinExisting.networkKey.res(res);
       break;
 
     case C.CLI_STATE.LIST_NETWORK.ALL:
-      resListNetworkAll();
+      handlers.listNetwork.all.res(res);
       break;
 
     case C.CLI_STATE.DELETE_NETWORK.SELECT:
-      resDeleteNetworkSelect(res);
+      handlers.deleteNetwork.select.res(res);
       break;
 
     default:
-      resMainMenu(res);
+      handlers.mainMenu.res(res);
       break;
   }
   //
@@ -367,7 +173,7 @@ rl.on("close", () => {
 
 async function main() {
   await initialize();
-  reqMainMenu();
+  handlers.mainMenu.req();
 }
 
 main();

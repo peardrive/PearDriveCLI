@@ -29,7 +29,7 @@ class GlobalState {
   }
 
   set currentState(newState) {
-    if (Object.values(C.CLI_STATE).includes(newState)) {
+    if (this.#isValidState(newState)) {
       this.#currentState = newState;
     } else {
       log.error(`Invalid CLI state: ${newState}`);
@@ -43,6 +43,32 @@ class GlobalState {
   //////////////////////////////////////////////////////////////////////////////
   // Private functions
   //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Check if a given string is a valid state *
+   *
+   * @param {string} state - State to check
+   * @param {Object} obj - Object to check against, key is state name,
+   * value is state value. This should only be for CLI_STATE
+   *
+   * @returns {boolean} - True if state is valid, false otherwise
+   */
+  #isValidState = (state, obj) => {
+    if (!obj) obj = C.CLI_STATE;
+
+    for (const key in obj) {
+      if (obj[key] === state) {
+        return true;
+      } else if (
+        typeof obj[key] === "object" &&
+        this.#isValidState(state, obj[key])
+      ) {
+        console.log("Checking for valid state in", key);
+        return true;
+      }
+      return false;
+    }
+  };
 }
 
 // Export singleton
