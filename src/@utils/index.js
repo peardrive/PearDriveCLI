@@ -6,6 +6,7 @@ export { createCorestoreFolder } from "./createCorestoreFolder";
 export { createNewFolderPath } from "./createNewFolderPath";
 export { createPearDrive } from "./createPearDrive";
 export { deletePearDrive } from "./deletePearDrive";
+export { exit } from "./exit";
 export { generateString } from "./generateString";
 export { getSaveData } from "./getSaveData";
 export { loadPearDrive } from "./loadPearDrive";

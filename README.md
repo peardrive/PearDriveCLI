@@ -10,10 +10,14 @@
 
 - Update project structure
 - Implement global state singleton pattern
-- TODO: Implement I/O handlers as module
+- Implement I/O handlers as module
 - TODO: Add graceful teardown
-- TODO: Fix exit command
+- Fix exit command
+- TODO: Back to main menu command
 - TODO: Fix delete pearDrive command
 - TODO: Add delete pearDrive menu
 - TODO: PearDrive instance error handling to prevent crashes
+- TODO: Fix create bug
 - TODO: CLI req/res prompt error handling
+- TODO: Move PearDrive instance CRUD into globalState class
+- TODO: Submodule imports

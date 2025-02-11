@@ -5,6 +5,7 @@ import process from "bare-process";
 import * as C from "../@constants";
 import globalState from "../@globalState";
 import * as handlers from "../@handlers";
+import * as utils from ".";
 
 /**
  * Set up readline IO interface
@@ -20,7 +21,7 @@ export function configureIO() {
 
   // Wire up event listener for user input
   rl.on("data", async (res) => {
-    if (res === "quit()") process.exit(0);
+    if (res === "quit()") utils.exit();
 
     const currentState = globalState.currentState;
     console.log("CurrentState", currentState);
@@ -61,7 +62,7 @@ export function configureIO() {
 
   // Teardown
   rl.on("close", () => {
-    process.kill(process.pid, "SIGINT");
+    utils.exit();
   });
 
   return rl;
