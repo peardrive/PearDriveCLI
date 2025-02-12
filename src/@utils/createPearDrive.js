@@ -4,6 +4,7 @@ import * as utils from ".";
 import globalState from "../@globalState";
 import * as handlers from "../@handlers";
 import * as log from "../@log";
+import * as C from "../@constants";
 
 /** Create a new PearDrive instance */
 export async function createPearDrive() {

@@ -34,7 +34,7 @@ export function configureIO() {
         break;
 
       case C.CLI_STATE.CREATE.RELAY_MODE:
-        handlers.mainMenu.res(res);
+        handlers.create.relayMode.res(res);
         break;
 
       case C.CLI_STATE.CREATE.LOCALDRIVE_PATH:
