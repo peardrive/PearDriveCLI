@@ -1,4 +1,4 @@
-export * as utils from ".";
+import * as utils from ".";
 import * as log from "../@log";
 
 /** Save a new PearDrive network data */

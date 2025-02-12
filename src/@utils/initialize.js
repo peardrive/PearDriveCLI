@@ -28,6 +28,10 @@ export async function initialize() {
     console.log("Creating log directory at", C.LOG_DIR);
     fs.mkdirSync(C.LOG_DIR);
   }
+  if (!fs.existsSync(C.CORE_LOG_DIR)) {
+    console.log("Creating core log directory at", C.CORE_LOG_DIR);
+    fs.mkdirSync(C.CORE_LOG_DIR);
+  }
 
   // Init logging
   if (fs.existsSync(C.LOG_FILE)) {
