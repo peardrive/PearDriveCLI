@@ -1,10 +1,10 @@
 import readline from "bare-readline";
 import tty from "bare-tty";
-import process from "bare-process";
 
 import * as C from "../@constants";
 import globalState from "../@globalState";
 import * as handlers from "../@handlers";
+import * as log from "../@log";
 import * as utils from ".";
 
 /**
@@ -13,6 +13,8 @@ import * as utils from ".";
  * @returns {ReadLine} readline interface
  */
 export function configureIO() {
+  log.info("Configuring IO");
+
   /** I/O interface */
   const rl = readline.createInterface({
     input: new tty.ReadStream(0),
@@ -50,7 +52,7 @@ export function configureIO() {
         break;
 
       case C.CLI_STATE.DELETE_NETWORK.SELECT:
-        handlers.deleteNetwork.select.res();
+        handlers.deleteNetwork.select.res(res);
         break;
 
       default:
@@ -62,6 +64,7 @@ export function configureIO() {
 
   // Teardown
   rl.on("close", () => {
+    log.info("Closing IO");
     utils.exit();
   });
 
