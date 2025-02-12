@@ -20,4 +20,3 @@
 - TODO: Fix create bug
 - TODO: CLI req/res prompt error handling
 - TODO: Move PearDrive instance CRUD into globalState class
-- TODO: Submodule imports

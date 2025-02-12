@@ -1,6 +1,7 @@
 import path from "bare-path";
 
 import * as utils from ".";
+import * as log from "../@log";
 
 /**
  * Create a new folder path of given length
@@ -12,5 +13,10 @@ import * as utils from ".";
  * @returns {string} - New folder path
  */
 export function createNewFolderPath(basePath, length = 8) {
-  return path.join(basePath, utils.generateString(length));
+  try {
+    return path.join(basePath, utils.generateString(length));
+  } catch (error) {
+    log.error("Error creating new folder path", error);
+    console.error("Error creating new folder path", error);
+  }
 }

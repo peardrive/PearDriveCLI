@@ -14,11 +14,18 @@ export async function createPearDrive() {
     // Create PearDrive args
     const corestorePath = utils.createCorestoreFolder();
     const logFilePath = utils.createCoreLogFile();
-    globalState.createNewPearDriveArgs.corestorePath = corestorePath;
-    globalState.createNewPearDriveArgs.logToFile = true;
-    globalState.createNewPearDriveArgs.logFilePath = logFilePath;
+    globalState.createNewPearDriveArgs = {
+      ...globalState.createNewPearDriveArgs,
+      logToFile: true,
+      corestorePath,
+      logFilePath,
+    };
 
     // Initialize and configure drive
+    log.debug(
+      "Creating PearDrive instance with the following settings:",
+      globalState.createNewPearDriveArgs
+    );
     const drive = new PearDrive(globalState.createNewPearDriveArgs);
     await drive.ready();
     await drive.joinNetwork(globalState.createNewPearDriveArgs.networkKey);
@@ -31,6 +38,6 @@ export async function createPearDrive() {
     log.error("Error creating PearDrive instance", error);
     console.error("Error creating PearDrive instance", error);
     globalState.currentState = C.CLI_STATE.MAIN;
-    handlers.mainMenu.req();
+    throw new Error("Error creating PearDrive instance", error);
   }
 }

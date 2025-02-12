@@ -36,6 +36,15 @@ export function info(...message) {
 }
 
 /**
+ * Log debug message to logfile
+ *
+ * @param {string} message - Message to be logged
+ */
+export function debug(...message) {
+  log("DEBUG", ...message);
+}
+
+/**
  * Log warning message to logfile
  *
  * @param {string} message - Message to be logged
