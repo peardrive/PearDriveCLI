@@ -1,12 +1,12 @@
 import PearDrive from "peardrive-core-alpha";
 
-import * as utils from ".";
-import globalState from "../@globalState";
-import * as log from "../@log";
-import * as C from "../@constants";
+import * as utils from "..";
+import globalState from "../../@globalState";
+import * as log from "../../@log";
+import * as C from "../../@constants";
 
 /** Create a new PearDrive instance */
-export async function createPearDrive() {
+export async function create() {
   log.info("Creating new PearDrive instance...");
 
   try {
@@ -30,7 +30,7 @@ export async function createPearDrive() {
     await drive.joinNetwork(globalState.createNewPearDriveArgs.networkKey);
 
     const saveData = drive.getSaveData();
-    await utils.savePearDrive(saveData);
+    await utils.pearDrive.save(saveData);
 
     globalState.pearDrives.push(drive);
   } catch (error) {

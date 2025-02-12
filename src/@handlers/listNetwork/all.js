@@ -1,10 +1,12 @@
 import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
+import * as log from "../../@log";
 import { mainMenu } from "..";
 
 /** LIST_NETWORK.all request handler */
 export function req() {
+  log.info("Requesting LIST_NETWORK.ALL");
   utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.ALL;
   if (!globalState.pearDrives.length) {
@@ -36,6 +38,7 @@ export function req() {
 }
 
 /** LIST_NETWORK.ALL response handler  */
-export function res(res) {
+export function res(response) {
+  log.info("Handling LIST_NETWORK.ALL with:", response);
   mainMenu.req();
 }

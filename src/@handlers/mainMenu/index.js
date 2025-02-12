@@ -3,10 +3,12 @@ import process from "bare-process";
 import globalState from "../../@globalState";
 import * as C from "../../@constants";
 import * as utils from "../../@utils";
+import * as log from "../../@log";
 import * as handlers from "..";
 
 /** MAIN_MENU request handler */
 export function req() {
+  log.info("Requesting MAIN_MENU");
   utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.MAIN;
   console.log("Welcome to PearDrive CLI");
@@ -20,6 +22,7 @@ export function req() {
 
 /** MAIN_MENU response handler */
 export function res(response) {
+  log.info("Handling MAIN_MENU with:", response);
   switch (response) {
     // Create new PearDrive
     case "1":

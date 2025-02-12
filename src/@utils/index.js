@@ -1,15 +1,13 @@
+export * as pearDrive from "./pearDrive";
+
 export { addSave } from "./addSave";
 export { clearTerminal } from "./clearTerminal";
 export { configureIO } from "./configureIO";
 export { createCoreLogFile } from "./createCoreLogFile";
 export { createCorestoreFolder } from "./createCorestoreFolder";
 export { createNewFolderPath } from "./createNewFolderPath";
-export { createPearDrive } from "./createPearDrive";
-export { deletePearDrive } from "./deletePearDrive";
 export { exit } from "./exit";
 export { generateString } from "./generateString";
 export { getSaveData } from "./getSaveData";
 export { initialize } from "./initialize";
-export { loadPearDrive } from "./loadPearDrive";
 export { removeSave } from "./removeSave";
-export { savePearDrive } from "./savePearDrive";

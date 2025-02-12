@@ -1,10 +1,10 @@
 import PearDrive from "peardrive-core-alpha";
 
-import globalState from "../@globalState";
-import * as log from "../@log";
+import globalState from "../../@globalState";
+import * as log from "../../@log";
 
 /** Load existing PearDrive instance from args */
-export async function loadPearDrive(saveData) {
+export async function load(saveData) {
   log.info("Loading PearDrive instance from save data", saveData.networkKey);
 
   try {

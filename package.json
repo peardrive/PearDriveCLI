@@ -2,6 +2,7 @@
   "name": "peardrive-cli-alpha",
   "main": "src/index.js",
   "version": "0.0.2",
+  "author": "HopeTS <jennabaudelaire@pm.me>",
   "pear": {
     "name": "tmp",
     "type": "terminal"
@@ -10,10 +11,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev": "pear run -d .",
-    "test": "brittle test/*.test.js"
-  },
-  "imports": {
-    "@constants/": "./src/@constants/"
+    "test": "brittle test/*.test.js",
+    "lint": "eslint"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
@@ -23,7 +22,6 @@
   },
   "dependencies": {
     "bare-fs": "^4.0.1",
-    "bare-module": "^4.8.0",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",
     "bare-readline": "^1.0.6",

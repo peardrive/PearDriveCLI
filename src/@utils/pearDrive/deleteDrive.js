@@ -1,9 +1,9 @@
-import globalState from "../@globalState";
-import * as utils from ".";
-import * as log from "../@log";
+import globalState from "../../@globalState";
+import * as utils from "..";
+import * as log from "../../@log";
 
 /** Delete a specific PearDrive network save data */
-export async function deletePearDrive(networkKey) {
+export async function deleteDrive(networkKey) {
   log.info("Deleting saved PearDrive network data", networkKey);
   const pearDrive = globalState.pearDrives.find(
     (d) => d.networkKey === networkKey

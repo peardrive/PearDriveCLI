@@ -50,7 +50,7 @@ export function configureIO() {
         break;
 
       case C.CLI_STATE.DELETE_NETWORK.SELECT:
-        handlers.deleteNetwork.select.res(res);
+        handlers.deleteNetwork.select.res();
         break;
 
       default:

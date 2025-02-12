@@ -3,11 +3,13 @@ import path from "bare-path";
 
 import * as utils from "../../@utils";
 import * as C from "../../@constants";
+import * as log from "../../@log";
 import globalState from "../../@globalState";
 import { mainMenu } from "..";
 
 /** CREATE.LOCALDRIVE_PATH request handler */
 export function req() {
+  log.info("Requesting CREATE.LOCALDRIVE_PATH");
   utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.CREATE.LOCALDRIVE_PATH;
   console.log("Enter local drive path (blank for random in default folder):");
@@ -15,6 +17,7 @@ export function req() {
 
 /** CREATE.LOCALDRIVE_PATH response handler */
 export function res(response) {
+  log.info("Handling CREATE.LOCALDRIVE_PATH with:", response);
   if (response.length)
     globalState.createNewPearDriveArgs.localDrivePath = response;
   else {
@@ -25,7 +28,7 @@ export function res(response) {
     );
   }
 
-  utils.createPearDrive().then(() => {
+  utils.pearDrive.create().then(() => {
     mainMenu.req();
   });
 }

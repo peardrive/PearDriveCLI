@@ -1,3 +1,4 @@
+/* eslint-disable-next-line no-unused-vars */
 import PearDrive from "peardrive-core-alpha";
 
 import * as C from "../@constants";
@@ -103,7 +104,7 @@ class GlobalState {
    *
    * @returns {boolean} - True if state is valid, false otherwise
    */
-  #isValidState = (state, obj) => {
+  #isValidState = (/*state, obj*/) => {
     // TODO fix this
     return true;
     /* if (!obj) obj = C.CLI_STATE;

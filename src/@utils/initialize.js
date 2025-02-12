@@ -46,7 +46,7 @@ export async function initialize() {
   if (data) {
     log.info("Save data found, loading PearDrive networks");
     for (const network of data) {
-      await utils.loadPearDrive(network);
+      await utils.pearDrive.load(network);
       console.log("Loaded PearDrive network", network.networkKey);
       log.info("Loaded PearDrive network", network.networkKey);
     }
