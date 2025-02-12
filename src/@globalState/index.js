@@ -1,3 +1,5 @@
+import PearDrive from "peardrive-core-alpha";
+
 import * as C from "../@constants";
 import * as log from "../@log";
 
@@ -40,6 +42,53 @@ class GlobalState {
   //////////////////////////////////////////////////////////////////////////////
   // Public functions
   //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Add a PearDrive instance to the pearDrives array
+   *
+   * @param {PearDrive} pearDrive - PearDrive instance to add
+   */
+  addPearDrive(pearDrive) {
+    log.info("Adding pearDrive", pearDrive.networkKey, "to pearDrives array");
+    this.pearDrives.push(pearDrive);
+  }
+
+  /**
+   * Remove a PearDrive instance with given network key from the pearDrives
+   * array
+   *
+   * @param {string} networkKey - Network key of PearDrive to remove
+   */
+  async removePearDrive(networkKey) {
+    log.info("Removing PearDrive with network key", networkKey);
+
+    try {
+      // Graceful teardown
+      const pearDrive = this.getPearDrive(networkKey);
+      await pearDrive.close();
+
+      // Remove from state
+      this.pearDrives = this.pearDrives.filter(
+        (pearDrive) => pearDrive.networkKey !== networkKey
+      );
+    } catch (error) {
+      log.error("Error removing PearDrive", error);
+    }
+  }
+
+  /**
+   * Retrieve a PearDrive instance based on given network key
+   *
+   * @param {string} networkKey
+   *
+   * @returns {PearDrive} - PearDrive instance with given network key
+   */
+  getPearDrive(networkKey) {
+    log.info("Retrieving PearDrive with network key", networkKey);
+    return this.pearDrives.find(
+      (pearDrive) => pearDrive.networkKey === networkKey
+    );
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   // Private functions
