@@ -30,6 +30,7 @@ class GlobalState {
 
   set currentState(newState) {
     if (this.#isValidState(newState)) {
+      log.info(`CLI state changed to: ${newState}`);
       this.#currentState = newState;
     } else {
       log.error(`Invalid CLI state: ${newState}`);
