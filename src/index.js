@@ -1,10 +1,18 @@
 // /** @typedef {import('pear-interface')} */ /* global Pear */
 import fs from "bare-fs";
+import readline from "bare-readline";
+import tty from "bare-tty";
 
+import globalState from "./@globalState";
+import io from "./@io";
 import * as C from "./@constants";
 import * as log from "./@log";
 import * as utils from "./@utils";
 import * as handlers from "./@handlers";
+
+////////////////////////////////////////////////////////////////////////////////
+//  Setup methods
+////////////////////////////////////////////////////////////////////////////////
 
 /** Initialize PearDrive CLI */
 async function initialize() {
@@ -57,11 +65,21 @@ async function initialize() {
   log.info("PearDrive CLI initialized");
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//  Main
+////////////////////////////////////////////////////////////////////////////////
+
 /** Entry point function */
 async function main() {
-  await initialize();
-  utils.configureIO();
-  handlers.mainMenu.req();
+  try {
+    await initialize();
+    io();
+    handlers.mainMenu.req();
+  } catch (error) {
+    console.error("Error in main", error);
+    log.error("Error in main", error);
+    utils.exit();
+  }
 }
 
 main();

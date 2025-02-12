@@ -95,7 +95,7 @@ class GlobalState {
   // Private functions
   //////////////////////////////////////////////////////////////////////////////
 
-  /**
+  /**V
    * Check if a given string is a valid state *
    *
    * @param {string} state - State to check

@@ -47,3 +47,9 @@ export const CLI_STATE = {
     SELECT: "DELETE_NETWORK.SELECT",
   },
 };
+
+/** Universal commands */
+export const UNIVERSAL_COMMANDS = {
+  QUIT: "quit",
+  MENU: "menu",
+};
