@@ -18,5 +18,6 @@ export function createNewFolderPath(basePath, length = 8) {
   } catch (error) {
     log.error("Error creating new folder path", error);
     console.error("Error creating new folder path", error);
+    throw new Error(error);
   }
 }

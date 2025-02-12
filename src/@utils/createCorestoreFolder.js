@@ -20,5 +20,6 @@ export function createCorestoreFolder() {
   } catch (error) {
     log.error("Error creating Corestore folder", error);
     console.error("Error creating Corestore folder", error);
+    throw new Error(error);
   }
 }

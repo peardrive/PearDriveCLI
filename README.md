@@ -11,7 +11,6 @@
 - TODO: Fix create bug
 - TODO: CLI req/res prompt error handling
 - TODO: Move PearDrive instance CRUD into globalState class
-- TODO: Refactor / clean utils
 
 ---
 
@@ -23,6 +22,7 @@
 
 ### 0.0.2
 
+- Refactor / clean utils
 - Add linting
 - Update project structure
 - Implement global state singleton pattern

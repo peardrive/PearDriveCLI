@@ -9,5 +9,4 @@ export { createNewFolderPath } from "./createNewFolderPath";
 export { exit } from "./exit";
 export { generateString } from "./generateString";
 export { getSaveData } from "./getSaveData";
-export { initialize } from "./initialize";
 export { removeSave } from "./removeSave";
