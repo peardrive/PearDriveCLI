@@ -1,9 +1,6 @@
 // /** @typedef {import('pear-interface')} */ /* global Pear */
 import fs from "bare-fs";
-import readline from "bare-readline";
-import tty from "bare-tty";
 
-import globalState from "./@globalState";
 import io from "./@io";
 import * as C from "./@constants";
 import * as log from "./@log";

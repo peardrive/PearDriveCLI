@@ -3,14 +3,11 @@
 ## TODOs
 
 - TODO: Add graceful teardown
-- TODO: Back to main menu command
 - TODO: Fix delete pearDrive command
 - TODO: Add delete pearDrive menu
-- TODO: Fix create bug
 - TODO: Move PearDrive instance CRUD into globalState class
 - TODO: Move pearDrives in globalState to private attribute and add interface
   functions
-- TODO: Add universal controls
 
 ---
 
@@ -22,6 +19,9 @@
 
 ### 0.0.2
 
+- Back to main menu command
+- Fix create bug
+- Add universal controls
 - Refactor / clean utils
 - Add linting
 - Update project structure
