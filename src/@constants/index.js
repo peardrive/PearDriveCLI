@@ -51,5 +51,6 @@ export const CLI_STATE = {
 /** Universal commands */
 export const UNIVERSAL_COMMANDS = {
   QUIT: "quit",
+  EXIT: "exit",
   MENU: "menu",
 };

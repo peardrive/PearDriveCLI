@@ -12,6 +12,7 @@ import * as utils from "../@utils";
 export function universalCommands(input) {
   switch (input) {
     case C.UNIVERSAL_COMMANDS.QUIT:
+    case C.UNIVERSAL_COMMANDS.EXIT:
       utils.exit();
       return true;
 

@@ -16,7 +16,7 @@ function configureIO() {
 
     // Wire up event listener for user input
     rl.on("data", async (res) => {
-      log.info("Received user i/o input", res);
+      log.info("Received user i/o input:", res);
 
       try {
         // Process universal command first
