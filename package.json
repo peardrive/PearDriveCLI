@@ -14,6 +14,32 @@
     "test": "brittle test/*.test.js",
     "lint": "eslint"
   },
+  "imports": {
+    "fs": {
+      "bare": "bare-fs",
+      "default": "fs"
+    },
+    "fs/*": {
+      "bare": "bare-fs/*",
+      "default": "fs/*"
+    },
+    "path": {
+      "bare": "bare-path",
+      "default": "path"
+    },
+    "path/*": {
+      "bare": "bare-path/*",
+      "default": "path/*"
+    },
+    "process": {
+      "bare": "bare-process",
+      "default": "process"
+    },
+    "process/*": {
+      "bare": "bare-process/*",
+      "default": "process/*"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
     "brittle": "^3.0.0",
@@ -27,6 +53,6 @@
     "bare-readline": "^1.0.6",
     "bare-tty": "^5.0.1",
     "chalk": "^5.4.1",
-    "peardrive-core-alpha": "^0.0.7"
+    "peardrive-core-alpha": "^0.0.8"
   }
 }
