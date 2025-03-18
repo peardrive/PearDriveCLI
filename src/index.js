@@ -60,6 +60,8 @@ async function initialize() {
   }
 
   log.info("PearDrive CLI initialized");
+  console.log("PearDrive CLI initialized");
+  console.log("------------------------------------");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +73,7 @@ async function main() {
   try {
     await initialize();
     io();
-    handlers.mainMenu.req();
+    handlers.mainMenu.req(false);
   } catch (error) {
     console.error("Error in main", error);
     log.error("Error in main", error);

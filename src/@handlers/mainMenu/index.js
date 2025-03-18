@@ -6,17 +6,19 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
 
-/** MAIN_MENU request handler */
-export function req() {
+/** MAIN_MENU request handler
+ * @param {boolean} [clear=true] - whether to clear the terminal before
+ * displaying the menu
+ */
+export function req(clear = true) {
   log.info("Requesting MAIN_MENU");
-  utils.clearTerminal();
+  clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.MAIN;
   console.log("Welcome to PearDrive CLI");
   console.log("Enter 'quit' at any time to end the process");
   console.log("1. 'create' Create new PearDrive");
   console.log("2. 'join' Join existing PearDrive network");
-  console.log("3. 'list' List all saved PearDrive networks");
-  console.log("4. 'delete' Delete a saved PearDrive network");
+  console.log("3. 'list' List all PearDrive networks or select a network");
   console.log("0. 'exit' Exit");
 }
 
@@ -42,16 +44,10 @@ export function res(response) {
       handlers.listNetwork.all.req();
       break;
 
-    // Delete a PearDrive network
-    case "4":
-    case "delete":
-      handlers.deleteNetwork.select.req();
-      break;
-
     // Stop program
     case "0":
     case "exit":
-      process.kill(process.pid, "SIGINT");
+      utils.exit();
       break;
 
     default:
