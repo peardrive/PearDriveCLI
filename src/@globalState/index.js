@@ -8,6 +8,8 @@ import * as log from "../@log";
 class GlobalState {
   /** Internal value for state of CLI */
   #currentState;
+  /** Index of a selected PearDrive (in pearDrives array) */
+  #selectedPearDrive;
 
   constructor() {
     this.#currentState = C.CLI_STATE.INITIALIZING;
@@ -16,7 +18,7 @@ class GlobalState {
     /** Argument object for creating a new PearDrive */
     this.createNewPearDriveArgs = {};
     /** Currently selected PearDrive (determined by key string) */
-    this.selectedPearDrive = null;
+    this.#selectedPearDrive = null;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -25,6 +27,7 @@ class GlobalState {
 
   /**
    * Current CLI state (Must be a **CLI_STATE**)
+   *
    * @type {string}
    */
   get currentState() {
@@ -33,11 +36,46 @@ class GlobalState {
 
   set currentState(newState) {
     if (this.#isValidState(newState)) {
-      log.info(`CLI state changed to: ${newState}`);
+      log.info(`CLI state changed to: ${newState} in globalState`);
       this.#currentState = newState;
     } else {
       log.error(`Invalid CLI state: ${newState}`);
     }
+  }
+
+  /**
+   * Index of currently selected PearDrive (in pearDrives array)
+   *
+   * @type {number | null}
+   */
+  get selectedPearDrive() {
+    return this.#selectedPearDrive;
+  }
+
+  set selectedPearDrive(pearDriveIndex) {
+    // Deselect PearDrive
+    if (pearDriveIndex === null || undefined) {
+      log.info("Deselected PearDrive in globalState");
+      this.#selectedPearDrive = null;
+      return;
+    }
+
+    // Validate input
+    if (pearDriveIndex < 0 || pearDriveIndex >= this.pearDrives.length) {
+      log.error(
+        `Invalid selectedPearDriveIndex ${pearDriveIndex} in globalState`
+      );
+      this.#selectedPearDrive = null;
+      return;
+    }
+
+    log.info(
+      "Selected PearDrive in globalState: ",
+      this.pearDrives[pearDriveIndex].networkKey,
+      "at index",
+      pearDriveIndex
+    );
+    this.#selectedPearDrive = pearDriveIndex;
   }
 
   //////////////////////////////////////////////////////////////////////////////

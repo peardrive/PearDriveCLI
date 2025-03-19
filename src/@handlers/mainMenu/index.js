@@ -6,7 +6,9 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
 
-/** MAIN_MENU request handler
+/**
+ * MAIN_MENU request handler
+ *
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * displaying the menu
  */
