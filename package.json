@@ -1,8 +1,8 @@
 {
   "name": "peardrive-cli-alpha",
   "main": "src/index.js",
-  "version": "0.0.2",
-  "author": "HopeTS <jennabaudelaire@pm.me>",
+  "version": "0.0.3",
+  "author": "Hope <jennabaudelaire@pm.me>",
   "pear": {
     "name": "tmp",
     "type": "terminal"
