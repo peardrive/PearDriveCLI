@@ -5,10 +5,15 @@ import * as log from "../../@log";
 import { mainMenu } from "..";
 import * as all from "./all";
 
-/** LIST_NETWORK.selected request handler */
-export function req() {
+/**
+ * LIST_NETWORK.selected request handler
+ *
+ * @param {boolean} [clear=true] - whether to clear the terminal before
+ * the menu is displayed
+ */
+export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.selectedNetwork");
-  utils.clearTerminal();
+  clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.SELECTED;
 
   // Ensure there is a selected PearDrive
@@ -20,21 +25,34 @@ export function req() {
 
   // Ensure selected PearDrive exists
   if (!globalState.pearDrives.length) {
-    // TODO
+    console.log("No PearDrive networks found");
+    all.req();
+    return;
   }
 
-  globalState.pearDrives
-    .map((pearDrive, index) => {
-      const pearDriveData = pearDrive.getSaveData();
-      console.log(`${index}. Network key: ${pearDriveData.networkKey}`);
-    })
-    .join(" ");
+  try {
+    // Get selected PearDrive and log data
+    const selectedPearDrive =
+      globalState.pearDrives[globalState.selectedPearDrive];
+    const saveData = selectedPearDrive.getSaveData();
+    utils.logPearDrive(saveData, true);
 
-  console.log("------------------");
-  console.log(
-    "Select a network by entering its number or 'exit' to return to the main menu."
-  );
+    // Options / controls
+    console.log("OPTIONS");
+    console.log("-----------------");
+    console.log("1. 'nickname' Change/set network nickname");
+    console.log("2. 'delete' Delete network");
+    console.log(
+      `3. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
+    );
+  } catch (error) {
+    console.error("Error in LIST_NETWORK.selected", error);
+    log.error("Error in LIST_NETWORK.selected", error);
+    all.req(false);
+  }
 }
 
-/** LIST_NETWORK.SELECTED response handler */
-export function res(response) {}
+/** LIST_NETWORK.selected response handler */
+export function res(response) {
+  log.info("Handling LIST_NETWORK.selected with:", response);
+}

@@ -26,17 +26,7 @@ export function req(clear = true) {
       const index = globalState.pearDrives.indexOf(pearDrive);
 
       console.log("PearDrive", index);
-      console.log(
-        "Connection:",
-        pearDrive.connected ? "Connected" : "Disconnected"
-      );
-      pearDriveData.networkNickname &&
-        console.log("Network nickname:", pearDriveData.networkNickname);
-      console.log("Peer seed:", pearDriveData.seed);
-      console.log("Network key:", pearDriveData.networkKey);
-      console.log("Local drive path:", pearDriveData.localDrivePath);
-      console.log("Relay mode:", pearDriveData.relayMode);
-      console.log("-----------------");
+      utils.logPearDrive(pearDriveData);
     })
     .join(" ");
 

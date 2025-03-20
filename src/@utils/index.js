@@ -8,4 +8,5 @@ export { createNewFolderPath } from "./createNewFolderPath";
 export { exit } from "./exit";
 export { generateString } from "./generateString";
 export { getSaveData } from "./getSaveData";
+export { logPearDrive } from "./logPearDrive";
 export { removeSave } from "./removeSave";
