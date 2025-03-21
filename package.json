@@ -53,6 +53,6 @@
     "bare-readline": "^1.0.6",
     "bare-tty": "^5.0.1",
     "chalk": "^5.4.1",
-    "peardrive-core-alpha": "^0.0.8"
+    "peardrive-core-alpha": "^0.1.0"
   }
 }
