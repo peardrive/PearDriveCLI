@@ -31,3 +31,4 @@
 - Error handling for directories/files not existing
 - CLI req/res prompt error handling
 - PearDrive instance error handling to prevent crashes
+- Global error handling hook

@@ -1,5 +1,6 @@
 // /** @typedef {import('pear-interface')} */ /* global Pear */
 import fs from "bare-fs";
+import process from "bare-process";
 
 import io from "./@io";
 import * as C from "./@constants";
@@ -58,6 +59,14 @@ async function initialize() {
       log.info("Loaded PearDrive network", network.networkKey);
     }
   }
+
+  // Add global error handling
+  process.on("uncaughtException", (err) => {
+    log.error("Uncaught Exception:", err);
+  });
+  process.on("unhandledRejection", (reason, promise) => {
+    log.error("Unhandled Rejection at:", promise, "reason:", reason);
+  });
 
   log.info("PearDrive CLI initialized");
   console.log("PearDrive CLI initialized");
