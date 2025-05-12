@@ -22,7 +22,7 @@ export function res(response) {
     globalState.createNewPearDriveArgs.localDrivePath = response;
   else {
     fs.mkdirSync(path.join(C.LOCALDRIVE_DIR, "default"), { recursive: true });
-    globalState.createNewPearDriveArgs.localDrivePath = path.join(
+    globalState.createNewPearDriveArgs.localDrivePath = path.resolve(
       C.LOCALDRIVE_DIR,
       "default"
     );

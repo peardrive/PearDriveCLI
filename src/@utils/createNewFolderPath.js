@@ -14,7 +14,7 @@ import * as log from "../@log";
  */
 export function createNewFolderPath(basePath, length = 8) {
   try {
-    return path.join(basePath, utils.generateString(length));
+    return path.resolve(basePath, utils.generateString(length));
   } catch (error) {
     log.error("Error creating new folder path", error);
     console.error("Error creating new folder path", error);

@@ -26,7 +26,7 @@ export function req(clear = true) {
       const index = globalState.pearDrives.indexOf(pearDrive);
 
       console.log("PearDrive", index);
-      utils.logPearDrive(pearDriveData);
+      utils.logPearDrive(pearDriveData, pearDrive.connected);
     })
     .join(" ");
 

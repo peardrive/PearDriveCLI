@@ -27,7 +27,9 @@ export async function create() {
     );
     const drive = new PearDrive(globalState.createNewPearDriveArgs);
     await drive.ready();
-    await drive.joinNetwork(globalState.createNewPearDriveArgs.networkKey);
+    await drive.joinNetwork(
+      globalState.createNewPearDriveArgs.networkKey || null
+    );
 
     const saveData = drive.getSaveData();
     await utils.pearDrive.save(saveData);
