@@ -34,8 +34,8 @@ export function cliStateCommands(input) {
       handlers.listNetwork.all.res(input);
       return true;
 
-    case C.CLI_STATE.DELETE_NETWORK.SELECT:
-      handlers.deleteNetwork.select.res(input);
+    case C.CLI_STATE.LIST_NETWORK.SELECTED:
+      handlers.listNetwork.selected.res(input);
       return true;
 
     default:

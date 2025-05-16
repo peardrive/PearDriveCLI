@@ -3,6 +3,7 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import { mainMenu } from "..";
+import * as handlers from "..";
 
 /**
  * LIST_NETWORK.all request handler
@@ -38,12 +39,6 @@ export function req(clear = true) {
 export function res(response) {
   log.info("Handling LIST_NETWORK.ALL with:", response);
 
-  // Go to main menu
-  if (response === "main") {
-    mainMenu.req();
-    return;
-  }
-
   // Validate input
   if (
     isNaN(response) ||
@@ -59,6 +54,7 @@ export function res(response) {
   // Select PearDrive
   try {
     globalState.selectedPearDrive = parseInt(response);
+    handlers.listNetwork.selected.req();
   } catch (error) {
     log.error("Error selecting PearDrive in LIST_NETWORK.ALL", error);
     req(false);

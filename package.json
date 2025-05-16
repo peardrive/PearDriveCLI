@@ -52,7 +52,9 @@
     "bare-process": "^4.0.0",
     "bare-readline": "^1.0.6",
     "bare-tty": "^5.0.1",
+    "barely-colours": "^1.0.0",
     "chalk": "^5.4.1",
-    "peardrive-core-alpha": "^0.2.4"
+    "peardrive-core-alpha": "^0.2.4",
+    "qrcode-terminal": "^0.12.0"
   }
 }

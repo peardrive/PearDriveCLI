@@ -61,7 +61,11 @@ class GlobalState {
     }
 
     // Validate input
-    if (pearDriveIndex < 0 || pearDriveIndex >= this.pearDrives.length) {
+    if (
+      isNaN(parseInt(pearDriveIndex)) ||
+      pearDriveIndex < 0 ||
+      pearDriveIndex >= this.pearDrives.length
+    ) {
       log.error(
         `Invalid selectedPearDriveIndex ${pearDriveIndex} in globalState`
       );
@@ -69,21 +73,25 @@ class GlobalState {
       return;
     }
 
+    const index = parseInt(pearDriveIndex);
     log.info(
       "Selected PearDrive in globalState: ",
-      this.pearDrives[pearDriveIndex].networkKey,
+      this.pearDrives[index].networkKey,
       "at index",
-      pearDriveIndex
+      index
     );
-    this.#selectedPearDrive = pearDriveIndex;
+    this.#selectedPearDrive = index;
+    log.info(
+      "Selected PearDrive index in globalState:",
+      this.#selectedPearDrive
+    );
   }
 
   //////////////////////////////////////////////////////////////////////////////
   // Public functions
   //////////////////////////////////////////////////////////////////////////////
 
-  /**
-   * Add a PearDrive instance to the pearDrives array
+  /** Add a PearDrive instance to the pearDrives array
    *
    * @param {PearDrive} pearDrive - PearDrive instance to add
    */
@@ -92,8 +100,7 @@ class GlobalState {
     this.pearDrives.push(pearDrive);
   }
 
-  /**
-   * Remove a PearDrive instance with given network key from the pearDrives
+  /** Remove a PearDrive instance with given network key from the pearDrives
    * array
    *
    * @param {string} networkKey - Network key of PearDrive to remove
@@ -115,8 +122,7 @@ class GlobalState {
     }
   }
 
-  /**
-   * Retrieve a PearDrive instance based on given network key
+  /** Retrieve a PearDrive instance based on given network key
    *
    * @param {string} networkKey
    *
@@ -129,12 +135,28 @@ class GlobalState {
     );
   }
 
+  /** Get the currently selected PearDrive instance
+   *
+   * @returns {PearDrive} - PearDrive instance with given network key
+   */
+  getSelectedPearDrive() {
+    log.info("Retrieving selected PearDrive");
+
+    try {
+      if (this.selectedPearDrive === null)
+        throw new Error("No PearDrive selected");
+
+      return this.pearDrives[this.selectedPearDrive];
+    } catch (error) {
+      log.error("Error retrieving selected PearDrive", error);
+    }
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Private functions
   //////////////////////////////////////////////////////////////////////////////
 
-  /**V
-   * Check if a given string is a valid state *
+  /** Check if a given string is a valid state *
    *
    * @param {string} state - State to check
    * @param {Object} obj - Object to check against, key is state name,

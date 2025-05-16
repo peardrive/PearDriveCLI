@@ -32,3 +32,14 @@
 - CLI req/res prompt error handling
 - PearDrive instance error handling to prevent crashes
 - Global error handling hook
+
+### 0.1.0
+
+- TODO: Add options menu for each PearDrive instance
+  - Add network key to QR code scan feature
+  - TODO: Download file
+  - TODO: Activate/deactivate relay mode
+  - TODO: Remote download
+  - TODO: Delete peardrive
+  - TODO: View all files (red = nonlocal, yellow = network and local,
+    green = remote, blue = downloading)

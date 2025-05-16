@@ -47,6 +47,10 @@ export const CLI_STATE = {
   DELETE_NETWORK: {
     SELECT: "DELETE_NETWORK.SELECT",
   },
+  NETWORK_MENU: {
+    QR: "NETWORK_MENU.QR",
+    NICKNAME: "NETWORK_MENU.NICKNAME",
+  },
 };
 
 /** Universal commands */
