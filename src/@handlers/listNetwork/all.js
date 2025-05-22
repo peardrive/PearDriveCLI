@@ -5,8 +5,7 @@ import * as log from "../../@log";
 import { mainMenu } from "..";
 import * as handlers from "..";
 
-/**
- * LIST_NETWORK.all request handler
+/** LIST_NETWORK.all request handler
  *
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed

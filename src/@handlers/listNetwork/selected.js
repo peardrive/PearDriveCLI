@@ -12,7 +12,6 @@ import * as handlers from "..";
  * the menu is displayed
  */
 export function req(clear = true) {
-  console.log("Ay");
   log.info("Requesting LIST_NETWORK.SELECTED");
   clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.SELECTED;
@@ -62,7 +61,7 @@ export function res(response) {
   switch (response) {
     case "1":
     case "nickname":
-      console.log("Change network nickname");
+      handlers.networkMenu.setNetworkNickname.req();
       break;
 
     case "2":
@@ -72,7 +71,7 @@ export function res(response) {
 
     case "3":
     case "relay":
-      console.log("Toggle relay mode");
+      handlers.networkMenu.toggleRelayMode.req();
       break;
 
     case "4":

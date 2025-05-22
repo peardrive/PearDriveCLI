@@ -38,6 +38,18 @@ export function cliStateCommands(input) {
       handlers.listNetwork.selected.res(input);
       return true;
 
+    case C.CLI_STATE.NETWORK_MENU.QR:
+      handlers.networkMenu.qr.res(input);
+      return true;
+
+    case C.CLI_STATE.NETWORK_MENU.SET_NETWORK_NICKNAME:
+      handlers.networkMenu.setNetworkNickname.res(input);
+      return true;
+
+    case C.CLI_STATE.NETWORK_MENU.TOGGLE_RELAY_MODE:
+      handlers.networkMenu.toggleRelayMode.res(input);
+      return true;
+
     default:
       return false;
   }

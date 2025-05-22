@@ -6,9 +6,15 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
 
-/** NETWORK_MENU.QR request handler  */
+/** NETWORK_MENU.QR request handler
+ *
+ * @param {boolean} [clear=true] - whether to clear the terminal before
+ * the menu is displayed
+ */
 export function req(clear = true) {
+  log.info("Requesting NETWORK_MENU.QR");
   if (clear) utils.clearTerminal();
+  globalState.currentState = C.CLI_STATE.NETWORK_MENU.QR;
 
   const pearDrive = globalState.getSelectedPearDrive();
   if (!pearDrive) {
@@ -27,5 +33,5 @@ export function req(clear = true) {
 
 export function res(response) {
   log.info("Handling NETWORK_MENU.QR with:", response);
-  handlers.listNetwork.selected.req();
+  handlers.listNetwork.all.req();
 }
