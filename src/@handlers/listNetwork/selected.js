@@ -81,7 +81,7 @@ export function res(response) {
 
     case "5":
     case "delete":
-      console.log("Delete network");
+      handlers.networkMenu.deleteDrive.req();
       break;
 
     default:

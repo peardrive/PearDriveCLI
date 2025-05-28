@@ -9,4 +9,5 @@ export { exit } from "./exit";
 export { generateString } from "./generateString";
 export { getSaveData } from "./getSaveData";
 export { logPearDrive } from "./logPearDrive";
+export { objectsEqual } from "./objectsEqual";
 export { removeSave } from "./removeSave";

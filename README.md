@@ -43,3 +43,4 @@
   - TODO: View all files (red = nonlocal, yellow = network and local,
     green = remote, blue = downloading)
   - Set network nickname
+  - TODO: add back command

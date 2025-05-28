@@ -117,22 +117,48 @@ class GlobalState {
       this.pearDrives = this.pearDrives.filter(
         (pearDrive) => pearDrive.networkKey !== networkKey
       );
+      log.debug("New pearDrives array:", this.pearDrives);
     } catch (error) {
       log.error("Error removing PearDrive", error);
     }
   }
 
-  /** Retrieve a PearDrive instance based on given network key
+  /** Retrieve a PearDrive instance based on given network key or index
    *
-   * @param {string} networkKey
+   * @param {string | number} key
    *
    * @returns {PearDrive} - PearDrive instance with given network key
    */
-  getPearDrive(networkKey) {
-    log.info("Retrieving PearDrive with network key", networkKey);
-    return this.pearDrives.find(
-      (pearDrive) => pearDrive.networkKey === networkKey
-    );
+  getPearDrive(key) {
+    log.info("Retrieving PearDrive with key", key);
+    if (key === null || key === undefined) {
+      log.error("No key provided");
+      return null;
+    }
+
+    // Check if key is a number (index)
+    if (!isNaN(parseInt(key))) {
+      if (key < 0 || key >= this.pearDrives.length) {
+        log.error("Invalid PearDrive index", key);
+        return null;
+      }
+      log.debug("Found PearDrive at index", key);
+      return this.pearDrives[key];
+    }
+
+    // If key is a network key
+    for (let i = 0; i < this.pearDrives.length; i++) {
+      const pearDrive = this.pearDrives[i];
+      log.debug("Checking PearDrive", pearDrive.getSaveData());
+      const tmpNetworkKey = pearDrive.getSaveData().networkKey;
+      if (String(tmpNetworkKey) === String(key)) {
+        log.debug("Found PearDrive", pearDrive);
+        return this.pearDrives[i];
+      }
+    }
+
+    log.warn("No PearDrive found with network key", networkKey);
+    return null;
   }
 
   /** Get the currently selected PearDrive instance

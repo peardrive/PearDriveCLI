@@ -50,6 +50,10 @@ export function cliStateCommands(input) {
       handlers.networkMenu.toggleRelayMode.res(input);
       return true;
 
+    case C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE:
+      handlers.networkMenu.deleteDrive.res(input);
+      return true;
+
     default:
       return false;
   }

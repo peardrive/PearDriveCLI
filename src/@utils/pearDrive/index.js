@@ -1,4 +1,4 @@
 export { create } from "./create";
-export { deleteDrive } from "./deleteDrive";
+export { destroy } from "./destroy";
 export { load } from "./load";
 export { save } from "./save";

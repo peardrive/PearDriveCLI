@@ -4,7 +4,12 @@ import * as C from "../@constants";
 import * as utils from ".";
 import * as log from "../@log";
 
-/** Add save data to save file */
+/** Add save data to save file
+ *
+ * @param {Object} saveData - The save data to add
+ *
+ * @throws {Error} - If an error occurs while adding the save data
+ */
 export function addSave(saveData) {
   log.info("Adding save data");
   log.debug("Save data to add:", saveData);
