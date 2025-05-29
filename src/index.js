@@ -50,7 +50,7 @@ async function initialize() {
   console.log("Initializing PearDrive CLI");
 
   // Load PearDrive networks (if any exist)
-  const data = utils.getSaveData();
+  const data = utils.saveData.getAll();
   if (data) {
     log.info("Save data found, loading PearDrive networks");
     for (const network of data) {

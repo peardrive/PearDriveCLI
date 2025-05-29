@@ -19,17 +19,11 @@ export async function destroy(networkKey) {
     const pearDrive = globalState.pearDrives[pearDriveIndex];
     log.debug("PearDrive to delete", pearDrive);
 
-    // Teardown
-    try {
-      await pearDrive.close();
-    } catch (error) {
-      log.error("Error during PearDrive teardown", pearDrive.networkKey, error);
-    }
+    // TODO resolve pear runtime error occurs on teardown
+    //await pearDrive.close();
 
     // Remove from save data
-
-    // Remove from global state
-    if (pearDrive) globalState.removePearDrive(pearDriveIndex);
+    utils.saveData.removeSave(pearDrive.getSaveData());
   } catch (error) {
     log.error("Error deleting PearDrive network", networkKey, error);
     console.error("Error deleting PearDrive network", networkKey, error);

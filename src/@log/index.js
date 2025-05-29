@@ -1,6 +1,7 @@
 import fs from "bare-fs";
 
 import * as C from "../@constants";
+import * as utils from "../@utils";
 
 /**
  * Log to logfile
@@ -13,7 +14,7 @@ function log(level, ...message) {
   const messageString = message
     .map((arg) => {
       if (typeof arg === "object") {
-        return JSON.stringify(arg);
+        return utils.safeStringify(arg);
       }
 
       return String(arg);

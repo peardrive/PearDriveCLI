@@ -13,15 +13,13 @@ export async function req(clear = true) {
   if (clear) utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
-  try {
-    const pearDrive = globalState.getSelectedPearDrive();
-    await pearDrive.close();
-  } catch (error) {
-    log.error("Error retrieving selected PearDrive", error);
-    console.error("Error retrieving selected PearDrive", error);
-  }
-  console.log("PearDrive closed successfully.");
-  globalState.removePearDrive(globalState.selectedPearDrive);
+  const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
+  const networkKey = pearDrive.getSaveData().networkKey;
+
+  // TODO resolve pear runtime error occurs on teardown
+  //await pearDrive.close();
+
+  await utils.pearDrive.destroy(networkKey);
 
   console.log(
     `PearDrive with network key ${networkKey} has been deleted successfully.`

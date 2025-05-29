@@ -150,7 +150,7 @@ class GlobalState {
       const tmpNetworkKey = pearDrive.getSaveData().networkKey;
       if (String(tmpNetworkKey) === String(key)) {
         log.debug("Found PearDrive", pearDrive);
-        return this.pearDrives[i];
+        return i;
       }
     }
 

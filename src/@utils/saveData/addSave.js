@@ -1,8 +1,8 @@
 import fs from "bare-fs";
 
-import * as C from "../@constants";
-import * as utils from ".";
-import * as log from "../@log";
+import * as C from "../../@constants";
+import * as utils from "..";
+import * as log from "../../@log";
 
 /** Add save data to save file
  *
@@ -22,9 +22,7 @@ export function addSave(saveData) {
     if (data) {
       data.push(saveData);
       fs.writeFileSync(C.SAVE_FILE, JSON.stringify(data));
-    } else {
-      fs.writeFileSync(C.SAVE_FILE, JSON.stringify([saveData]));
-    }
+    } else fs.writeFileSync(C.SAVE_FILE, JSON.stringify([saveData]));
   } catch (error) {
     console.error("Error adding save data", error);
     log.error("Error adding save data", error);

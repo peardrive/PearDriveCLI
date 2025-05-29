@@ -1,10 +1,10 @@
 import fs from "bare-fs";
 
-import * as C from "../@constants";
-import * as log from "../@log";
+import * as C from "../../@constants";
+import * as log from "../../@log";
 
 /** Retrieve parsed JSON data from save file */
-export function getSaveData() {
+export function getAll() {
   log.info("Getting save data");
   try {
     if (fs.existsSync(C.SAVE_FILE)) {
