@@ -31,9 +31,11 @@ export async function create() {
       globalState.createNewPearDriveArgs.networkKey || null
     );
 
+    // Add to save data
     const saveData = drive.getSaveData();
     await utils.pearDrive.save(saveData);
 
+    // Add to global state
     globalState.pearDrives.push(drive);
   } catch (error) {
     log.error("Error creating PearDrive instance", error);

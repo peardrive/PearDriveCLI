@@ -4,7 +4,7 @@ import * as log from "../../@log";
 
 /** Delete a specific PearDrive network save data
  *
- * @param {string } networkKey - The network key of the PearDrive to delete
+ * @param {string} networkKey - The network key of the PearDrive to delete
  *
  * @returns {Promise<void>}
  *
@@ -14,11 +14,22 @@ export async function destroy(networkKey) {
   log.info("Deleting saved PearDrive network data", networkKey);
 
   try {
-    const pearDrive = globalState.getPearDrive(networkKey);
+    // Get pearDrive and index from global state
+    const pearDriveIndex = globalState.getPearDrive(networkKey);
+    const pearDrive = globalState.pearDrives[pearDriveIndex];
     log.debug("PearDrive to delete", pearDrive);
 
-    if (pearDrive) globalState.removePearDrive(networkKey);
-    //utils.removeSave(networkKey);
+    // Teardown
+    try {
+      await pearDrive.close();
+    } catch (error) {
+      log.error("Error during PearDrive teardown", pearDrive.networkKey, error);
+    }
+
+    // Remove from save data
+
+    // Remove from global state
+    if (pearDrive) globalState.removePearDrive(pearDriveIndex);
   } catch (error) {
     log.error("Error deleting PearDrive network", networkKey, error);
     console.error("Error deleting PearDrive network", networkKey, error);

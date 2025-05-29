@@ -13,17 +13,16 @@ export async function req(clear = true) {
   if (clear) utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
-  const pearDrive = globalState.getSelectedPearDrive();
-  if (!pearDrive) {
-    console.log("No PearDrive selected");
-    handlers.mainMenu.req(false);
-    return;
+  try {
+    const pearDrive = globalState.getSelectedPearDrive();
+    await pearDrive.close();
+  } catch (error) {
+    log.error("Error retrieving selected PearDrive", error);
+    console.error("Error retrieving selected PearDrive", error);
   }
-  const key = pearDrive.getSaveData().networkKey;
-  await pearDrive.close();
   console.log("PearDrive closed successfully.");
+  globalState.removePearDrive(globalState.selectedPearDrive);
 
-  //await utils.pearDrive.deleteDrive(key);
   console.log(
     `PearDrive with network key ${networkKey} has been deleted successfully.`
   );
