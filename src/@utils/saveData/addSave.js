@@ -18,7 +18,7 @@ export function addSave(saveData) {
     if (!saveData.networkKey) {
       throw new Error("Network key is required to save data");
     }
-    const data = utils.getSaveData();
+    const data = utils.saveData.getAll();
     if (data) {
       data.push(saveData);
       fs.writeFileSync(C.SAVE_FILE, JSON.stringify(data));

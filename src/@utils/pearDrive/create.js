@@ -33,7 +33,8 @@ export async function create() {
 
     // Add to save data
     const saveData = drive.getSaveData();
-    await utils.pearDrive.save(saveData);
+    utils.saveData.addSave(saveData);
+    log.info("PearDrive instance created and saved successfully");
 
     // Add to global state
     globalState.pearDrives.push(drive);

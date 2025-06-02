@@ -46,8 +46,9 @@ export function req(clear = true) {
     console.log(
       `3. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
     );
-    console.log("4. 'list' list all files in network");
-    console.log("5. 'delete' Delete network");
+    console.log("4. 'local' list all local PearDrive files");
+    console.log("5. 'network' list all nonlocal PearDrive files");
+    console.log("6. 'delete' Delete network");
   } catch (error) {
     console.error("Error in LIST_NETWORK.selected", error);
     log.error("Error in LIST_NETWORK.selected", error);
@@ -75,11 +76,16 @@ export function res(response) {
       break;
 
     case "4":
-    case "list":
-      console.log("List all files in network");
+    case "local":
+      console.log("List all local files");
       break;
 
-    case "5":
+    case "4":
+    case "network":
+      console.log("List all nonlocal files");
+      break;
+
+    case "6":
     case "delete":
       handlers.networkMenu.deleteDrive.req();
       break;

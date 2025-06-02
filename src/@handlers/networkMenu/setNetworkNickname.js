@@ -2,7 +2,6 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
-import { mainMenu } from "..";
 import * as handlers from "..";
 
 /** NETWORK_MENU.SET_NETWORK_NICKNAME request handler

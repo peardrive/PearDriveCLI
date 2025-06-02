@@ -19,6 +19,10 @@ class GlobalState {
     this.createNewPearDriveArgs = {};
     /** Currently selected PearDrive (determined by key string) */
     this.#selectedPearDrive = null;
+    /** Temp storage for nonlocal files of a PearDrive instance */
+    this.nonlocalFiles = [];
+    /** Temp storage for local files of a PearDrive instance */
+    this.localFiles = [];
   }
 
   //////////////////////////////////////////////////////////////////////////////
