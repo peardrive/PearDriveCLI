@@ -20,6 +20,10 @@ export function universalCommands(input) {
       handlers.mainMenu.req();
       return true;
 
+    case C.UNIVERSAL_COMMANDS.CLEAR:
+      utils.clearTerminal();
+      return true;
+
     default:
       return false;
   }

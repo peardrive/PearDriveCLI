@@ -31,12 +31,19 @@ export function req(clear = true) {
     .join(" ");
 
   console.log("Enter the PearDrive number to select it.");
-  console.log("Enter 'main' to return to the main menu.");
+  console.log("Enter 'back' to return to the main menu.");
 }
 
 /** LIST_NETWORK.ALL response handler  */
 export function res(response) {
   log.info("Handling LIST_NETWORK.ALL with:", response);
+
+  if (response.toLowerCase() === "back") {
+    console.log("Returning to main menu...");
+    log.info("Returning to main menu from LIST_NETWORK.ALL");
+    handlers.mainMenu.req();
+    return;
+  }
 
   // Validate input
   if (

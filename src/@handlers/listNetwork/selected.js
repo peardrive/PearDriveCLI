@@ -49,6 +49,7 @@ export function req(clear = true) {
     console.log("4. 'local' list all local PearDrive files");
     console.log("5. 'network' list all nonlocal PearDrive files");
     console.log("6. 'delete' Delete network");
+    console.log("7. 'back' Return to network list");
   } catch (error) {
     console.error("Error in LIST_NETWORK.selected", error);
     log.error("Error in LIST_NETWORK.selected", error);
@@ -77,17 +78,24 @@ export function res(response) {
 
     case "4":
     case "local":
-      console.log("List all local files");
+      handlers.networkMenu.listLocalFiles.req();
       break;
 
     case "4":
     case "network":
-      console.log("List all nonlocal files");
+      handlers.networkMenu.listNetworkFiles.req();
       break;
 
     case "6":
     case "delete":
       handlers.networkMenu.deleteDrive.req();
+      break;
+
+    case "7":
+    case "back":
+      console.log("Returning to LIST_NETWORK.all...");
+      log.info("Returning to LIST_NETWORK.all from LIST_NETWORK.selected");
+      all.req();
       break;
 
     default:

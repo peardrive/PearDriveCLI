@@ -54,6 +54,14 @@ export function cliStateCommands(input) {
       handlers.networkMenu.deleteDrive.res(input);
       return true;
 
+    case C.CLI_STATE.NETWORK_MENU.LOCAL:
+      handlers.networkMenu.listLocalFiles.res(input);
+      return true;
+
+    case C.CLI_STATE.NETWORK_MENU.NETWORK:
+      handlers.networkMenu.listNetworkFiles.res(input);
+      return true;
+
     default:
       return false;
   }

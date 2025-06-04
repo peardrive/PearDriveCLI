@@ -62,4 +62,5 @@ export const UNIVERSAL_COMMANDS = {
   QUIT: "quit",
   EXIT: "exit",
   MENU: "menu",
+  CLEAR: "clear",
 };

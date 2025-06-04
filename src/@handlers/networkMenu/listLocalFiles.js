@@ -9,7 +9,7 @@ import * as handlers from "..";
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed
  */
-export function req(clear = true) {
+export async function req(clear = true) {
   log.info("Handling NETWORK_MENU.LOCAL");
   clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.LOCAL;
@@ -21,8 +21,8 @@ export function req(clear = true) {
     return;
   }
 
-  const localFiles = pearDrive.listLocalFiles();
-  globalState.localFiles = localFiles;
+  const localFiles = await pearDrive.listLocalFiles();
+  globalState.localFiles = localFiles || [];
   console.log("Local PearDrive files:");
   localFiles.length === 0
     ? console.log("No local PearDrive files found.")
@@ -39,5 +39,12 @@ export function req(clear = true) {
  */
 export function res(response) {
   log.info("Handling NETWORK_MENU.LOCAL with:", response);
+
+  if (response.toLowerCase() === "back") {
+    console.log("Returning to network menu...");
+    log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.LOCAL");
+    handlers.listNetwork.selected.req(false);
+    return;
+  }
   handlers.mainMenu.req();
 }

@@ -10,7 +10,7 @@ import * as handlers from "..";
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed
  */
-export function req(clear = true) {
+export async function req(clear = true) {
   log.info("Requesting NETWORK_MENU.NETWORK");
   clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
@@ -23,7 +23,7 @@ export function req(clear = true) {
   }
 
   try {
-    const nonlocalFiles = pearDrive.listNonLocalFiles();
+    const nonlocalFiles = await pearDrive.listNonLocalFiles();
     globalState.nonlocalFiles = nonlocalFiles;
     console.log("Non-local PearDrive files:");
     nonlocalFiles.length === 0
@@ -49,9 +49,9 @@ export async function res(response) {
   log.info("Handling NETWORK_MENU.NETWORK with:", response);
 
   if (response.toLowerCase() === "back") {
-    console.log("Returning to main menu...");
-    log.info("Returning to main menu in NETWORK_MENU.NETWORK");
-    handlers.mainMenu.req(false);
+    console.log("Returning to network menu...");
+    log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.NETWORK");
+    handlers.listNetwork.selected.req();
     return;
   }
 
