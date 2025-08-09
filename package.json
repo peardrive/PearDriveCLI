@@ -1,5 +1,5 @@
 {
-  "name": "peardrive-cli-alpha",
+  "name": "@peardrive/cli",
   "main": "src/index.js",
   "version": "1.0.0",
   "author": "Hope <jennabaudelaire@pm.me>",
