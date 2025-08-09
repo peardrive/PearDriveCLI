@@ -1,3 +1,8 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 export * as pearDrive from "./pearDrive";
 export * as saveData from "./saveData";
 
