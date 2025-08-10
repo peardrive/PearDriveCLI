@@ -41,20 +41,20 @@
     }
   },
   "devDependencies": {
-    "@eslint/js": "^9.20.0",
-    "brittle": "^3.0.0",
-    "eslint": "^9.20.0",
-    "pear-interface": "^1.0.0"
+    "@eslint/js": "^9.33.0",
+    "brittle": "^3.17.1",
+    "eslint": "^9.33.0",
+    "pear-interface": "^1.1.0"
   },
   "dependencies": {
+    "@hopets/pear-core": "^1.0.0",
     "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",
-    "bare-readline": "^1.0.6",
-    "bare-tty": "^5.0.1",
+    "bare-readline": "^1.0.9",
+    "bare-tty": "^5.0.2",
     "barely-colours": "^1.0.0",
-    "chalk": "^5.4.1",
-    "peardrive-core-alpha": "^0.2.5",
+    "chalk": "^5.5.0",
     "qrcode-terminal": "^0.12.0"
   }
 }
