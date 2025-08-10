@@ -18,22 +18,26 @@
  */
 export function logPearDrive(saveData, connected, log = false) {
   console.log("Connection:", connected ? "Connected" : "Disconnected");
-  saveData.networkNickname &&
-    console.log("Network nickname:", saveData.networkNickname);
-  console.log("Peer seed:", saveData.seed);
+  saveData.networkNickname && console.log("Peer seed:", saveData.seed);
   console.log("Network key:", saveData.networkKey);
-  console.log("Local drive path:", saveData.watchPath);
-  console.log("Relay mode:", saveData.relayMode);
+  console.log("Watch path:", saveData.watchPath);
+
+  // These are not yet implemented in the new PD Core
+  //console.log("Relay mode:", saveData.relayMode);
+  //console.log("Network nickname:", saveData.networkNickname);
+
   console.log("-----------------");
 
   if (log) {
     log.info("Connection:", saveData.connected ? "Connected" : "Disconnected");
-    saveData.networkNickname &&
-      log.info("Network nickname:", saveData.networkNickname);
-    log.info("Peer seed:", saveData.seed);
+    saveData.networkNickname && log.info("Peer seed:", saveData.seed);
     log.info("Network key:", saveData.networkKey);
-    log.info("Local drive path:", saveData.watchPath);
-    log.info("Relay mode:", saveData.relayMode);
+    log.info("Watch path:", saveData.watchPath);
+
+    // These are not yet implemented in the new PD Core
+    //log.info("Network nickname:", saveData.networkNickname);
+    //log.info("Relay mode:", saveData.relayMode);
+
     log.info("-----------------");
   }
 }

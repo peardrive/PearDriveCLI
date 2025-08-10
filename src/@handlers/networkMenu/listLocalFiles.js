@@ -14,6 +14,14 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
 
+/** Format the string for printing a file given the Core file object */
+function fileLog(file) {
+  const path = file.path;
+  const size = utils.fileSizeStr(file.size);
+  const timeAgo = utils.relativeTimeAgoStr(file.modified);
+  return `${path} (${size}) - ${timeAgo}`;
+}
+
 /** NETWORK_MENU.LOCAL request handler
  *
  * @param {boolean} [clear=true] - whether to clear the terminal before
@@ -32,15 +40,17 @@ export async function req(clear = true) {
   }
 
   const localFiles = await pearDrive.listLocalFiles();
-  globalState.localFiles = localFiles || [];
+  const files = localFiles.files || [];
+
+  globalState.localFiles = files || [];
   console.log("Local PearDrive files:");
-  localFiles.length === 0
+  files.length === 0
     ? console.log("No local PearDrive files found.")
-    : localFiles.forEach((file, index) => {
-        console.log(`${index}. ${file}`);
+    : files.forEach((file, index) => {
+        console.log(`  [${index}]: ${fileLog(file)}`);
       });
 
-  console.log("=== Enter any key to return to the main menu ===");
+  console.log("=== Enter 'b' or 'back' to return to network menu ===");
 }
 
 /** NETWORK_MENU.LOCAL response handler
@@ -50,7 +60,7 @@ export async function req(clear = true) {
 export function res(response) {
   log.info("Handling NETWORK_MENU.LOCAL with:", response);
 
-  if (response.toLowerCase() === "back") {
+  if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
     console.log("Returning to network menu...");
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.LOCAL");
     handlers.listNetwork.selected.req(false);
