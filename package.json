@@ -10,6 +10,7 @@
   "type": "module",
   "license": "AGPL-3.0-only",
   "scripts": {
+    "start": "pear run .",
     "dev": "pear run -d .",
     "test": "brittle test/*.test.js",
     "lint": "eslint"
@@ -47,7 +48,7 @@
     "pear-interface": "^1.1.0"
   },
   "dependencies": {
-    "@hopets/pear-core": "^1.0.0",
+    "@hopets/pear-core": "^2.0.1",
     "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",

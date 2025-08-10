@@ -9,7 +9,7 @@
  */
 
 /* eslint-disable-next-line no-unused-vars */
-import PearDrive from "peardrive-core-alpha";
+import PearDrive from "@hopets/pear-core";
 
 import * as C from "../@constants";
 import * as log from "../@log";
