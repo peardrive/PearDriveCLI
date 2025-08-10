@@ -32,8 +32,8 @@ export function cliStateCommands(input) {
       handlers.create.relayMode.res(input);
       return true;
 
-    case C.CLI_STATE.CREATE.LOCALDRIVE_PATH:
-      handlers.create.localDrivePath.res(input);
+    case C.CLI_STATE.CREATE.WATCH_PATH:
+      handlers.create.watchPath.res(input);
       return true;
 
     case C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY:

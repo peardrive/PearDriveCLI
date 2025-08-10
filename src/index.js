@@ -35,9 +35,9 @@ async function initialize() {
     console.log("Creating corestore directory at", C.CORESTORE_DIR);
     fs.mkdirSync(C.CORESTORE_DIR);
   }
-  if (!fs.existsSync(C.LOCALDRIVE_DIR)) {
-    console.log("Creating localdrive directory at", C.LOCALDRIVE_DIR);
-    fs.mkdirSync(C.LOCALDRIVE_DIR);
+  if (!fs.existsSync(C.WATCH_DIR)) {
+    console.log("Creating watchPath directory at", C.WATCH_DIR);
+    fs.mkdirSync(C.WATCH_DIR);
   }
   if (!fs.existsSync(C.SAVE_DIR)) {
     console.log("Creating save directory at", C.SAVE_DIR);

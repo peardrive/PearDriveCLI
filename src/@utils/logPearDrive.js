@@ -22,7 +22,7 @@ export function logPearDrive(saveData, connected, log = false) {
     console.log("Network nickname:", saveData.networkNickname);
   console.log("Peer seed:", saveData.seed);
   console.log("Network key:", saveData.networkKey);
-  console.log("Local drive path:", saveData.localDrivePath);
+  console.log("Local drive path:", saveData.watchPath);
   console.log("Relay mode:", saveData.relayMode);
   console.log("-----------------");
 
@@ -32,7 +32,7 @@ export function logPearDrive(saveData, connected, log = false) {
       log.info("Network nickname:", saveData.networkNickname);
     log.info("Peer seed:", saveData.seed);
     log.info("Network key:", saveData.networkKey);
-    log.info("Local drive path:", saveData.localDrivePath);
+    log.info("Local drive path:", saveData.watchPath);
     log.info("Relay mode:", saveData.relayMode);
     log.info("-----------------");
   }

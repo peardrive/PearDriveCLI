@@ -17,23 +17,22 @@ import * as log from "../../@log";
 import globalState from "../../@globalState";
 import { mainMenu } from "..";
 
-/** CREATE.LOCALDRIVE_PATH request handler */
+/** CREATE.WATCH_PATH request handler */
 export function req() {
-  log.info("Requesting CREATE.LOCALDRIVE_PATH");
+  log.info("Requesting CREATE.WATCH_PATH");
   utils.clearTerminal();
-  globalState.currentState = C.CLI_STATE.CREATE.LOCALDRIVE_PATH;
+  globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
   console.log("Enter local drive path (blank for random in default folder):");
 }
 
-/** CREATE.LOCALDRIVE_PATH response handler */
+/** CREATE.WATCH_PATH response handler */
 export function res(response) {
-  log.info("Handling CREATE.LOCALDRIVE_PATH with:", response);
-  if (response.length)
-    globalState.createNewPearDriveArgs.localDrivePath = response;
+  log.info("Handling CREATE.WATCH_PATH with:", response);
+  if (response.length) globalState.createNewPearDriveArgs.watchPath = response;
   else {
-    fs.mkdirSync(path.join(C.LOCALDRIVE_DIR, "default"), { recursive: true });
-    globalState.createNewPearDriveArgs.localDrivePath = path.resolve(
-      C.LOCALDRIVE_DIR,
+    fs.mkdirSync(path.join(C.WATCH_DIR, "default"), { recursive: true });
+    globalState.createNewPearDriveArgs.watchPath = path.resolve(
+      C.WATCH_DIR,
       "default"
     );
   }
