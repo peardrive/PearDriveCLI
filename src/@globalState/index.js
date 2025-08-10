@@ -160,8 +160,8 @@ class GlobalState {
 
     for (let i = 0; i < this.pearDrives.length; i++) {
       const pearDrive = this.pearDrives[i];
-      log.debug("Checking PearDrive", pearDrive.getSaveData());
-      const tmpNetworkKey = pearDrive.getSaveData().networkKey;
+      log.debug("Checking PearDrive", pearDrive.networkKey);
+      const tmpNetworkKey = pearDrive.networkKey;
       if (String(tmpNetworkKey) === String(key)) {
         log.debug("Found PearDrive", pearDrive);
         return i;
