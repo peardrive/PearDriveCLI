@@ -72,7 +72,7 @@ function fileLog(file, index) {
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed
  */
-export async function req(clear = true) {
+export async function req(clear = true, message = "") {
   log.info("Requesting NETWORK_MENU.NETWORK");
   clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
@@ -100,7 +100,7 @@ export async function req(clear = true) {
           console.log(fileLog(file, index));
         });
 
-    console.log("");
+    console.log(message);
     console.log("______________________________________________");
     console.log("=== Enter the number of the file to download ===");
     console.log("=== Or type 'b' or 'back' to return to network menu ===");
@@ -150,10 +150,7 @@ export async function res(response) {
   try {
     const pearDrive = globalState.getSelectedPearDrive();
     await pearDrive.downloadFileFromPeer(downloadPeer, downloadPath);
-    console.log(`File ${selectedFile} downloaded successfully.`);
-    log.info(
-      `File ${selectedFile} downloaded successfully in NETWORK_MENU.NETWORK`
-    );
+    req(true, "File downloaded successfully.");
   } catch (error) {
     console.error("Error downloading file:", error);
     log.error("Error downloading file in NETWORK_MENU.NETWORK", error);
