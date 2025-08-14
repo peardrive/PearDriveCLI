@@ -48,7 +48,7 @@
     "pear-interface": "^1.1.0"
   },
   "dependencies": {
-    "@hopets/pear-core": "^1.1.0",
+    "@hopets/pear-core": "^1.2.0",
     "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",
