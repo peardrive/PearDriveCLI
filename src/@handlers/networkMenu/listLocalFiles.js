@@ -63,8 +63,8 @@ export function res(response) {
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
     console.log("Returning to network menu...");
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.LOCAL");
-    handlers.listNetwork.selected.req(false);
+    handlers.listNetwork.selected.req(true);
     return;
   }
-  handlers.mainMenu.req();
+  handlers.mainMenu.req(true);
 }

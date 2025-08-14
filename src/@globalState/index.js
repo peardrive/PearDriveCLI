@@ -14,7 +14,7 @@ import PearDrive from "@hopets/pear-core";
 import * as C from "../@constants";
 import * as log from "../@log";
 
-/** Global state singleton */
+/** Global state */
 class GlobalState {
   /** Internal value for state of CLI */
   #currentState;
