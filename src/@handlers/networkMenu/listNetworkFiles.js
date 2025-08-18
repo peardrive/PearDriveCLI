@@ -1,3 +1,14 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+import { lib } from "@hopets/pear-core";
+
 import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
@@ -5,12 +16,63 @@ import * as log from "../../@log";
 import { mainMenu } from "..";
 import * as handlers from "..";
 
+/**
+ * Format datatype for nonlocal files
+ *
+ * @param {Map} fileMap - Map of nonlocal files with peer keys
+ *
+ * @returns {Array} - Array of formatted file objects
+ */
+function formatNonlocalFileMap(fileMap) {
+  const formattedFiles = [];
+
+  // Convery nonlocalFileMap to an array of files with peer keys
+  fileMap.forEach((entry, index) => {
+    // For each peer (entry), loop through files
+    entry.files.forEach((file) => {
+      // Check if file has already been added (from another peer)
+      let updatedFile = false;
+      formattedFiles.forEach((tmpFile) => {
+        if (tmpFile.path === file.path) {
+          updatedFile = true;
+          file.peer.push(index);
+        }
+      });
+
+      // If file not already added, add it with peer key
+      if (!updatedFile) {
+        formattedFiles.push({
+          ...file,
+          peer: [index],
+        });
+      }
+    });
+  });
+
+  return formattedFiles;
+}
+
+/**
+ * Print out a file object for nonlocal file
+ *
+ * @param {Object} file - The file object to log, from formatNonlocalFileMap
+ *
+ * @param {number} index - The index of the file in the list
+ */
+function fileLog(file, index) {
+  const path = file.path;
+  const size = utils.fileSizeStr(file.size);
+  const timeAgo = utils.relativeTimeAgoStr(file.modified);
+  const peers = file.peer.length;
+  return `  [${index}]: ${path} (${size}) - ${timeAgo} [Peers: ${peers}]`;
+}
+
 /** NETWORK_MENU.NETWORK request handler
  *
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed
  */
-export async function req(clear = true) {
+export async function req(clear = true, message = "") {
   log.info("Requesting NETWORK_MENU.NETWORK");
   clear && utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
@@ -23,16 +85,25 @@ export async function req(clear = true) {
   }
 
   try {
-    const nonlocalFiles = await pearDrive.listNonLocalFiles();
-    globalState.nonlocalFiles = nonlocalFiles;
-    console.log("Non-local PearDrive files:");
-    nonlocalFiles.length === 0
-      ? console.log("No non-local PearDrive files found.")
-      : nonlocalFiles.forEach((file, index) => {
-          console.log(`${index}. ${file}`);
+    // Get nonlocal files, add to global state
+    const nonlocalFileMap = await pearDrive.listNonLocalFiles();
+    const formattedFiles = formatNonlocalFileMap(nonlocalFileMap);
+    globalState.nonlocalFiles = formattedFiles || [];
+
+    // Log nonlocal files
+    console.log("Nonlocal PearDrive files:");
+    console.log("  Path | (Size) | - Last Modified | [Peers]");
+    console.log("  -----------------");
+    formattedFiles.length === 0
+      ? console.log("  No nonlocal PearDrive files found.")
+      : formattedFiles.forEach((file, index) => {
+          console.log(fileLog(file, index));
         });
+
+    console.log(message);
+    console.log("______________________________________________");
     console.log("=== Enter the number of the file to download ===");
-    console.log("=== Or type 'back' to return to the main menu ===");
+    console.log("=== Or type 'b' or 'back' to return to network menu ===");
   } catch (error) {
     console.error("Error listing non-local files:", error);
     log.error("Error listing non-local files in NETWORK_MENU.NETWORK", error);
@@ -48,10 +119,10 @@ export async function req(clear = true) {
 export async function res(response) {
   log.info("Handling NETWORK_MENU.NETWORK with:", response);
 
-  if (response.toLowerCase() === "back") {
+  if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
     console.log("Returning to network menu...");
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.NETWORK");
-    handlers.listNetwork.selected.req();
+    handlers.listNetwork.selected.req(true);
     return;
   }
 
@@ -68,16 +139,18 @@ export async function res(response) {
     return;
   }
 
+  // Get the file for download
   const resIndex = parseInt(response);
   const selectedFile = globalState.nonlocalFiles[resIndex];
+  const downloadPath = selectedFile.path;
+  const downloadPeer = selectedFile.peer[0]; // Download from the first peer
+  console.log("Download peer", downloadPeer);
+  console.log("Download path", downloadPath);
   console.log(`Selected file: ${selectedFile} Downloading...`);
   try {
     const pearDrive = globalState.getSelectedPearDrive();
-    await pearDrive.downloadFile(selectedFile);
-    console.log(`File ${selectedFile} downloaded successfully.`);
-    log.info(
-      `File ${selectedFile} downloaded successfully in NETWORK_MENU.NETWORK`
-    );
+    await pearDrive.downloadFileFromPeer(downloadPeer, downloadPath);
+    req(true, "File downloaded successfully.");
   } catch (error) {
     console.error("Error downloading file:", error);
     log.error("Error downloading file in NETWORK_MENU.NETWORK", error);

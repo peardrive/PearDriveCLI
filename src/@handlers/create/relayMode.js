@@ -1,3 +1,13 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 import * as utils from "../../@utils";
 import * as C from "../../@constants";
 import * as log from "../../@log";
@@ -26,10 +36,10 @@ export function res(response) {
 
   globalState.createNewPearDriveArgs = {
     corestorePath: C.CORESTORE_DIR,
-    localDrivePath: C.LOCALDRIVE_DIR,
+    localDrivePath: C.WATCH_DIR,
     relayMode,
     networkKey,
   };
 
-  create.localDrivePath.req();
+  create.watchPath.req();
 }

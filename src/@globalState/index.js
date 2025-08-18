@@ -1,10 +1,20 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 /* eslint-disable-next-line no-unused-vars */
-import PearDrive from "peardrive-core-alpha";
+import PearDrive from "@hopets/pear-core";
 
 import * as C from "../@constants";
 import * as log from "../@log";
 
-/** Global state singleton */
+/** Global state */
 class GlobalState {
   /** Internal value for state of CLI */
   #currentState;
@@ -150,8 +160,8 @@ class GlobalState {
 
     for (let i = 0; i < this.pearDrives.length; i++) {
       const pearDrive = this.pearDrives[i];
-      log.debug("Checking PearDrive", pearDrive.getSaveData());
-      const tmpNetworkKey = pearDrive.getSaveData().networkKey;
+      log.debug("Checking PearDrive", pearDrive.networkKey);
+      const tmpNetworkKey = pearDrive.networkKey;
       if (String(tmpNetworkKey) === String(key)) {
         log.debug("Found PearDrive", pearDrive);
         return i;

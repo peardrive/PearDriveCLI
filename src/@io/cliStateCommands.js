@@ -1,3 +1,13 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ */
+
 import * as C from "../@constants";
 import * as handlers from "../@handlers";
 import globalState from "../@globalState";
@@ -22,8 +32,8 @@ export function cliStateCommands(input) {
       handlers.create.relayMode.res(input);
       return true;
 
-    case C.CLI_STATE.CREATE.LOCALDRIVE_PATH:
-      handlers.create.localDrivePath.res(input);
+    case C.CLI_STATE.CREATE.WATCH_PATH:
+      handlers.create.watchPath.res(input);
       return true;
 
     case C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY:

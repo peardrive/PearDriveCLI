@@ -1,3 +1,13 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 import path from "bare-path";
 
 /** Root path directory */
@@ -7,7 +17,7 @@ export const CUR_PATH = path.resolve(".");
 export const DATA_DIR = path.join(CUR_PATH, "data");
 
 /** Local filesystem directory */
-export const LOCALDRIVE_DIR = path.join(DATA_DIR, "local");
+export const WATCH_DIR = path.join(DATA_DIR, "local");
 
 /** Corestore data directory */
 export const CORESTORE_DIR = path.join(DATA_DIR, "store");
@@ -33,12 +43,12 @@ export const CLI_STATE = {
   MAIN: "MAIN",
   CREATE: {
     RELAY_MODE: "CREATE.RELAY_MODE",
-    LOCALDRIVE_PATH: "CREATE.LOCALDRIVE_PATH",
+    WATCH_PATH: "CREATE.WATCH_PATH",
   },
   JOIN_EXISTING: {
     NETWORK_KEY: "JOIN_EXISTING.NETWORK_KEY",
     SEED: "JOIN_EXISTING.SEED",
-    LOCALDRIVE_PATH: "JOIN_EXISTING.LOCALDRIVE_PATH",
+    WATCH_PATH: "JOIN_EXISTING.WATCH_PATH",
   },
   LIST_NETWORK: {
     ALL: "LIST_NETWORK.ALL",

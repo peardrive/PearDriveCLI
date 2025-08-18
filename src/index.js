@@ -1,3 +1,14 @@
+/*!
+ * Copyright (C) 2025 PearDrive
+ * Copyright (C) 2025 Jenna Baudelaire
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 // /** @typedef {import('pear-interface')} */ /* global Pear */
 import fs from "bare-fs";
 import process from "bare-process";
@@ -24,9 +35,9 @@ async function initialize() {
     console.log("Creating corestore directory at", C.CORESTORE_DIR);
     fs.mkdirSync(C.CORESTORE_DIR);
   }
-  if (!fs.existsSync(C.LOCALDRIVE_DIR)) {
-    console.log("Creating localdrive directory at", C.LOCALDRIVE_DIR);
-    fs.mkdirSync(C.LOCALDRIVE_DIR);
+  if (!fs.existsSync(C.WATCH_DIR)) {
+    console.log("Creating watchPath directory at", C.WATCH_DIR);
+    fs.mkdirSync(C.WATCH_DIR);
   }
   if (!fs.existsSync(C.SAVE_DIR)) {
     console.log("Creating save directory at", C.SAVE_DIR);

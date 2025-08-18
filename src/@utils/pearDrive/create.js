@@ -1,4 +1,14 @@
-import PearDrive from "peardrive-core-alpha";
+/*!
+ * Copyright (C) 2025 PearDrive
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ */
+
+import PearDrive from "@hopets/pear-core";
 
 import * as utils from "..";
 import globalState from "../../@globalState";
@@ -15,9 +25,12 @@ export async function create() {
     const logFilePath = utils.createCoreLogFile();
     globalState.createNewPearDriveArgs = {
       ...globalState.createNewPearDriveArgs,
-      logToFile: true,
       corestorePath,
-      logFilePath,
+      logOpts: {
+        logToFile: true,
+        logFilePath,
+      },
+      logToFile: true,
     };
 
     // Initialize and configure drive
@@ -27,9 +40,7 @@ export async function create() {
     );
     const drive = new PearDrive(globalState.createNewPearDriveArgs);
     await drive.ready();
-    await drive.joinNetwork(
-      globalState.createNewPearDriveArgs.networkKey || null
-    );
+    await drive.joinNetwork();
 
     // Add to save data
     const saveData = drive.getSaveData();
