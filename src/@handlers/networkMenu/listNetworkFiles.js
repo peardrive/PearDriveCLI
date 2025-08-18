@@ -35,7 +35,7 @@ function formatNonlocalFileMap(fileMap) {
       formattedFiles.forEach((tmpFile) => {
         if (tmpFile.path === file.path) {
           updatedFile = true;
-          file.peer.push(index);
+          tmpFile.peer.push(index);
         }
       });
 

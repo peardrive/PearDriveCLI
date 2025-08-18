@@ -1,17 +1,13 @@
-# PearDrive Server CLI Alpha
-
-## TODOs
-
-- TODO: Add graceful teardown
-- TODO: Fix delete pearDrive command
-- TODO: Add delete pearDrive menu
-- TODO: Move PearDrive instance CRUD into globalState class
-- TODO: Move pearDrives in globalState to private attribute and add interface
-  functions
+# PearDrive CLI
 
 ---
 
 ## Changelog
+
+### 1.0.1
+
+- Update dependencies
+- Fix bug causing error when listing network files when one file is held by multiple peers
 
 ### 1.0.0
 
