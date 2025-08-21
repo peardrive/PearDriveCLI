@@ -24,7 +24,7 @@ export async function req(clear = true) {
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
   const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
-  const networkKey = pearDrive.getSaveData().networkKey;
+  const networkKey = pearDrive.saveData.networkKey;
 
   // TODO resolve pear runtime error occurs on teardown
   //await pearDrive.close();

@@ -19,7 +19,7 @@ export function req() {
   utils.clearTerminal();
   // Get peardrive data
   const pearDriveData = globalState.pearDrives.map((drive) => {
-    const saveData = drive.getSaveData();
+    const saveData = drive.saveData;
     const pdData = {
       key: saveData.networkKey,
       nickname: saveData.networkNickname.name,

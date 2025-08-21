@@ -32,7 +32,7 @@ export function req(clear = true) {
 
   globalState.pearDrives
     .map((pearDrive) => {
-      const pearDriveData = pearDrive.getSaveData();
+      const pearDriveData = pearDrive.saveData;
       const index = globalState.pearDrives.indexOf(pearDrive);
 
       console.log("PearDrive", index);

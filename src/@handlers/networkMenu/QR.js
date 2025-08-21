@@ -32,7 +32,7 @@ export function req(clear = true) {
     handlers.mainMenu.req(false);
     return;
   }
-  const networkKey = pearDrive.getSaveData().networkKey;
+  const networkKey = pearDrive.saveData.networkKey;
 
   qrcode.generate(networkKey, (qr) => {
     console.log("=== Scan this QR code to join the network ===\n");
