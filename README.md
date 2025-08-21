@@ -4,6 +4,10 @@
 
 ## Changelog
 
+### 1.1.0
+
+- Prettify console printing
+
 ### 1.0.1
 
 - Update dependencies
