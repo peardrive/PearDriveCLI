@@ -45,7 +45,7 @@ export function req(clear = true) {
   try {
     // Get selected PearDrive and log data
     const selectedPearDrive = globalState.getSelectedPearDrive();
-    const saveData = selectedPearDrive.getSaveData();
+    const saveData = selectedPearDrive.saveData;
     utils.logPearDrive(saveData, true);
 
     // Options / controls

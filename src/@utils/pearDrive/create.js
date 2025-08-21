@@ -43,7 +43,7 @@ export async function create() {
     await drive.joinNetwork();
 
     // Add to save data
-    const saveData = drive.getSaveData();
+    const saveData = drive.saveData;
     utils.saveData.addSave(saveData);
     log.info("PearDrive instance created and saved successfully");
 

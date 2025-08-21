@@ -30,7 +30,7 @@ export function req(clear = true) {
     handlers.mainMenu.req(false);
     return;
   }
-  const saveData = pearDrive.getSaveData();
+  const saveData = pearDrive.saveData;
   const nickname = saveData.nickname;
 
   console.log("Current nickname:", nickname);

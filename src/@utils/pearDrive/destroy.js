@@ -33,7 +33,7 @@ export async function destroy(networkKey) {
     //await pearDrive.close();
 
     // Remove from save data
-    utils.saveData.removeSave(pearDrive.getSaveData());
+    utils.saveData.removeSave(pearDrive.saveData);
   } catch (error) {
     log.error("Error deleting PearDrive network", networkKey, error);
     console.error("Error deleting PearDrive network", networkKey, error);

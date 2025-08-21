@@ -35,12 +35,9 @@
 
 ### 0.1.0
 
-- TODO: Add options menu for each PearDrive instance
+- Add options menu for each PearDrive instance
   - Add network key to QR code scan feature
-  - TODO: Download file
+  - Download file
   - Activate/deactivate relay mode
-  - TODO: Delete peardrive
-  - TODO: View all files (red = nonlocal, yellow = network and local,
-    green = remote, blue = downloading)
   - Set network nickname
-  - TODO: add back command
+  - Add back command
