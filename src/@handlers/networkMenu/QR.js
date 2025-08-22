@@ -50,8 +50,9 @@ export function req(clear = true) {
   // Generate QR code for the network key
   const networkKey = pearDrive.saveData.networkKey;
   qrcode.generate(networkKey, { small: true }, (qr) => {
+    print.slashBorder();
     qr.split("\n").map((line) => {
-      print.slashBorder(line);
+      print.slashBorder("   " + line);
     });
 
     // Footer
