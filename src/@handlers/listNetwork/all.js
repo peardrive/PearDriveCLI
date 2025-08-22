@@ -44,7 +44,7 @@ export function req(clear = true) {
       print.slashBorder();
       print.slashBorder(`🍐 PearDrive [${index}]`);
       print.slashBorder();
-      print.pearDriveSaveData(pearDrive.saveData);
+      print.pearDriveSaveData(pearDrive.saveData, pearDrive.connected);
       print.slashBorder();
     });
   }

@@ -63,7 +63,7 @@ export function req(clear = true) {
 
     // PearDrive details
     print.slashBorder();
-    print.pearDriveSaveData(saveData, true);
+    print.pearDriveSaveData(saveData, selectedPearDrive.connected, true);
     print.slashBorder();
     print.divider();
 

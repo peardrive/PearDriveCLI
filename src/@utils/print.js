@@ -8,6 +8,8 @@
  * (at your option) any later version.
  */
 
+import * as log from "../@log";
+
 import { chunkString } from "./chunkString";
 
 /** skip a line */
@@ -85,12 +87,11 @@ export function fullSlashDivider() {
  * Print a given saveData object of a PearDrive
  *
  * @param {Object} saveData - The saveData object to print
+ * @param {boolean} connected - Whether the PearDrive is connected
  * @param {boolean} [log=false] - Whether to log the saveData object
  */
-export function pearDriveSaveData(saveData, log = false) {
-  slashBorder(
-    `Connection: ${saveData.connected ? "🟢 Connected" : "🔴 Disconnected"}`
-  );
+export function pearDriveSaveData(saveData, connected, log = false) {
+  slashBorder(`Connection: ${connected ? "🟢 Connected" : "🔴 Disconnected"}`);
   slashBorder("Network Key:");
   slashBorder(`    ${saveData.networkKey}`);
   slashBorder("Watch Path:");
@@ -99,4 +100,12 @@ export function pearDriveSaveData(saveData, log = false) {
   slashBorder(`    ${saveData.seed || "Not set"}`);
   slashBorder("Relay Mode:");
   slashBorder(`    ${saveData.relayMode ? "✅ Enabled" : "🚫 Disabled"}`);
+
+  if (log) {
+    log.info(`Connection: ${connected ? "🟢 Connected" : "🔴 Disconnected"}`);
+    log.info("Network Key:", saveData.networkKey);
+    log.info("Watch Path:", saveData.watchPath);
+    log.info("Peer Seed:", saveData.seed || "Not set");
+    log.info("Relay Mode:", saveData.relayMode ? "✅ Enabled" : "🚫 Disabled");
+  }
 }
