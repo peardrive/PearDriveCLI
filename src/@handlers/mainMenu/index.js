@@ -14,7 +14,6 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
 import * as handlers from "..";
-const { print } = utils;
 
 /**
  * MAIN_MENU request handler
@@ -24,29 +23,27 @@ const { print } = utils;
  */
 export function req(clear = true) {
   log.info("Requesting MAIN_MENU");
-  if (clear) print.clear();
-  else print.newLine();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.MAIN;
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder("🍐 Welcome to PearDrive CLI 🍐");
-  print.divider();
+  io.mainDivider();
+  io.doubleSlashBorder("🍐 Welcome to PearDrive CLI 🍐");
+  io.divider();
 
-  print.slashBorder();
-  print.slashBorder("OPTIONS:");
-  print.slashBorder();
-  print.slashBorder("1. 'create' Create new PearDrive");
-  print.slashBorder("2. 'join' Join existing PearDrive network");
-  print.slashBorder(
-    "3. 'list' List all PearDrive networks or select a network"
-  );
-  print.slashBorder("0. 'exit' Exit");
-  print.slashBorder();
-  print.divider();
-  print.doubleSlashBorder(
+  io.slashBorder();
+  io.slashBorder("OPTIONS:");
+  io.slashBorder();
+  io.slashBorder("1. 'create' Create new PearDrive");
+  io.slashBorder("2. 'join' Join existing PearDrive network");
+  io.slashBorder("3. 'list' List all PearDrive networks or select a network");
+  io.slashBorder("0. 'exit' Exit");
+  io.slashBorder();
+  io.divider();
+  io.doubleSlashBorder(
     "Enter the number or quoted command to select an option"
   );
-  print.doubleSlashBorder("Enter 'quit' at any time to end the process");
-  print.doubleSlashEqualsDivider();
+  io.doubleSlashBorder("Enter 'quit' at any time to end the process");
+  io.mainDivider();
   io.prompt();
 }
 
@@ -57,13 +54,13 @@ export function res(response) {
     // Create new PearDrive
     case "1":
     case "create":
-      handlers.create.relayMode.req();
+      handlers.create.relayMode.req(true);
       break;
 
     // Join existing PearDrive network
     case "2":
     case "join":
-      handlers.joinExisting.networkKey.req();
+      handlers.joinExisting.networkKey.req(true);
       break;
 
     // List all PearDrive networks

@@ -14,7 +14,6 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
 import * as handlers from "..";
-const { print } = utils;
 
 /** Format the string for printing a file given the Core file object */
 function fileLog(file) {
@@ -31,8 +30,8 @@ function fileLog(file) {
  */
 export async function req(clear = true) {
   log.info("Handling NETWORK_MENU.LOCAL");
-  if (clear) print.clear();
-  else print.newLine();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.LOCAL;
 
   // Get the selected PearDrive
@@ -48,26 +47,26 @@ export async function req(clear = true) {
   const files = localFiles.files || [];
 
   // Header
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder(
+  io.mainDivider();
+  io.doubleSlashBorder(
     `🍐 Local Files for PearDrive [${globalState.selectedPearDrive}]`
   );
-  print.divider();
+  io.divider();
 
   // Print local files
-  print.slashBorder();
+  io.slashBorder();
   globalState.localFiles = files || [];
   files.length === 0
-    ? print.slashBorder("No local PearDrive files found.")
+    ? io.slashBorder("No local PearDrive files found.")
     : files.forEach((file, index) => {
-        print.slashBorder(`  [${index}]: ${fileLog(file)}`);
+        io.slashBorder(`  [${index}]: ${fileLog(file)}`);
       });
-  print.slashBorder();
+  io.slashBorder();
 
   // Footer
-  print.divider();
-  print.doubleSlashBorder("Enter 'b' or 'back' to return to network menu");
-  print.doubleSlashEqualsDivider();
+  io.divider();
+  io.doubleSlashBorder("Enter 'b' or 'back' to return to network menu");
+  io.mainDivider();
   io.prompt();
 }
 
@@ -79,10 +78,10 @@ export function res(response) {
   log.info("Handling NETWORK_MENU.LOCAL with:", response);
 
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
-    print.newLine();
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder("Returning to network menu...");
-    print.doubleSlashEqualsDivider();
+    io.newLine();
+    io.mainDivider();
+    io.doubleSlashBorder("Returning to network menu...");
+    io.mainDivider();
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.LOCAL");
     handlers.listNetwork.selected.req(true);
     return;

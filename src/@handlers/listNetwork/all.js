@@ -14,7 +14,6 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
 import * as handlers from "..";
-const { print } = utils;
 
 /** LIST_NETWORK.all request handler
  *
@@ -23,47 +22,46 @@ const { print } = utils;
  */
 export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.ALL");
-  if (clear) print.clear();
-  else print.newLine();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.ALL;
 
   // Header
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder("Active PearDrive Networks");
-  print.divider();
+  io.mainDivider();
+  io.doubleSlashBorder("Active PearDrive Networks");
+  io.divider();
 
   // PearDrives List
   const hasPearDrives = globalState.pearDrives.length > 0;
   if (!hasPearDrives) {
-    print.slashBorder();
-    print.slashBorder("No saved PearDrive networks");
-    print.slashBorder();
+    io.slashBorder();
+    io.slashBorder("No saved PearDrive networks");
+    io.slashBorder();
   } else {
     globalState.pearDrives.map((pearDrive, index) => {
-      if (index !== 0) print.divider();
-      print.slashBorder();
-      print.slashBorder(`🍐 PearDrive [${index}]`);
-      print.slashBorder();
-      print.pearDriveSaveData(pearDrive.saveData, pearDrive.connected);
-      print.slashBorder();
+      if (index !== 0) io.divider();
+      io.slashBorder();
+      io.slashBorder(`🍐 PearDrive [${index}]`);
+      io.slashBorder();
+      io.pearDriveSaveData(pearDrive.saveData, pearDrive.connected);
+      utils.pearDrive.logSaveData(pearDrive.saveData, pearDrive.connected);
+      io.slashBorder();
     });
   }
 
   // Footer
-  print.divider();
-  print.doubleSlashBorder("Enter the PearDrive number [n] to select it.");
-  print.doubleSlashBorder("Enter 'b' or 'back' to return to the main menu.");
-  print.doubleSlashEqualsDivider();
+  io.divider();
+  io.doubleSlashBorder("Enter the PearDrive number [n] to select it.");
+  io.doubleSlashBorder("Enter 'b' or 'back' to return to the main menu.");
+  io.mainDivider();
   io.prompt();
 }
 
 /** LIST_NETWORK.ALL response handler  */
 export function res(response) {
   log.info("Handling LIST_NETWORK.ALL with:", response);
-  print.ln();
 
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
-    print.ln("Returning to main menu...");
     log.info("Returning to main menu from LIST_NETWORK.ALL");
     handlers.mainMenu.req();
     return;
@@ -75,8 +73,10 @@ export function res(response) {
     response < 0 ||
     response >= globalState.pearDrives.length
   ) {
-    print.ln("Invalid input. Please enter a number.");
-    print.ln();
+    io.mainDivider();
+    io.doubleSlashBorder("Invalid input. Please enter a number.");
+    io.mainDivider();
+    io.newLine();
     log.error("Invalid input in LIST_NETWORK.ALL");
     req(false);
     return;

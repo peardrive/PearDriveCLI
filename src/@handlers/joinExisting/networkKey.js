@@ -10,20 +10,20 @@
 
 import * as C from "../../@constants";
 import globalState from "../../@globalState";
-import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
 import { create } from "..";
-const { print } = utils;
 
 /** JOIN_EXISTING.NETWORK_KEY request handler */
-export function req() {
+export function req(clear = true) {
   log.info("Requesting JOIN_EXISTING.NETWORK_KEY");
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
 
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder("Enter network key:");
-  print.doubleSlashEqualsDivider();
+  io.mainDivider();
+  io.doubleSlashBorder("Enter network key:");
+  io.mainDivider();
 
   io.prompt();
 }

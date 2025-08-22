@@ -13,12 +13,11 @@ import globalState from "../../@globalState";
 import * as log from "../../@log";
 import io from "../../@io";
 import { mainMenu } from "..";
-const { print } = utils;
 
 /** DELETE_NETWORK.SELECT request handler*/
 export function req() {
   log.info("Requesting DELETE_NETWORK.SELECT");
-  print.clear();
+  io.clear();
   // Get peardrive data
   const pearDriveData = globalState.pearDrives.map((drive) => {
     const saveData = drive.saveData;

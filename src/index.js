@@ -19,7 +19,6 @@ import * as log from "./@log";
 import * as utils from "./@utils";
 import * as handlers from "./@handlers";
 import globalState from "./@globalState";
-const { print } = utils;
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Setup methods
@@ -27,52 +26,52 @@ const { print } = utils;
 
 /** Initialize PearDrive CLI */
 async function initialize() {
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder("🚧 Initializing PearDrive CLI 🚧");
-  print.divider();
-  print.slashBorder();
+  io.mainDivider();
+  io.doubleSlashBorder("🚧 Initializing PearDrive CLI 🚧");
+  io.divider();
+  io.slashBorder();
   // Ensure folders exist
   const firstTimeSetup = !fs.existsSync(C.DATA_DIR);
   if (firstTimeSetup) {
-    print.slashBorder("First time setup detected");
-    print.slashBorder("Creating data directory at", C.DATA_DIR);
-    print.slashBorder();
+    io.slashBorder("First time setup detected");
+    io.slashBorder("Creating data directory at", C.DATA_DIR);
+    io.slashBorder();
     fs.mkdirSync(C.DATA_DIR);
   }
   if (!fs.existsSync(C.CORESTORE_DIR)) {
-    print.slashBorder("Creating corestore directory at", C.CORESTORE_DIR);
-    print.slashBorder();
+    io.slashBorder("Creating corestore directory at", C.CORESTORE_DIR);
+    io.slashBorder();
     fs.mkdirSync(C.CORESTORE_DIR);
   }
   if (!fs.existsSync(C.WATCH_DIR)) {
-    print.slashBorder("Creating watchPath directory at", C.WATCH_DIR);
-    print.slashBorder();
+    io.slashBorder("Creating watchPath directory at", C.WATCH_DIR);
+    io.slashBorder();
     fs.mkdirSync(C.WATCH_DIR);
   }
   if (!fs.existsSync(C.SAVE_DIR)) {
-    print.slashBorder("Creating save directory at", C.SAVE_DIR);
-    print.slashBorder();
+    io.slashBorder("Creating save directory at", C.SAVE_DIR);
+    io.slashBorder();
     fs.mkdirSync(C.SAVE_DIR);
   }
   if (!fs.existsSync(C.LOG_DIR)) {
-    print.slashBorder("Creating log directory at", C.LOG_DIR);
-    print.slashBorder();
+    io.slashBorder("Creating log directory at", C.LOG_DIR);
+    io.slashBorder();
     fs.mkdirSync(C.LOG_DIR);
   }
   if (!fs.existsSync(C.CORE_LOG_DIR)) {
-    print.slashBorder("Creating core log directory at", C.CORE_LOG_DIR);
-    print.slashBorder();
+    io.slashBorder("Creating core log directory at", C.CORE_LOG_DIR);
+    io.slashBorder();
     fs.mkdirSync(C.CORE_LOG_DIR);
   }
   if (firstTimeSetup) {
-    print.slashBorder("First time setup process completed.");
-    print.slashBorder();
+    io.slashBorder("First time setup process completed.");
+    io.slashBorder();
   }
 
   // Init logging
   if (fs.existsSync(C.LOG_FILE)) {
-    print.slashBorder("Deleting log file at", C.LOG_FILE);
-    print.slashBorder();
+    io.slashBorder("Deleting log file at", C.LOG_FILE);
+    io.slashBorder();
     fs.unlinkSync(C.LOG_FILE);
   }
 
@@ -82,8 +81,8 @@ async function initialize() {
     log.info("Save data found, loading PearDrive networks");
     for (const network of data) {
       await utils.pearDrive.load(network);
-      print.slashBorder("Loaded PearDrive network", network.networkKey);
-      print.slashBorder();
+      io.slashBorder("Loaded PearDrive network", network.networkKey);
+      io.slashBorder();
       log.info("Loaded PearDrive network", network.networkKey);
     }
   }
@@ -122,10 +121,10 @@ async function initialize() {
     utils.exit();
   });
 
-  print.divider();
-  print.doubleSlashBorder("🥑 PearDrive CLI initialized 🥑");
-  print.doubleSlashEqualsDivider();
-  print.ln();
+  io.divider();
+  io.doubleSlashBorder("🥑 PearDrive CLI initialized 🥑");
+  io.mainDivider();
+  io.newLine();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

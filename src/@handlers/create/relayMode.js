@@ -14,16 +14,17 @@ import * as log from "../../@log";
 import io from "../../@io";
 import globalState from "../../@globalState";
 import { create } from "..";
-const { print } = utils;
 
 /** CREATE.RELAY_MODE request handler */
-export function req() {
+export function req(clear = true) {
   log.info("Requesting CREATE.RELAY_MODE");
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
 
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder("Enter relay mode(T/f):");
-  print.doubleSlashEqualsDivider();
+  io.mainDivider();
+  io.doubleSlashBorder("Enter relay mode(T/f):");
+  io.mainDivider();
 
   io.prompt();
 }

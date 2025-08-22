@@ -17,18 +17,17 @@ import * as log from "../../@log";
 import io from "../../@io";
 import globalState from "../../@globalState";
 import { mainMenu } from "..";
-const { print } = utils;
 
 /** CREATE.WATCH_PATH request handler */
 export function req() {
   log.info("Requesting CREATE.WATCH_PATH");
   globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
 
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder(
+  io.mainDivider();
+  io.doubleSlashBorder(
     "Enter local drive path (blank for random in default folder):"
   );
-  print.doubleSlashEqualsDivider();
+  io.mainDivider();
 
   io.prompt();
 }

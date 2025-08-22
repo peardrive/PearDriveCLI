@@ -16,7 +16,6 @@ import * as log from "../../@log";
 import io from "../../@io";
 import { mainMenu } from "..";
 import * as handlers from "..";
-const { print } = utils;
 
 /**
  * Format datatype for nonlocal files
@@ -76,8 +75,8 @@ function fileLog(file, index) {
  */
 export async function req(clear = true, message = "") {
   log.info("Requesting NETWORK_MENU.NETWORK");
-  if (clear) print.clear();
-  else print.newLine();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
 
   // Get the selected PearDrive
@@ -85,9 +84,9 @@ export async function req(clear = true, message = "") {
 
   // Ensure a PearDrive is selected
   if (!pearDrive) {
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder("No PearDrive selected");
-    print.doubleSlashEqualsDivider();
+    io.mainDivider();
+    io.doubleSlashBorder("No PearDrive selected");
+    io.mainDivider();
     log.error("No PearDrive selected");
     handlers.mainMenu.req(false);
     return;
@@ -100,39 +99,39 @@ export async function req(clear = true, message = "") {
     globalState.nonlocalFiles = formattedFiles || [];
 
     // Header
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder(
+    io.mainDivider();
+    io.doubleSlashBorder(
       `🍐 Nonlocal Files for PearDrive [${globalState.selectedPearDrive}]`
     );
-    print.divider();
-    print.doubleSlashBorder("  Path | (Size) | - Last Modified | [Peers]");
-    print.divider();
+    io.divider();
+    io.doubleSlashBorder("  Path | (Size) | - Last Modified | [Peers]");
+    io.divider();
 
     // Print nonlocal files
-    print.slashBorder();
+    io.slashBorder();
     if (formattedFiles.length === 0) {
-      print.slashBorder();
-      print.slashBorder("No nonlocal PearDrive files found.");
-      print.slashBorder();
+      io.slashBorder();
+      io.slashBorder("No nonlocal PearDrive files found.");
+      io.slashBorder();
     } else {
       formattedFiles.forEach((file, index) => {
-        print.slashBorder(fileLog(file, index));
-        print.slashBorder();
+        io.slashBorder(fileLog(file, index));
+        io.slashBorder();
       });
     }
 
     if (message) {
-      print.divider();
-      print.doubleSlashBorder(message);
+      io.divider();
+      io.doubleSlashBorder(message);
     }
 
     // Footer
-    print.divider();
-    print.doubleSlashBorder(
+    io.divider();
+    io.doubleSlashBorder(
       "Enter the file number [n] to download it from the network."
     );
-    print.doubleSlashBorder("Enter 'b' or 'back' to return to network menu.");
-    print.doubleSlashEqualsDivider();
+    io.doubleSlashBorder("Enter 'b' or 'back' to return to network menu.");
+    io.mainDivider();
     io.prompt();
   } catch (error) {
     console.error("Error listing non-local files:", error);
@@ -150,7 +149,6 @@ export async function res(response) {
   log.info("Handling NETWORK_MENU.NETWORK with:", response);
 
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
-    console.log("Returning to network menu...");
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.NETWORK");
     handlers.listNetwork.selected.req(true);
     return;
@@ -174,11 +172,11 @@ export async function res(response) {
   const selectedFile = globalState.nonlocalFiles[resIndex];
   const downloadPath = selectedFile.path;
   const downloadPeer = selectedFile.peer[0]; // Download from the first peer
-  print.doubleSlashEqualsDivider();
-  print.doubleSlash("Download peer", downloadPeer);
-  print.doubleSlash("Download path", downloadPath);
-  print.doubleSlash(`Selected file: ${selectedFile} Downloading...`);
-  print.doubleSlashEqualsDivider();
+  io.mainDivider();
+  io.doubleSlashBorder("Download peer", downloadPeer);
+  io.doubleSlashBorder("Download path", downloadPath);
+  io.doubleSlashBorder(`Selected file: ${selectedFile} Downloading...`);
+  io.mainDivider();
   try {
     const pearDrive = globalState.getSelectedPearDrive();
     await pearDrive.downloadFileFromPeer(downloadPeer, downloadPath);

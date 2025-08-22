@@ -14,7 +14,6 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
 import * as handlers from "..";
-const { print } = utils;
 
 /** NETWORK_MENU.SET_NETWORK_NICKNAME request handler
  *
@@ -23,8 +22,8 @@ const { print } = utils;
  */
 export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.SET_NETWORK_NICKNAME");
-  if (clear) print.clear();
-  else print.newLine();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.SET_NETWORK_NICKNAME;
 
   // Get selected PearDrive
@@ -32,9 +31,9 @@ export function req(clear = true) {
 
   // Ensure a PearDrive is selected
   if (!pearDrive) {
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder("No PearDrive selected");
-    print.doubleSlashEqualsDivider();
+    io.mainDivider();
+    io.doubleSlashBorder("No PearDrive selected");
+    io.mainDivider();
     log.error("Tried to set network nickname without a selected PearDrive");
     handlers.mainMenu.req(false);
     return;
@@ -45,12 +44,12 @@ export function req(clear = true) {
   const nickname = saveData.nickname;
 
   // Prompt
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder("Current nickname:", nickname);
-  print.divider();
-  print.slashBorder("Enter a new nickname for the network");
-  print.slashBorder("Enter nothing to keep the current nickname");
-  print.doubleSlashEqualsDivider();
+  io.mainDivider();
+  io.doubleSlashBorder("Current nickname:", nickname);
+  io.divider();
+  io.slashBorder("Enter a new nickname for the network");
+  io.slashBorder("Enter nothing to keep the current nickname");
+  io.mainDivider();
   io.prompt();
 }
 
@@ -63,12 +62,12 @@ export function res(response) {
 
   // Validate input
   if (response.length > 20) {
-    print.newLine();
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder(
+    io.newLine();
+    io.mainDivider();
+    io.doubleSlashBorder(
       "Nickname cannot be longer than 20 characters, please try again."
     );
-    print.doubleSlashEqualsDivider();
+    io.mainDivider();
     log.error("Nickname is too long in NETWORK_MENU.SET_NETWORK_NICKNAME");
     req(false);
     return;

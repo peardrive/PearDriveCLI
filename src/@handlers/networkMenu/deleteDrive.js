@@ -14,7 +14,6 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
 import * as handlers from "..";
-const { print } = utils;
 
 /** NETWORK_MENU.DELETE_DRIVE request handler
  *
@@ -22,8 +21,8 @@ const { print } = utils;
  */
 export async function req(clear = true) {
   log.info("Requesting NETWORK_MENU.DELETE_DRIVE");
-  if (clear) print.clear();
-  else print.newLine();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
   const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
@@ -31,20 +30,20 @@ export async function req(clear = true) {
 
   try {
     await utils.pearDrive.destroy(networkKey);
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder(
+    io.mainDivider();
+    io.doubleSlashBorder(
       `PearDrive with network key ${networkKey} has been deleted successfully.`
     );
-    print.doubleSlashBorder("Enter any key to return to the network list");
-    print.doubleSlashEqualsDivider();
+    io.doubleSlashBorder("Enter any key to return to the network list");
+    io.mainDivider();
   } catch (error) {
-    print.doubleSlashEqualsDivider();
-    print.doubleSlashBorder(
+    io.mainDivider();
+    io.doubleSlashBorder(
       `Failed to delete PearDrive with network key ${networkKey}.`
     );
-    print.doubleSlashBorder("Error: " + error.message);
-    print.doubleSlashBorder("Enter any key to return to the network list");
-    print.doubleSlashEqualsDivider();
+    io.doubleSlashBorder("Error: " + error.message);
+    io.doubleSlashBorder("Enter any key to return to the network list");
+    io.mainDivider();
     io.prompt();
   }
 }
