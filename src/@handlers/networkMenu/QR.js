@@ -14,6 +14,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -60,6 +61,7 @@ export function req(clear = true) {
     print.doubleSlashBorder("Scan this QR code to join the network");
     print.doubleSlashBorder("Enter any key to return to the network menu");
     print.doubleSlashEqualsDivider();
+    io.prompt();
   });
 }
 

@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import { create } from "..";
 const { print } = utils;
 
@@ -21,6 +22,7 @@ export function req() {
   print.clear();
   globalState.currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
   print.ln("Enter network key:");
+  Io.prompt();
 }
 
 /** JOIN_EXISTING.NETWORK_KEY response handler */

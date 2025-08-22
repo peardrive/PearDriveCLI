@@ -12,6 +12,7 @@ import * as handlers from "..";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import globalState from "../../@globalState";
+import io from "../../@io";
 import * as C from "../../@constants";
 const { print } = utils;
 
@@ -57,6 +58,7 @@ export function req(clear = true) {
   print.divider();
   print.doubleSlashBorder("Enter any key to return to the network menu");
   print.doubleSlashEqualsDivider();
+  io.prompt();
 }
 
 export function res(response) {

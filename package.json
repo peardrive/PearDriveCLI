@@ -39,6 +39,14 @@
     "process/*": {
       "bare": "bare-process/*",
       "default": "process/*"
+    },
+    "readline": {
+      "bare": "bare-readline",
+      "default": "readline"
+    },
+    "readline/*": {
+      "bare": "bare-readline/*",
+      "default": "readline/*"
     }
   },
   "devDependencies": {

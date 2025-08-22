@@ -8,24 +8,28 @@
  * (at your option) any later version.
  */
 
-import readline from "bare-readline";
+import readline from "readline";
 import tty from "bare-tty";
 
 import * as log from "../@log";
 import { cliStateCommands } from "./cliStateCommands";
 import { universalCommands } from "./universalCommands";
 
-/** Set up readline i/o for PearDrive CLI */
-function configureIO() {
-  try {
-    /** I/O interface */
-    const rl = readline.createInterface({
+class IO {
+  /** ReadLine interface */
+  #rl = null;
+
+  /** Set up ReadLine interface */
+  configure() {
+    /** Readline Interface */
+    this.#rl = readline.createInterface({
       input: new tty.ReadStream(0),
       output: new tty.WriteStream(1),
+      prompt: "\nPearDrive CLI> ",
     });
 
     // Wire up event listener for user input
-    rl.on("data", async (res) => {
+    this.#rl.on("data", async (res) => {
       log.info("Received user i/o input:", res);
 
       try {
@@ -45,13 +49,11 @@ function configureIO() {
         console.error("Error processing user input", error);
       }
     });
+  }
 
-    return rl;
-  } catch (error) {
-    log.error("Error configuring IO", error);
-    console.error("Error configuring IO", error);
-    throw new Error(error);
+  prompt() {
+    this.#rl.prompt();
   }
 }
 
-export default configureIO;
+export default new IO();

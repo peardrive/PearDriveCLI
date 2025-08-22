@@ -14,6 +14,7 @@ import path from "bare-path";
 import * as utils from "../../@utils";
 import * as C from "../../@constants";
 import * as log from "../../@log";
+import io from "../../@io";
 import globalState from "../../@globalState";
 import { mainMenu } from "..";
 const { print } = utils;
@@ -23,6 +24,7 @@ export function req() {
   log.info("Requesting CREATE.WATCH_PATH");
   globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
   print.ln("Enter local drive path (blank for random in default folder):");
+  io.prompt();
 }
 
 /** CREATE.WATCH_PATH response handler */

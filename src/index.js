@@ -136,8 +136,8 @@ async function initialize() {
 async function main() {
   try {
     await initialize();
+    io.configure();
     log.info("PearDrive CLI initialized");
-    io();
     handlers.mainMenu.req(false);
   } catch (error) {
     console.error("Error in main", error);

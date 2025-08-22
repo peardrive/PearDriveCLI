@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -50,7 +51,7 @@ export function req(clear = true) {
   print.slashBorder("Enter a new nickname for the network");
   print.slashBorder("Enter nothing to keep the current nickname");
   print.doubleSlashEqualsDivider();
-  print.newLine();
+  io.prompt();
 }
 
 /** NETWORK_MENU.SET_NETWORK_NICKNAME response handler

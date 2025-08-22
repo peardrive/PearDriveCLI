@@ -13,6 +13,7 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as all from "./all";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -82,6 +83,7 @@ export function req(clear = true) {
     print.slashBorder("7. 'back' Return to network list");
     print.slashBorder();
     print.doubleSlashEqualsDivider();
+    io.prompt();
   } catch (error) {
     console.error("Error in LIST_NETWORK.selected", error);
     log.error("Error in LIST_NETWORK.selected", error);

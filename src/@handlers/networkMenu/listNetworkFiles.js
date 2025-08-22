@@ -13,6 +13,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import { mainMenu } from "..";
 import * as handlers from "..";
 const { print } = utils;
@@ -132,6 +133,7 @@ export async function req(clear = true, message = "") {
     );
     print.doubleSlashBorder("Enter 'b' or 'back' to return to network menu.");
     print.doubleSlashEqualsDivider();
+    io.prompt();
   } catch (error) {
     console.error("Error listing non-local files:", error);
     log.error("Error listing non-local files in NETWORK_MENU.NETWORK", error);
@@ -172,9 +174,11 @@ export async function res(response) {
   const selectedFile = globalState.nonlocalFiles[resIndex];
   const downloadPath = selectedFile.path;
   const downloadPeer = selectedFile.peer[0]; // Download from the first peer
-  console.log("Download peer", downloadPeer);
-  console.log("Download path", downloadPath);
-  console.log(`Selected file: ${selectedFile} Downloading...`);
+  print.doubleSlashEqualsDivider();
+  print.doubleSlash("Download peer", downloadPeer);
+  print.doubleSlash("Download path", downloadPath);
+  print.doubleSlash(`Selected file: ${selectedFile} Downloading...`);
+  print.doubleSlashEqualsDivider();
   try {
     const pearDrive = globalState.getSelectedPearDrive();
     await pearDrive.downloadFileFromPeer(downloadPeer, downloadPath);

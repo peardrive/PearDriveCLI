@@ -11,6 +11,7 @@
 import * as utils from "../../@utils";
 import * as C from "../../@constants";
 import * as log from "../../@log";
+import io from "../../@io";
 import globalState from "../../@globalState";
 import { create } from "..";
 const { print } = utils;
@@ -20,6 +21,7 @@ export function req() {
   log.info("Requesting CREATE.RELAY_MODE");
   globalState.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
   print.ln("Enter relay mode(T/f):");
+  io.prompt();
 }
 
 /** CREATE.RELAY_MODE response handler */

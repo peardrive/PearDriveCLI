@@ -12,6 +12,7 @@ import globalState from "../../@globalState";
 import * as C from "../../@constants";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -46,6 +47,7 @@ export function req(clear = true) {
   );
   print.doubleSlashBorder("Enter 'quit' at any time to end the process");
   print.doubleSlashEqualsDivider();
+  io.prompt();
 }
 
 /** MAIN_MENU response handler */

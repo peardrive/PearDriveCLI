@@ -11,6 +11,7 @@
 import * as utils from "../../@utils";
 import globalState from "../../@globalState";
 import * as log from "../../@log";
+import io from "../../@io";
 import { mainMenu } from "..";
 const { print } = utils;
 
@@ -27,6 +28,7 @@ export function req() {
     };
     return pdData;
   });
+  io.prompt();
 }
 
 /** DELETE_NETWORK.SELECT response handler */

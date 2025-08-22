@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -67,6 +68,7 @@ export async function req(clear = true) {
   print.divider();
   print.doubleSlashBorder("Enter 'b' or 'back' to return to network menu");
   print.doubleSlashEqualsDivider();
+  io.prompt();
 }
 
 /** NETWORK_MENU.LOCAL response handler

@@ -12,7 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
-import { mainMenu } from "..";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -54,6 +54,7 @@ export function req(clear = true) {
   print.doubleSlashBorder("Enter the PearDrive number [n] to select it.");
   print.doubleSlashBorder("Enter 'b' or 'back' to return to the main menu.");
   print.doubleSlashEqualsDivider();
+  io.prompt();
 }
 
 /** LIST_NETWORK.ALL response handler  */

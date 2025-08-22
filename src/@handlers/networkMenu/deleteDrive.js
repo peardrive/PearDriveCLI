@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 const { print } = utils;
 
@@ -44,6 +45,7 @@ export async function req(clear = true) {
     print.doubleSlashBorder("Error: " + error.message);
     print.doubleSlashBorder("Enter any key to return to the network list");
     print.doubleSlashEqualsDivider();
+    io.prompt();
   }
 }
 
