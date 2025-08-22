@@ -52,7 +52,7 @@ export function req(clear = true) {
   // Footer
   print.divider();
   print.doubleSlashBorder("Enter the PearDrive number [n] to select it.");
-  print.doubleSlashBorder("Enter 'back' to return to the main menu.");
+  print.doubleSlashBorder("Enter 'b' or 'back' to return to the main menu.");
   print.doubleSlashEqualsDivider();
 }
 
@@ -61,7 +61,7 @@ export function res(response) {
   log.info("Handling LIST_NETWORK.ALL with:", response);
   print.ln();
 
-  if (response.toLowerCase() === "back") {
+  if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
     print.ln("Returning to main menu...");
     log.info("Returning to main menu from LIST_NETWORK.ALL");
     handlers.mainMenu.req();

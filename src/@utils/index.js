@@ -13,7 +13,6 @@ export { createNewFolderPath } from "./createNewFolderPath";
 export { exit } from "./exit";
 export { fileSizeStr } from "./fileSizeStr";
 export { generateString } from "./generateString";
-export { logPearDrive } from "./logPearDrive";
 export { objectsEqual } from "./objectsEqual";
 export * as print from "./print";
 export { relativeTimeAgoStr } from "./relativeTimeAgoStr";

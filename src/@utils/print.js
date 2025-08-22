@@ -88,20 +88,21 @@ export function fullSlashDivider() {
  *
  * @param {Object} saveData - The saveData object to print
  * @param {boolean} connected - Whether the PearDrive is connected
- * @param {boolean} [log=false] - Whether to log the saveData object
+ * @param {boolean} [logging=false] - Whether to log the saveData object
  */
-export function pearDriveSaveData(saveData, connected, log = false) {
+export function pearDriveSaveData(saveData, connected, logging = false) {
   slashBorder(`Connection: ${connected ? "🟢 Connected" : "🔴 Disconnected"}`);
   slashBorder("Network Key:");
   slashBorder(`    ${saveData.networkKey}`);
   slashBorder("Watch Path:");
   slashBorder(`    ${saveData.watchPath}`);
   slashBorder("Peer Seed:");
-  slashBorder(`    ${saveData.seed || "Not set"}`);
-  slashBorder("Relay Mode:");
-  slashBorder(`    ${saveData.relayMode ? "✅ Enabled" : "🚫 Disabled"}`);
+  slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
+  slashBorder(
+    `Relay Mode: ${saveData.relayMode ? "✅ Enabled" : "🚫 Disabled"}`
+  );
 
-  if (log) {
+  if (logging) {
     log.info(`Connection: ${connected ? "🟢 Connected" : "🔴 Disconnected"}`);
     log.info("Network Key:", saveData.networkKey);
     log.info("Watch Path:", saveData.watchPath);

@@ -28,20 +28,26 @@ export async function req(clear = true) {
   const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
   const networkKey = pearDrive.saveData.networkKey;
 
-  // TODO resolve pear runtime error occurs on teardown
-  //await pearDrive.close();
-
-  await utils.pearDrive.destroy(networkKey);
-
-  print.doubleSlashEqualsDivider();
-  print.doubleSlashBorder(
-    `PearDrive with network key ${networkKey} has been deleted successfully.`
-  );
-  print.doubleSlashBorder("Enter any key to return to the menu");
-  print.doubleSlashEqualsDivider();
+  try {
+    await utils.pearDrive.destroy(networkKey);
+    print.doubleSlashEqualsDivider();
+    print.doubleSlashBorder(
+      `PearDrive with network key ${networkKey} has been deleted successfully.`
+    );
+    print.doubleSlashBorder("Enter any key to return to the network list");
+    print.doubleSlashEqualsDivider();
+  } catch (error) {
+    print.doubleSlashEqualsDivider();
+    print.doubleSlashBorder(
+      `Failed to delete PearDrive with network key ${networkKey}.`
+    );
+    print.doubleSlashBorder("Error: " + error.message);
+    print.doubleSlashBorder("Enter any key to return to the network list");
+    print.doubleSlashEqualsDivider();
+  }
 }
 
 export function res() {
   log.info("Handling NETWORK_MENU.DELETE_DRIVE");
-  handlers.mainMenu.req();
+  handlers.listNetwork.all.req();
 }
