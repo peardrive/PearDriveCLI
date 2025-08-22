@@ -1,8 +1,8 @@
 {
   "name": "@peardrive/cli",
   "main": "src/index.js",
-  "version": "1.0.1",
-  "author": "Hope <jennabaudelaire@pm.me>",
+  "version": "1.1.0",
+  "author": "PearDrive Team",
   "pear": {
     "name": "tmp",
     "type": "terminal"
@@ -39,6 +39,14 @@
     "process/*": {
       "bare": "bare-process/*",
       "default": "process/*"
+    },
+    "readline": {
+      "bare": "bare-readline",
+      "default": "readline"
+    },
+    "readline/*": {
+      "bare": "bare-readline/*",
+      "default": "readline/*"
     }
   },
   "devDependencies": {

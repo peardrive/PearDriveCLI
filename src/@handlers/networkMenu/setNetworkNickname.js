@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 
 /** NETWORK_MENU.SET_NETWORK_NICKNAME request handler
@@ -21,20 +22,35 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.SET_NETWORK_NICKNAME");
-  clear && utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.SET_NETWORK_NICKNAME;
 
+  // Get selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
+
+  // Ensure a PearDrive is selected
   if (!pearDrive) {
-    console.log("No PearDrive selected");
+    io.mainDivider();
+    io.doubleSlashBorder("No PearDrive selected");
+    io.mainDivider();
+    log.error("Tried to set network nickname without a selected PearDrive");
     handlers.mainMenu.req(false);
     return;
   }
+
+  // Get current nickname
   const saveData = pearDrive.saveData;
   const nickname = saveData.nickname;
 
-  console.log("Current nickname:", nickname);
-  console.log("Enter new nickname (or press enter to keep the current one):");
+  // Prompt
+  io.mainDivider();
+  io.doubleSlashBorder("Current nickname:", nickname);
+  io.divider();
+  io.slashBorder("Enter a new nickname for the network");
+  io.slashBorder("Enter nothing to keep the current nickname");
+  io.mainDivider();
+  io.prompt();
 }
 
 /** NETWORK_MENU.SET_NETWORK_NICKNAME response handler
@@ -46,7 +62,12 @@ export function res(response) {
 
   // Validate input
   if (response.length > 20) {
-    console.log("Nickname is too long. Please enter a shorter one.");
+    io.newLine();
+    io.mainDivider();
+    io.doubleSlashBorder(
+      "Nickname cannot be longer than 20 characters, please try again."
+    );
+    io.mainDivider();
     log.error("Nickname is too long in NETWORK_MENU.SET_NETWORK_NICKNAME");
     req(false);
     return;

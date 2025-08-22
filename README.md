@@ -4,6 +4,13 @@
 
 ## Changelog
 
+### 1.1.0
+
+- Prettify console printing
+- Add deleting network drives
+- Add prompting after each response is finished
+- Fix relay mode toggling
+
 ### 1.0.1
 
 - Update dependencies

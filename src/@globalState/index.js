@@ -141,6 +141,9 @@ class GlobalState {
       log.debug("Removed PearDrive, new pearDrives array:", this.pearDrives);
     } catch (error) {
       log.error("Error removing PearDrive", error);
+      throw new Error(
+        `Error removing PearDrive at index ${index}: ${error.message}`
+      );
     }
   }
 
@@ -187,6 +190,34 @@ class GlobalState {
     } catch (error) {
       log.error("Error retrieving selected PearDrive", error);
     }
+  }
+
+  /**
+   * Get the index of a pearDrive from a given seed
+   *
+   * @param {string} seed - The seed of the PearDrive to find
+   *
+   * @return {number} - Index of the PearDrive in pearDrives array, or -1 if not
+   *  found
+   */
+  getPearDriveIndexFromSeed(seed) {
+    log.info("Retrieving PearDrive index from seed", seed);
+
+    if (!seed) {
+      log.error("No seed provided");
+      return -1;
+    }
+
+    for (let i = 0; i < this.pearDrives.length; i++) {
+      const pearDrive = this.pearDrives[i];
+      if (pearDrive.seed === seed) {
+        log.debug("Found PearDrive at index", i);
+        return i;
+      }
+    }
+
+    log.warn("No PearDrive found with seed", seed);
+    return -1;
   }
 
   //////////////////////////////////////////////////////////////////////////////

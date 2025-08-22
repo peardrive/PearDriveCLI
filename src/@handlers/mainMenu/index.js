@@ -12,6 +12,7 @@ import globalState from "../../@globalState";
 import * as C from "../../@constants";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 
 /**
@@ -22,14 +23,28 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting MAIN_MENU");
-  clear && utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.MAIN;
-  console.log("Welcome to PearDrive CLI");
-  console.log("Enter 'quit' at any time to end the process");
-  console.log("1. 'create' Create new PearDrive");
-  console.log("2. 'join' Join existing PearDrive network");
-  console.log("3. 'list' List all PearDrive networks or select a network");
-  console.log("0. 'exit' Exit");
+  io.mainDivider();
+  io.doubleSlashBorder("🍐 Welcome to PearDrive CLI 🍐");
+  io.divider();
+
+  io.slashBorder();
+  io.slashBorder("OPTIONS:");
+  io.slashBorder();
+  io.slashBorder("1. 'create' Create new PearDrive");
+  io.slashBorder("2. 'join' Join existing PearDrive network");
+  io.slashBorder("3. 'list' List all PearDrive networks or select a network");
+  io.slashBorder("0. 'exit' Exit");
+  io.slashBorder();
+  io.divider();
+  io.doubleSlashBorder(
+    "Enter the number or quoted command to select an option"
+  );
+  io.doubleSlashBorder("Enter 'quit' at any time to end the process");
+  io.mainDivider();
+  io.prompt();
 }
 
 /** MAIN_MENU response handler */
@@ -39,19 +54,19 @@ export function res(response) {
     // Create new PearDrive
     case "1":
     case "create":
-      handlers.create.relayMode.req();
+      handlers.create.relayMode.req(true);
       break;
 
     // Join existing PearDrive network
     case "2":
     case "join":
-      handlers.joinExisting.networkKey.req();
+      handlers.joinExisting.networkKey.req(true);
       break;
 
     // List all PearDrive networks
     case "3":
     case "list":
-      handlers.listNetwork.all.req();
+      handlers.listNetwork.all.req(true);
       break;
 
     // Stop program

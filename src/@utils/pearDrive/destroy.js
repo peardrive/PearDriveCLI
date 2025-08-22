@@ -8,6 +8,8 @@
  * (at your option) any later version.
  */
 
+import fs from "fs";
+
 import globalState from "../../@globalState";
 import * as utils from "..";
 import * as log from "../../@log";
@@ -27,16 +29,36 @@ export async function destroy(networkKey) {
     // Get pearDrive and index from global state
     const pearDriveIndex = globalState.getPearDrive(networkKey);
     const pearDrive = globalState.pearDrives[pearDriveIndex];
+    const saveData = { ...pearDrive.saveData };
     log.debug("PearDrive to delete", pearDrive);
 
-    // TODO resolve pear runtime error occurs on teardown
-    //await pearDrive.close();
+    // Close the PearDrive connection
+    await pearDrive.close();
 
     // Remove from save data
     utils.saveData.removeSave(pearDrive.saveData);
+
+    // Remove from global state
+    const index = globalState.getPearDriveIndexFromSeed(pearDrive.seed);
+    if (index === -1) {
+      log.error("PearDrive not found in global state", pearDrive.seed);
+      throw new Error(
+        `PearDrive with seed ${pearDrive.seed} not found in global state`
+      );
+    }
+    globalState.removePearDrive(index);
+
+    // Remove corestore folder
+    fs.rmSync(saveData.corestorePath, { recursive: true, force: true });
+    log.info("Removed corestore folder for PearDrive", pearDrive.corestorePath);
+
+    // Remove log file
+    if (saveData.logOpts?.logToFile && saveData.logOpts?.logFilePath) {
+      fs.unlinkSync(saveData.logOpts.logFilePath);
+      log.info("Removed log file for PearDrive", saveData.logOpts.logFilePath);
+    }
   } catch (error) {
     log.error("Error deleting PearDrive network", networkKey, error);
-    console.error("Error deleting PearDrive network", networkKey, error);
     throw new Error(error);
   }
 }

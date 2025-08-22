@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 
 /** Format the string for printing a file given the Core file object */
@@ -29,9 +30,11 @@ function fileLog(file) {
  */
 export async function req(clear = true) {
   log.info("Handling NETWORK_MENU.LOCAL");
-  clear && utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.LOCAL;
 
+  // Get the selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
   if (!pearDrive) {
     console.log("No PearDrive selected");
@@ -39,18 +42,32 @@ export async function req(clear = true) {
     return;
   }
 
+  // Get local file data
   const localFiles = await pearDrive.listLocalFiles();
   const files = localFiles.files || [];
 
-  globalState.localFiles = files || [];
-  console.log("Local PearDrive files:");
-  files.length === 0
-    ? console.log("No local PearDrive files found.")
-    : files.forEach((file, index) => {
-        console.log(`  [${index}]: ${fileLog(file)}`);
-      });
+  // Header
+  io.mainDivider();
+  io.doubleSlashBorder(
+    `🍐 Local Files for PearDrive [${globalState.selectedPearDrive}]`
+  );
+  io.divider();
 
-  console.log("=== Enter 'b' or 'back' to return to network menu ===");
+  // Print local files
+  io.slashBorder();
+  globalState.localFiles = files || [];
+  files.length === 0
+    ? io.slashBorder("No local PearDrive files found.")
+    : files.forEach((file, index) => {
+        io.slashBorder(`  [${index}]: ${fileLog(file)}`);
+      });
+  io.slashBorder();
+
+  // Footer
+  io.divider();
+  io.doubleSlashBorder("Enter 'b' or 'back' to return to network menu");
+  io.mainDivider();
+  io.prompt();
 }
 
 /** NETWORK_MENU.LOCAL response handler
@@ -61,7 +78,10 @@ export function res(response) {
   log.info("Handling NETWORK_MENU.LOCAL with:", response);
 
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
-    console.log("Returning to network menu...");
+    io.newLine();
+    io.mainDivider();
+    io.doubleSlashBorder("Returning to network menu...");
+    io.mainDivider();
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.LOCAL");
     handlers.listNetwork.selected.req(true);
     return;

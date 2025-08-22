@@ -14,15 +14,22 @@ import path from "bare-path";
 import * as utils from "../../@utils";
 import * as C from "../../@constants";
 import * as log from "../../@log";
+import io from "../../@io";
 import globalState from "../../@globalState";
 import { mainMenu } from "..";
 
 /** CREATE.WATCH_PATH request handler */
 export function req() {
   log.info("Requesting CREATE.WATCH_PATH");
-  utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
-  console.log("Enter local drive path (blank for random in default folder):");
+
+  io.mainDivider();
+  io.doubleSlashBorder(
+    "Enter local drive path (blank for random in default folder):"
+  );
+  io.mainDivider();
+
+  io.prompt();
 }
 
 /** CREATE.WATCH_PATH response handler */

@@ -13,6 +13,7 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as all from "./all";
+import io from "../../@io";
 import * as handlers from "..";
 
 /**
@@ -23,43 +24,65 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.SELECTED");
-  clear && utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.SELECTED;
 
   // Ensure there is a selected PearDrive
   if (globalState.selectedPearDrive === null) {
-    console.log("No PearDrive network selected");
+    io.mainDivider();
+    io.slashBorder("No PearDrive network selected");
     log.error("No PearDrive network selected");
+    io.mainDivider();
+    io.newLine();
     all.req();
     return;
   }
 
   // Ensure selected PearDrive exists
   if (!globalState.pearDrives.length) {
-    console.log("No PearDrive networks found");
+    io.mainDivider();
+    io.slashBorder("No PearDrive networks found");
+    io.mainDivider();
     log.error("No PearDrive networks found");
     all.req();
     return;
   }
 
   try {
-    // Get selected PearDrive and log data
+    // Get selected PearDrive and data
     const selectedPearDrive = globalState.getSelectedPearDrive();
     const saveData = selectedPearDrive.saveData;
-    utils.logPearDrive(saveData, true);
+
+    // Header
+    io.mainDivider();
+    io.doubleSlashBorder(
+      `🍐 Selected PearDrive [${globalState.selectedPearDrive}]`
+    );
+    io.divider();
+
+    // PearDrive details
+    io.slashBorder();
+    io.pearDriveSaveData(saveData, selectedPearDrive.connected);
+    utils.pearDrive.logSaveData(saveData, selectedPearDrive.connected);
+    io.slashBorder();
+    io.divider();
 
     // Options / controls
-    console.log("OPTIONS");
-    console.log("-----------------");
-    console.log("1. 'nickname' Change/set network nickname");
-    console.log("2. 'qr' View network QR code");
-    console.log(
-      `3. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
+    io.doubleSlashBorder("OPTIONS");
+    io.divider();
+    io.slashBorder();
+    io.slashBorder("1. 'qr' View network QR code");
+    io.slashBorder(
+      `2. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
     );
-    console.log("4. 'local' list all local PearDrive files");
-    console.log("5. 'network' list all nonlocal PearDrive files");
-    console.log("6. 'delete' Delete network");
-    console.log("7. 'back' Return to network list");
+    io.slashBorder("3. 'local' list all local PearDrive files");
+    io.slashBorder("4. 'network' list all nonlocal PearDrive files");
+    io.slashBorder("5. 'delete' Delete network");
+    io.slashBorder("6. 'back' Return to network list");
+    io.slashBorder();
+    io.mainDivider();
+    io.prompt();
   } catch (error) {
     console.error("Error in LIST_NETWORK.selected", error);
     log.error("Error in LIST_NETWORK.selected", error);
@@ -72,21 +95,16 @@ export function res(response) {
   log.info("Handling LIST_NETWORK.selected with:", response);
   switch (response) {
     case "1":
-    case "nickname":
-      handlers.networkMenu.setNetworkNickname.req();
-      break;
-
-    case "2":
     case "qr":
       handlers.networkMenu.qr.req();
       break;
 
-    case "3":
+    case "2":
     case "relay":
       handlers.networkMenu.toggleRelayMode.req();
       break;
 
-    case "4":
+    case "3":
     case "local":
       handlers.networkMenu.listLocalFiles.req();
       break;
@@ -96,12 +114,12 @@ export function res(response) {
       handlers.networkMenu.listNetworkFiles.req();
       break;
 
-    case "6":
+    case "5":
     case "delete":
       handlers.networkMenu.deleteDrive.req();
       break;
 
-    case "7":
+    case "6":
     case "back":
       console.log("Returning to LIST_NETWORK.all...");
       log.info("Returning to LIST_NETWORK.all from LIST_NETWORK.selected");

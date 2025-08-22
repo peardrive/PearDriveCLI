@@ -12,6 +12,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import * as handlers from "..";
 
 /** NETWORK_MENU.DELETE_DRIVE request handler
@@ -20,24 +21,34 @@ import * as handlers from "..";
  */
 export async function req(clear = true) {
   log.info("Requesting NETWORK_MENU.DELETE_DRIVE");
-  if (clear) utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
   const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
   const networkKey = pearDrive.saveData.networkKey;
 
-  // TODO resolve pear runtime error occurs on teardown
-  //await pearDrive.close();
-
-  await utils.pearDrive.destroy(networkKey);
-
-  console.log(
-    `PearDrive with network key ${networkKey} has been deleted successfully.`
-  );
-  console.log("\n=== Enter any key to return to the main menu ===");
+  try {
+    await utils.pearDrive.destroy(networkKey);
+    io.mainDivider();
+    io.doubleSlashBorder(
+      `PearDrive with network key ${networkKey} has been deleted successfully.`
+    );
+    io.doubleSlashBorder("Enter any key to return to the network list");
+    io.mainDivider();
+  } catch (error) {
+    io.mainDivider();
+    io.doubleSlashBorder(
+      `Failed to delete PearDrive with network key ${networkKey}.`
+    );
+    io.doubleSlashBorder("Error: " + error.message);
+    io.doubleSlashBorder("Enter any key to return to the network list");
+    io.mainDivider();
+    io.prompt();
+  }
 }
 
 export function res() {
   log.info("Handling NETWORK_MENU.DELETE_DRIVE");
-  handlers.mainMenu.req();
+  handlers.listNetwork.all.req();
 }

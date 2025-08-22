@@ -13,6 +13,7 @@ import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
+import io from "../../@io";
 import { mainMenu } from "..";
 import * as handlers from "..";
 
@@ -74,12 +75,19 @@ function fileLog(file, index) {
  */
 export async function req(clear = true, message = "") {
   log.info("Requesting NETWORK_MENU.NETWORK");
-  clear && utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
 
+  // Get the selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
+
+  // Ensure a PearDrive is selected
   if (!pearDrive) {
-    console.log("No PearDrive selected");
+    io.mainDivider();
+    io.doubleSlashBorder("No PearDrive selected");
+    io.mainDivider();
+    log.error("No PearDrive selected");
     handlers.mainMenu.req(false);
     return;
   }
@@ -90,20 +98,41 @@ export async function req(clear = true, message = "") {
     const formattedFiles = formatNonlocalFileMap(nonlocalFileMap);
     globalState.nonlocalFiles = formattedFiles || [];
 
-    // Log nonlocal files
-    console.log("Nonlocal PearDrive files:");
-    console.log("  Path | (Size) | - Last Modified | [Peers]");
-    console.log("  -----------------");
-    formattedFiles.length === 0
-      ? console.log("  No nonlocal PearDrive files found.")
-      : formattedFiles.forEach((file, index) => {
-          console.log(fileLog(file, index));
-        });
+    // Header
+    io.mainDivider();
+    io.doubleSlashBorder(
+      `🍐 Nonlocal Files for PearDrive [${globalState.selectedPearDrive}]`
+    );
+    io.divider();
+    io.doubleSlashBorder("  Path | (Size) | - Last Modified | [Peers]");
+    io.divider();
 
-    console.log(message);
-    console.log("______________________________________________");
-    console.log("=== Enter the number of the file to download ===");
-    console.log("=== Or type 'b' or 'back' to return to network menu ===");
+    // Print nonlocal files
+    io.slashBorder();
+    if (formattedFiles.length === 0) {
+      io.slashBorder();
+      io.slashBorder("No nonlocal PearDrive files found.");
+      io.slashBorder();
+    } else {
+      formattedFiles.forEach((file, index) => {
+        io.slashBorder(fileLog(file, index));
+        io.slashBorder();
+      });
+    }
+
+    if (message) {
+      io.divider();
+      io.doubleSlashBorder(message);
+    }
+
+    // Footer
+    io.divider();
+    io.doubleSlashBorder(
+      "Enter the file number [n] to download it from the network."
+    );
+    io.doubleSlashBorder("Enter 'b' or 'back' to return to network menu.");
+    io.mainDivider();
+    io.prompt();
   } catch (error) {
     console.error("Error listing non-local files:", error);
     log.error("Error listing non-local files in NETWORK_MENU.NETWORK", error);
@@ -120,7 +149,6 @@ export async function res(response) {
   log.info("Handling NETWORK_MENU.NETWORK with:", response);
 
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
-    console.log("Returning to network menu...");
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.NETWORK");
     handlers.listNetwork.selected.req(true);
     return;
@@ -144,9 +172,11 @@ export async function res(response) {
   const selectedFile = globalState.nonlocalFiles[resIndex];
   const downloadPath = selectedFile.path;
   const downloadPeer = selectedFile.peer[0]; // Download from the first peer
-  console.log("Download peer", downloadPeer);
-  console.log("Download path", downloadPath);
-  console.log(`Selected file: ${selectedFile} Downloading...`);
+  io.mainDivider();
+  io.doubleSlashBorder("Download peer", downloadPeer);
+  io.doubleSlashBorder("Download path", downloadPath);
+  io.doubleSlashBorder(`Selected file: ${selectedFile} Downloading...`);
+  io.mainDivider();
   try {
     const pearDrive = globalState.getSelectedPearDrive();
     await pearDrive.downloadFileFromPeer(downloadPeer, downloadPath);

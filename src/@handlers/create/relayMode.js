@@ -11,15 +11,22 @@
 import * as utils from "../../@utils";
 import * as C from "../../@constants";
 import * as log from "../../@log";
+import io from "../../@io";
 import globalState from "../../@globalState";
 import { create } from "..";
 
 /** CREATE.RELAY_MODE request handler */
-export function req() {
+export function req(clear = true) {
   log.info("Requesting CREATE.RELAY_MODE");
-  utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
-  console.log("Enter relay mode(T/f):");
+
+  io.mainDivider();
+  io.doubleSlashBorder("Enter relay mode(T/f):");
+  io.mainDivider();
+
+  io.prompt();
 }
 
 /** CREATE.RELAY_MODE response handler */
@@ -37,7 +44,9 @@ export function res(response) {
   globalState.createNewPearDriveArgs = {
     corestorePath: C.CORESTORE_DIR,
     localDrivePath: C.WATCH_DIR,
-    relayMode,
+    indexOpts: {
+      relay: relayMode,
+    },
     networkKey,
   };
 

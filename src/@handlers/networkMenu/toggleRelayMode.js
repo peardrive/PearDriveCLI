@@ -12,6 +12,7 @@ import * as handlers from "..";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import globalState from "../../@globalState";
+import io from "../../@io";
 import * as C from "../../@constants";
 
 /** NETWORK_MENU.TOGGLE_RELAY_MODE handler
@@ -21,26 +22,42 @@ import * as C from "../../@constants";
  */
 export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.TOGGLE_RELAY_MODE");
-  if (clear) utils.clearTerminal();
+  if (clear) io.clear();
+  else io.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.TOGGLE_RELAY_MODE;
 
+  // Get the selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
+
+  // Ensure a PearDrive is selected
   if (!pearDrive) {
-    console.log("No PearDrive selected");
+    io.mainDivider();
+    io.doubleSlashBorder("No PearDrive selected");
+    io.mainDivider();
+    log.error("Tried to toggle relay mode without a selected PearDrive");
     handlers.mainMenu.req(false);
     return;
   }
+
+  // Get relay mode status
   const saveData = pearDrive.saveData;
-  const relayMode = saveData.relayMode;
+  const relayMode = saveData.indexOpts.relay;
 
   // Toggle relay mode
-  relayMode ? pearDrive.deactivateRelayMode() : pearDrive.activateRelayMode();
-  console.log(
-    `Relay mode ${relayMode ? "disabled" : "enabled"} for network ${
-      saveData.networkKey
-    }`
+  relayMode ? pearDrive.deactivateRelay() : pearDrive.activateRelay();
+
+  // Print notification
+  io.mainDivider();
+  io.doubleSlashBorder(
+    relayMode
+      ? "🔴 Relay mode disabled for network:"
+      : "🟢 Relay mode enabled for network:"
   );
-  console.log("\n=== Enter any key to return to the menu ===");
+  io.doubleSlashBorder(saveData.networkKey);
+  io.divider();
+  io.doubleSlashBorder("Enter any key to return to the network menu");
+  io.mainDivider();
+  io.prompt();
 }
 
 export function res(response) {

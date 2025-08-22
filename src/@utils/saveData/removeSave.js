@@ -25,12 +25,15 @@ export function removeSave(saveData) {
 
   try {
     const data = utils.saveData.getAll();
-    const networkKey = saveData.networkKey;
-    if (data) {
-      const newData = data.filter((d) => d.networkKey !== networkKey);
-      console.log("New save data", newData);
-      fs.writeFileSync(C.SAVE_FILE, JSON.stringify(newData));
+    if (!data) {
+      log.warn("No save data found to remove");
+      return;
     }
+
+    const newData = data.filter(
+      (d) => d.swarmOpts.seed !== saveData.swarmOpts.seed
+    );
+    fs.writeFileSync(C.SAVE_FILE, JSON.stringify(newData));
   } catch (error) {
     console.error("Error removing save data", error);
     log.error("Error removing save data", error);
