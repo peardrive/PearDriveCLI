@@ -14,6 +14,7 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as all from "./all";
 import * as handlers from "..";
+const { print } = utils;
 
 /**
  * LIST_NETWORK.selected request handler
@@ -23,43 +24,59 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.SELECTED");
-  clear && utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.SELECTED;
 
   // Ensure there is a selected PearDrive
   if (globalState.selectedPearDrive === null) {
-    console.log("No PearDrive network selected");
+    print.doubleSlashEqualsDivider();
+    print.slashBorder("No PearDrive network selected");
     log.error("No PearDrive network selected");
+    print.doubleSlashEqualsDivider();
+    print.newLine();
     all.req();
     return;
   }
 
   // Ensure selected PearDrive exists
   if (!globalState.pearDrives.length) {
-    console.log("No PearDrive networks found");
+    print.doubleSlashEqualsDivider();
+    print.slashBorder("No PearDrive networks found");
+    print.doubleSlashEqualsDivider();
     log.error("No PearDrive networks found");
     all.req();
     return;
   }
 
   try {
-    // Get selected PearDrive and log data
+    // Get selected PearDrive and data
     const selectedPearDrive = globalState.getSelectedPearDrive();
     const saveData = selectedPearDrive.saveData;
-    utils.logPearDrive(saveData, true);
+
+    // Header
+    print.doubleSlashEqualsDivider();
+    print.slashBorder(
+      `🍐 Selected PearDrive [${globalState.selectedPearDrive}]`
+    );
+    print.pearDriveSaveData(saveData, true);
+    print.divider();
 
     // Options / controls
-    console.log("OPTIONS");
-    console.log("-----------------");
-    console.log("1. 'nickname' Change/set network nickname");
-    console.log("2. 'qr' View network QR code");
-    console.log(
+    print.doubleSlashBorder("OPTIONS");
+    print.divider();
+    print.slashBorder();
+    print.slashBorder("1. 'nickname' Change/set network nickname");
+    print.slashBorder("2. 'qr' View network QR code");
+    print.slashBorder(
       `3. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
     );
-    console.log("4. 'local' list all local PearDrive files");
-    console.log("5. 'network' list all nonlocal PearDrive files");
-    console.log("6. 'delete' Delete network");
-    console.log("7. 'back' Return to network list");
+    print.slashBorder("4. 'local' list all local PearDrive files");
+    print.slashBorder("5. 'network' list all nonlocal PearDrive files");
+    print.slashBorder("6. 'delete' Delete network");
+    print.slashBorder("7. 'back' Return to network list");
+    print.slashBorder();
+    print.doubleSlashEqualsDivider();
   } catch (error) {
     console.error("Error in LIST_NETWORK.selected", error);
     log.error("Error in LIST_NETWORK.selected", error);

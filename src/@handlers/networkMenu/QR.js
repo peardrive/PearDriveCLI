@@ -15,6 +15,7 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
+const { print } = utils;
 
 /** NETWORK_MENU.QR request handler
  *
@@ -23,25 +24,47 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.QR");
-  if (clear) utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.QR;
 
+  // Get the selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
+
+  // Ensure a PearDrive is selected
   if (!pearDrive) {
-    console.log("No PearDrive selected");
+    print.doubleSlashEqualsDivider();
+    print.doubleSlashBorder("No PearDrive selected");
+    print.doubleSlashEqualsDivider();
     handlers.mainMenu.req(false);
     return;
   }
-  const networkKey = pearDrive.saveData.networkKey;
 
+  // Header
+  print.doubleSlashEqualsDivider();
+  print.doubleSlashBorder(
+    `🍐 QR Code for PearDrive [${globalState.selectedPearDrive}]`
+  );
+  print.divider();
+
+  // Generate QR code for the network key
+  print.newLine();
+  const networkKey = pearDrive.saveData.networkKey;
   qrcode.generate(networkKey, (qr) => {
     console.log("=== Scan this QR code to join the network ===\n");
     console.log(qr);
     console.log("\n=== Enter any key to return to the menu ===");
+
+    // Footer
+    print.newLine();
+    print.divider();
+    print.doubleSlashBorder("Scan this QR code to join the network");
+    print.doubleSlashBorder("Enter any key to return to the network menu");
+    print.doubleSlashEqualsDivider();
   });
 }
 
 export function res(response) {
   log.info("Handling NETWORK_MENU.QR with:", response);
-  handlers.listNetwork.all.req();
+  handlers.listNetwork.selected.req(true);
 }

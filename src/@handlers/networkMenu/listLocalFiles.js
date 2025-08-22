@@ -13,6 +13,7 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
+const { print } = utils;
 
 /** Format the string for printing a file given the Core file object */
 function fileLog(file) {
@@ -29,9 +30,11 @@ function fileLog(file) {
  */
 export async function req(clear = true) {
   log.info("Handling NETWORK_MENU.LOCAL");
-  clear && utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.LOCAL;
 
+  // Get the selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
   if (!pearDrive) {
     console.log("No PearDrive selected");
@@ -39,18 +42,30 @@ export async function req(clear = true) {
     return;
   }
 
+  // Get local file data
   const localFiles = await pearDrive.listLocalFiles();
   const files = localFiles.files || [];
 
+  // Header
+  print.doubleSlashEqualsDivider();
+  print.doubleSlashBorder(
+    `🍐 Local Files for PearDrive [${globalState.selectedPearDrive}]`
+  );
+  print.divider();
+
+  // Print local files
+  print.slashBorder();
   globalState.localFiles = files || [];
-  console.log("Local PearDrive files:");
   files.length === 0
-    ? console.log("No local PearDrive files found.")
+    ? print.slashBorder("No local PearDrive files found.")
     : files.forEach((file, index) => {
-        console.log(`  [${index}]: ${fileLog(file)}`);
+        print.slashBorder(`  [${index}]: ${fileLog(file)}`);
       });
 
-  console.log("=== Enter 'b' or 'back' to return to network menu ===");
+  // Footer
+  print.divider();
+  print.doubleSlashBorder("Enter 'b' or 'back' to return to network menu");
+  print.doubleSlashEqualsDivider();
 }
 
 /** NETWORK_MENU.LOCAL response handler
@@ -61,7 +76,10 @@ export function res(response) {
   log.info("Handling NETWORK_MENU.LOCAL with:", response);
 
   if (response.toLowerCase() === "back" || response.toLowerCase() === "b") {
-    console.log("Returning to network menu...");
+    print.newLine();
+    print.doubleSlashEqualsDivider();
+    print.doubleSlashBorder("Returning to network menu...");
+    print.doubleSlashEqualsDivider();
     log.info("Returning to LIST_NETWORK.SELECTED in NETWORK_MENU.LOCAL");
     handlers.listNetwork.selected.req(true);
     return;

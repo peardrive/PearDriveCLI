@@ -13,13 +13,13 @@ import * as C from "../../@constants";
 import * as log from "../../@log";
 import globalState from "../../@globalState";
 import { create } from "..";
+const { print } = utils;
 
 /** CREATE.RELAY_MODE request handler */
 export function req() {
   log.info("Requesting CREATE.RELAY_MODE");
-  utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
-  console.log("Enter relay mode(T/f):");
+  print.ln("Enter relay mode(T/f):");
 }
 
 /** CREATE.RELAY_MODE response handler */

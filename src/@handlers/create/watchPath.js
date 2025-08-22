@@ -16,13 +16,13 @@ import * as C from "../../@constants";
 import * as log from "../../@log";
 import globalState from "../../@globalState";
 import { mainMenu } from "..";
+const { print } = utils;
 
 /** CREATE.WATCH_PATH request handler */
 export function req() {
   log.info("Requesting CREATE.WATCH_PATH");
-  utils.clearTerminal();
   globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
-  console.log("Enter local drive path (blank for random in default folder):");
+  print.ln("Enter local drive path (blank for random in default folder):");
 }
 
 /** CREATE.WATCH_PATH response handler */

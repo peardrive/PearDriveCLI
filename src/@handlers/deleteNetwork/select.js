@@ -12,11 +12,12 @@ import * as utils from "../../@utils";
 import globalState from "../../@globalState";
 import * as log from "../../@log";
 import { mainMenu } from "..";
+const { print } = utils;
 
 /** DELETE_NETWORK.SELECT request handler*/
 export function req() {
   log.info("Requesting DELETE_NETWORK.SELECT");
-  utils.clearTerminal();
+  print.clear();
   // Get peardrive data
   const pearDriveData = globalState.pearDrives.map((drive) => {
     const saveData = drive.saveData;
@@ -26,8 +27,6 @@ export function req() {
     };
     return pdData;
   });
-
-  console.log("Data", pearDriveData);
 }
 
 /** DELETE_NETWORK.SELECT response handler */

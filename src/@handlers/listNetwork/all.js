@@ -14,6 +14,7 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import { mainMenu } from "..";
 import * as handlers from "..";
+const { print } = utils;
 
 /** LIST_NETWORK.all request handler
  *
@@ -22,34 +23,46 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.ALL");
-  clear && utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.LIST_NETWORK.ALL;
-  if (!globalState.pearDrives.length) {
-    console.log("No saved PearDrive networks");
-    mainMenu.req();
-    return;
-  }
 
-  globalState.pearDrives
-    .map((pearDrive) => {
-      const pearDriveData = pearDrive.saveData;
+  // Header
+  print.doubleSlashEqualsDivider();
+  print.doubleSlashBorder("Active PearDrive Networks");
+  print.divider();
+
+  // PearDrives List
+  const hasPearDrives = globalState.pearDrives.length > 0;
+  print.slashBorder();
+  if (!hasPearDrives) {
+    print.slashBorder("No saved PearDrive networks");
+    print.slashBorder();
+  } else {
+    globalState.pearDrives.map((pearDrive) => {
       const index = globalState.pearDrives.indexOf(pearDrive);
 
-      console.log("PearDrive", index);
-      utils.logPearDrive(pearDriveData, pearDrive.connected);
-    })
-    .join(" ");
+      print.divider();
+      print.slashBorder(`🍐 PearDrive [${index}]`);
+      print.slashBorder();
+      print.pearDriveSaveData(pearDrive.saveData);
+    });
+  }
 
-  console.log("Enter the PearDrive number to select it.");
-  console.log("Enter 'back' to return to the main menu.");
+  // Footer
+  print.divider();
+  print.doubleSlashBorder("Enter the PearDrive number [n] to select it.");
+  print.doubleSlashBorder("Enter 'back' to return to the main menu.");
+  print.doubleSlashEqualsDivider();
 }
 
 /** LIST_NETWORK.ALL response handler  */
 export function res(response) {
   log.info("Handling LIST_NETWORK.ALL with:", response);
+  print.ln();
 
   if (response.toLowerCase() === "back") {
-    console.log("Returning to main menu...");
+    print.ln("Returning to main menu...");
     log.info("Returning to main menu from LIST_NETWORK.ALL");
     handlers.mainMenu.req();
     return;
@@ -61,7 +74,8 @@ export function res(response) {
     response < 0 ||
     response >= globalState.pearDrives.length
   ) {
-    console.log("Invalid input. Please enter a number.");
+    print.ln("Invalid input. Please enter a number.");
+    print.ln();
     log.error("Invalid input in LIST_NETWORK.ALL");
     req(false);
     return;

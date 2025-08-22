@@ -13,13 +13,14 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import { create } from "..";
+const { print } = utils;
 
 /** JOIN_EXISTING.NETWORK_KEY request handler */
 export function req() {
   log.info("Requesting JOIN_EXISTING.NETWORK_KEY");
-  utils.clearTerminal();
+  print.clear();
   globalState.currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
-  console.log("Enter network key:");
+  print.ln("Enter network key:");
 }
 
 /** JOIN_EXISTING.NETWORK_KEY response handler */

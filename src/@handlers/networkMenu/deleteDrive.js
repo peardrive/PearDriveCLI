@@ -13,6 +13,7 @@ import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
+const { print } = utils;
 
 /** NETWORK_MENU.DELETE_DRIVE request handler
  *
@@ -20,7 +21,8 @@ import * as handlers from "..";
  */
 export async function req(clear = true) {
   log.info("Requesting NETWORK_MENU.DELETE_DRIVE");
-  if (clear) utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
   const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
@@ -31,10 +33,12 @@ export async function req(clear = true) {
 
   await utils.pearDrive.destroy(networkKey);
 
-  console.log(
+  print.doubleSlashEqualsDivider();
+  print.doubleSlashBorder(
     `PearDrive with network key ${networkKey} has been deleted successfully.`
   );
-  console.log("\n=== Enter any key to return to the main menu ===");
+  print.doubleSlashBorder("Enter any key to return to the menu");
+  print.doubleSlashEqualsDivider();
 }
 
 export function res() {

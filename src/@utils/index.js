@@ -6,7 +6,7 @@
 export * as pearDrive from "./pearDrive";
 export * as saveData from "./saveData";
 
-export { clearTerminal } from "./clearTerminal";
+export { chunkString } from "./chunkString";
 export { createCoreLogFile } from "./createCoreLogFile";
 export { createCorestoreFolder } from "./createCorestoreFolder";
 export { createNewFolderPath } from "./createNewFolderPath";
@@ -15,5 +15,6 @@ export { fileSizeStr } from "./fileSizeStr";
 export { generateString } from "./generateString";
 export { logPearDrive } from "./logPearDrive";
 export { objectsEqual } from "./objectsEqual";
+export * as print from "./print";
 export { relativeTimeAgoStr } from "./relativeTimeAgoStr";
 export { safeStringify } from "./safeStringify";

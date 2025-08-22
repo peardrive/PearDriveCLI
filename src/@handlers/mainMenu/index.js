@@ -13,6 +13,7 @@ import * as C from "../../@constants";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import * as handlers from "..";
+const { print } = utils;
 
 /**
  * MAIN_MENU request handler
@@ -22,14 +23,27 @@ import * as handlers from "..";
  */
 export function req(clear = true) {
   log.info("Requesting MAIN_MENU");
-  clear && utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.MAIN;
-  console.log("Welcome to PearDrive CLI");
-  console.log("Enter 'quit' at any time to end the process");
-  console.log("1. 'create' Create new PearDrive");
-  console.log("2. 'join' Join existing PearDrive network");
-  console.log("3. 'list' List all PearDrive networks or select a network");
-  console.log("0. 'exit' Exit");
+  print.doubleSlashEqualsDivider();
+  print.doubleSlashBorder("🍐 Welcome to PearDrive CLI 🍐");
+  print.divider();
+
+  print.slashBorder();
+  print.slashBorder("OPTIONS:");
+  print.slashBorder();
+  print.slashBorder("1. 'create' Create new PearDrive");
+  print.slashBorder("2. 'join' Join existing PearDrive network");
+  print.slashBorder(
+    "3. 'list' List all PearDrive networks or select a network"
+  );
+  print.slashBorder("0. 'exit' Exit");
+  print.slashBorder();
+  print.divider();
+  print.slashBorder("Enter the number or quoted command to select an option");
+  print.doubleSlashBorder("Enter 'quit' at any time to end the process");
+  print.doubleSlashEqualsDivider();
 }
 
 /** MAIN_MENU response handler */
@@ -51,7 +65,7 @@ export function res(response) {
     // List all PearDrive networks
     case "3":
     case "list":
-      handlers.listNetwork.all.req();
+      handlers.listNetwork.all.req(true);
       break;
 
     // Stop program

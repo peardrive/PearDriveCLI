@@ -15,6 +15,7 @@ import * as utils from "../../@utils";
 import * as log from "../../@log";
 import { mainMenu } from "..";
 import * as handlers from "..";
+const { print } = utils;
 
 /**
  * Format datatype for nonlocal files
@@ -74,12 +75,19 @@ function fileLog(file, index) {
  */
 export async function req(clear = true, message = "") {
   log.info("Requesting NETWORK_MENU.NETWORK");
-  clear && utils.clearTerminal();
+  if (clear) print.clear();
+  else print.newLine();
   globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
 
+  // Get the selected PearDrive
   const pearDrive = globalState.getSelectedPearDrive();
+
+  // Ensure a PearDrive is selected
   if (!pearDrive) {
-    console.log("No PearDrive selected");
+    print.doubleSlashEqualsDivider();
+    print.doubleSlashBorder("No PearDrive selected");
+    print.doubleSlashEqualsDivider();
+    log.error("No PearDrive selected");
     handlers.mainMenu.req(false);
     return;
   }
@@ -90,20 +98,37 @@ export async function req(clear = true, message = "") {
     const formattedFiles = formatNonlocalFileMap(nonlocalFileMap);
     globalState.nonlocalFiles = formattedFiles || [];
 
-    // Log nonlocal files
-    console.log("Nonlocal PearDrive files:");
-    console.log("  Path | (Size) | - Last Modified | [Peers]");
-    console.log("  -----------------");
+    // Header
+    print.doubleSlashEqualsDivider();
+    print.doubleSlashBorder(
+      `🍐 Nonlocal Files for PearDrive [${globalState.selectedPearDrive}]`
+    );
+    print.divider();
+    print.doubleSlashBorder("  Path | (Size) | - Last Modified | [Peers]");
+    print.divider();
+
+    // Print nonlocal files
+    print.slashBorder();
     formattedFiles.length === 0
       ? console.log("  No nonlocal PearDrive files found.")
       : formattedFiles.forEach((file, index) => {
-          console.log(fileLog(file, index));
+          print.slashBorder(fileLog(file, index));
+          print.slashBorder();
         });
 
-    console.log(message);
-    console.log("______________________________________________");
-    console.log("=== Enter the number of the file to download ===");
-    console.log("=== Or type 'b' or 'back' to return to network menu ===");
+    // Print message if provided
+    if (message) {
+      print.divider();
+      print.doubleSlashBorder(message);
+    }
+
+    // Footer
+    print.divider();
+    print.doubleSlashBorder(
+      "Enter the file number [n] to download it from the network."
+    );
+    print.doubleSlashBorder("Enter 'b' or 'back' to return to network menu.");
+    print.doubleSlashEqualsDivider();
   } catch (error) {
     console.error("Error listing non-local files:", error);
     log.error("Error listing non-local files in NETWORK_MENU.NETWORK", error);
