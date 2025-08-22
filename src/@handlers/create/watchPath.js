@@ -23,7 +23,13 @@ const { print } = utils;
 export function req() {
   log.info("Requesting CREATE.WATCH_PATH");
   globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
-  print.ln("Enter local drive path (blank for random in default folder):");
+
+  print.doubleSlashEqualsDivider();
+  print.doubleSlashBorder(
+    "Enter local drive path (blank for random in default folder):"
+  );
+  print.doubleSlashEqualsDivider();
+
   io.prompt();
 }
 

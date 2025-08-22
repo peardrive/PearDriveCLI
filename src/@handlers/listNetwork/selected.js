@@ -72,15 +72,14 @@ export function req(clear = true) {
     print.doubleSlashBorder("OPTIONS");
     print.divider();
     print.slashBorder();
-    print.slashBorder("1. 'nickname' Change/set network nickname");
-    print.slashBorder("2. 'qr' View network QR code");
+    print.slashBorder("1. 'qr' View network QR code");
     print.slashBorder(
-      `3. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
+      `2. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
     );
-    print.slashBorder("4. 'local' list all local PearDrive files");
-    print.slashBorder("5. 'network' list all nonlocal PearDrive files");
-    print.slashBorder("6. 'delete' Delete network");
-    print.slashBorder("7. 'back' Return to network list");
+    print.slashBorder("3. 'local' list all local PearDrive files");
+    print.slashBorder("4. 'network' list all nonlocal PearDrive files");
+    print.slashBorder("5. 'delete' Delete network");
+    print.slashBorder("6. 'back' Return to network list");
     print.slashBorder();
     print.doubleSlashEqualsDivider();
     io.prompt();
@@ -96,21 +95,16 @@ export function res(response) {
   log.info("Handling LIST_NETWORK.selected with:", response);
   switch (response) {
     case "1":
-    case "nickname":
-      handlers.networkMenu.setNetworkNickname.req();
-      break;
-
-    case "2":
     case "qr":
       handlers.networkMenu.qr.req();
       break;
 
-    case "3":
+    case "2":
     case "relay":
       handlers.networkMenu.toggleRelayMode.req();
       break;
 
-    case "4":
+    case "3":
     case "local":
       handlers.networkMenu.listLocalFiles.req();
       break;
@@ -120,12 +114,12 @@ export function res(response) {
       handlers.networkMenu.listNetworkFiles.req();
       break;
 
-    case "6":
+    case "5":
     case "delete":
       handlers.networkMenu.deleteDrive.req();
       break;
 
-    case "7":
+    case "6":
     case "back":
       console.log("Returning to LIST_NETWORK.all...");
       log.info("Returning to LIST_NETWORK.all from LIST_NETWORK.selected");

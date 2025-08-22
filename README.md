@@ -8,6 +8,8 @@
 
 - Prettify console printing
 - Add deleting network drives
+- Add prompting after each response is finished
+- Fix relay mode toggling
 
 ### 1.0.1
 

@@ -42,7 +42,7 @@ export function req(clear = true) {
 
   // Get relay mode status
   const saveData = pearDrive.saveData;
-  const relayMode = saveData.relayMode;
+  const relayMode = saveData.indexOpts.relay;
 
   // Toggle relay mode
   relayMode ? pearDrive.deactivateRelay() : pearDrive.activateRelay();
