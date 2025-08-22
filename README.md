@@ -7,6 +7,7 @@
 ### 1.1.0
 
 - Prettify console printing
+- Add deleting network drives
 
 ### 1.0.1
 
