@@ -49,7 +49,9 @@ export function req(clear = true) {
   // Print notification
   print.doubleSlashEqualsDivider();
   print.doubleSlashBorder(
-    `Relay mode is now ${relayMode ? "🚫disabled" : "✅enabled"} for network:`
+    relayMode
+      ? "🔴 Relay mode disabled for network:"
+      : "🟢 Relay mode enabled for network:"
   );
   print.doubleSlashBorder(saveData.networkKey);
   print.divider();

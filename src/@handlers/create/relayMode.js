@@ -37,7 +37,9 @@ export function res(response) {
   globalState.createNewPearDriveArgs = {
     corestorePath: C.CORESTORE_DIR,
     localDrivePath: C.WATCH_DIR,
-    relayMode,
+    indexOpts: {
+      relay: relayMode,
+    },
     networkKey,
   };
 

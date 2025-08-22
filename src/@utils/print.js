@@ -99,7 +99,7 @@ export function pearDriveSaveData(saveData, connected, logging = false) {
   slashBorder("Peer Seed:");
   slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
   slashBorder(
-    `Relay Mode: ${saveData.relayMode ? "✅ Enabled" : "🚫 Disabled"}`
+    `Relay Mode: ${saveData.indexOpts.relay ? "🟢 Enabled" : "🔴 Disabled"}`
   );
 
   if (logging) {
@@ -107,6 +107,8 @@ export function pearDriveSaveData(saveData, connected, logging = false) {
     log.info("Network Key:", saveData.networkKey);
     log.info("Watch Path:", saveData.watchPath);
     log.info("Peer Seed:", saveData.seed || "Not set");
-    log.info("Relay Mode:", saveData.relayMode ? "✅ Enabled" : "🚫 Disabled");
+    log.info(
+      "Relay Mode: " + saveData.indexOpts.relay ? "🟢 Enabled" : "🔴 Disabled"
+    );
   }
 }
