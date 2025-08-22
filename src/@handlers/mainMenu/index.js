@@ -41,7 +41,9 @@ export function req(clear = true) {
   print.slashBorder("0. 'exit' Exit");
   print.slashBorder();
   print.divider();
-  print.slashBorder("Enter the number or quoted command to select an option");
+  print.doubleSlashBorder(
+    "Enter the number or quoted command to select an option"
+  );
   print.doubleSlashBorder("Enter 'quit' at any time to end the process");
   print.doubleSlashEqualsDivider();
 }

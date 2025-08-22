@@ -76,6 +76,11 @@ export function clear() {
   console.log("\x1B[2J\x1B[0f");
 }
 
+/** Full slash divider */
+export function fullSlashDivider() {
+  console.log("/".repeat(80));
+}
+
 /**
  * Print a given saveData object of a PearDrive
  *
@@ -83,15 +88,15 @@ export function clear() {
  * @param {boolean} [log=false] - Whether to log the saveData object
  */
 export function pearDriveSaveData(saveData, log = false) {
-  doubleSlashBorder(
+  slashBorder(
     `Connection: ${saveData.connected ? "🟢 Connected" : "🔴 Disconnected"}`
   );
-  doubleSlashBorder("Network Key:");
-  doubleSlashBorder(`    ${saveData.networkKey}`);
-  doubleSlashBorder("Watch Path:");
-  doubleSlashBorder(`    ${saveData.watchPath}`);
-  doubleSlashBorder("Peer Seed:");
-  doubleSlashBorder(`    ${saveData.seed || "Not set"}`);
-  doubleSlashBorder("Relay Mode:");
-  doubleSlashBorder(`    ${saveData.relayMode ? "✅ Enabled" : "🚫 Disabled"}`);
+  slashBorder("Network Key:");
+  slashBorder(`    ${saveData.networkKey}`);
+  slashBorder("Watch Path:");
+  slashBorder(`    ${saveData.watchPath}`);
+  slashBorder("Peer Seed:");
+  slashBorder(`    ${saveData.seed || "Not set"}`);
+  slashBorder("Relay Mode:");
+  slashBorder(`    ${saveData.relayMode ? "✅ Enabled" : "🚫 Disabled"}`);
 }

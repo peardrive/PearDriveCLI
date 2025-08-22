@@ -56,10 +56,15 @@ export function req(clear = true) {
 
     // Header
     print.doubleSlashEqualsDivider();
-    print.slashBorder(
+    print.doubleSlashBorder(
       `🍐 Selected PearDrive [${globalState.selectedPearDrive}]`
     );
+    print.divider();
+
+    // PearDrive details
+    print.slashBorder();
     print.pearDriveSaveData(saveData, true);
+    print.slashBorder();
     print.divider();
 
     // Options / controls

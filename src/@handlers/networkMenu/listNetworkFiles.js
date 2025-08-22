@@ -109,14 +109,17 @@ export async function req(clear = true, message = "") {
 
     // Print nonlocal files
     print.slashBorder();
-    formattedFiles.length === 0
-      ? console.log("  No nonlocal PearDrive files found.")
-      : formattedFiles.forEach((file, index) => {
-          print.slashBorder(fileLog(file, index));
-          print.slashBorder();
-        });
+    if (formattedFiles.length === 0) {
+      print.slashBorder();
+      print.slashBorder("No nonlocal PearDrive files found.");
+      print.slashBorder();
+    } else {
+      formattedFiles.forEach((file, index) => {
+        print.slashBorder(fileLog(file, index));
+        print.slashBorder();
+      });
+    }
 
-    // Print message if provided
     if (message) {
       print.divider();
       print.doubleSlashBorder(message);

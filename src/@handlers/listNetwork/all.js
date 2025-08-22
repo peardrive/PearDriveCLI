@@ -34,18 +34,18 @@ export function req(clear = true) {
 
   // PearDrives List
   const hasPearDrives = globalState.pearDrives.length > 0;
-  print.slashBorder();
   if (!hasPearDrives) {
+    print.slashBorder();
     print.slashBorder("No saved PearDrive networks");
     print.slashBorder();
   } else {
-    globalState.pearDrives.map((pearDrive) => {
-      const index = globalState.pearDrives.indexOf(pearDrive);
-
-      print.divider();
+    globalState.pearDrives.map((pearDrive, index) => {
+      if (index !== 0) print.divider();
+      print.slashBorder();
       print.slashBorder(`🍐 PearDrive [${index}]`);
       print.slashBorder();
       print.pearDriveSaveData(pearDrive.saveData);
+      print.slashBorder();
     });
   }
 
