@@ -48,15 +48,13 @@ export function req(clear = true) {
   print.divider();
 
   // Generate QR code for the network key
-  print.newLine();
   const networkKey = pearDrive.saveData.networkKey;
-  qrcode.generate(networkKey, (qr) => {
-    console.log("=== Scan this QR code to join the network ===\n");
-    console.log(qr);
-    console.log("\n=== Enter any key to return to the menu ===");
+  qrcode.generate(networkKey, { small: true }, (qr) => {
+    qr.split("\n").map((line) => {
+      print.slashBorder(line);
+    });
 
     // Footer
-    print.newLine();
     print.divider();
     print.doubleSlashBorder("Scan this QR code to join the network");
     print.doubleSlashBorder("Enter any key to return to the network menu");

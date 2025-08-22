@@ -61,6 +61,7 @@ export async function req(clear = true) {
     : files.forEach((file, index) => {
         print.slashBorder(`  [${index}]: ${fileLog(file)}`);
       });
+  print.slashBorder();
 
   // Footer
   print.divider();
