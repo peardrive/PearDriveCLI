@@ -44,7 +44,7 @@ export function req(clear = true) {
   const relayMode = saveData.relayMode;
 
   // Toggle relay mode
-  relayMode ? pearDrive.deactivateRelayMode() : pearDrive.activateRelayMode();
+  relayMode ? pearDrive.deactivateRelay() : pearDrive.activateRelay();
 
   // Print notification
   print.doubleSlashEqualsDivider();
