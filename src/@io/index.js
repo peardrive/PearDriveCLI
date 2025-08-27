@@ -9,7 +9,7 @@
  */
 
 import readline from "readline";
-import tty from "bare-tty";
+import tty from "tty";
 
 import * as log from "../@log";
 import { cliStateCommands } from "./cliStateCommands";
