@@ -9,7 +9,7 @@
  */
 
 import readline from "readline";
-import tty from "bare-tty";
+import tty from "tty";
 
 import * as log from "../@log";
 import { cliStateCommands } from "./cliStateCommands";
@@ -87,7 +87,7 @@ class IO {
     this.slashBorder("Peer Seed:");
     this.slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
     this.slashBorder(
-      `Relay Mode: ${saveData.indexOpts.relay ? "🟢 Enabled" : "🔴 Disabled"}`
+      `Relay Mode: ${saveData.indexOpts.relay ? "🟢 Enabled" : "⚫ Disabled"}`
     );
 
     if (detailed) {

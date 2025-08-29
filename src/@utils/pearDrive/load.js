@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-import PearDrive from "@hopets/pear-core";
+import PearDrive from "@peardrive/core";
 
 import globalState from "../../@globalState";
 import * as log from "../../@log";

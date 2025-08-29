@@ -7,14 +7,12 @@
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  */
-import { lib } from "@hopets/pear-core";
 
 import * as C from "../../@constants";
 import globalState from "../../@globalState";
 import * as utils from "../../@utils";
 import * as log from "../../@log";
 import io from "../../@io";
-import { mainMenu } from "..";
 import * as handlers from "..";
 
 /**
