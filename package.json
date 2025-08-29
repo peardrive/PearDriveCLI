@@ -64,7 +64,7 @@
     "pear-interface": "^1.1.0"
   },
   "dependencies": {
-    "@hopets/pear-core": "^1.3.0",
+    "@peardrive/core": "^1.4.2",
     "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",

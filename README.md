@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### 1.1.1
+
+- red relay indicator -> grey relay indicator
+- @hopets/pear-core -> @peardrive/core
+- Fix hyperblob downloads through a peardrive core update
+
 ### 1.1.0
 
 - Prettify console printing
