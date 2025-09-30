@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-import PearDrive from "@peardrive/core";
+import PearDrive, { EVENT } from "@peardrive/core";
 
 import * as utils from "..";
 import globalState from "../../@globalState";
@@ -41,10 +41,14 @@ export async function create() {
     const drive = new PearDrive(globalState.createNewPearDriveArgs);
     await drive.ready();
     await drive.joinNetwork();
+    drive.on(EVENT.SAVE_DATA_UPDATE, (newSaveData) => {
+      utils.saveData.save(newSaveData);
+    });
 
-    // Add to save data
+    // Add to save data, add event listener for save data updates
     const saveData = drive.saveData;
-    utils.saveData.addSave(saveData);
+    utils.saveData.save(saveData);
+
     log.info("PearDrive instance created and saved successfully");
 
     // Add to global state

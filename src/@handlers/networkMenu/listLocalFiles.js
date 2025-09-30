@@ -44,7 +44,7 @@ export async function req(clear = true) {
 
   // Get local file data
   const localFiles = await pearDrive.listLocalFiles();
-  const files = localFiles.files || [];
+  const files = localFiles || [];
 
   // Header
   io.mainDivider();
