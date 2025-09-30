@@ -64,7 +64,7 @@
     "pear-interface": "^1.1.0"
   },
   "dependencies": {
-    "@peardrive/core": "^1.4.2",
+    "@peardrive/core": "^2.0.1",
     "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",

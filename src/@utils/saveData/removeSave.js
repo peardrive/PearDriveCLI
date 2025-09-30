@@ -24,12 +24,19 @@ export function removeSave(saveData) {
   log.debug("Save data to remove:", saveData);
 
   try {
+    // Validation
+    if (!saveData.swarmOpts?.seed) {
+      throw new Error("Seed is required to remove save data");
+    }
+
+    // Get existing save data
     const data = utils.saveData.getAll();
     if (!data) {
       log.warn("No save data found to remove");
       return;
     }
 
+    // Filter out save data to remove
     const newData = data.filter(
       (d) => d.swarmOpts.seed !== saveData.swarmOpts.seed
     );

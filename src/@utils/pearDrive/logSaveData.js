@@ -9,8 +9,9 @@ import * as log from "../../@log";
  *
  * @param {Object} saveData - The saveData object to print
  * @param {boolean} connected - Whether the PearDrive is connected
+ * @param {string} [publicKey] - The peer key of the PearDrive
  */
-export function logSaveData(saveData, connected) {
+export function logSaveData(saveData, connected, publicKey) {
   if (!saveData) {
     log.info("No save data found for this PearDrive.");
     return;
@@ -19,6 +20,7 @@ export function logSaveData(saveData, connected) {
   log.info("Network Key:", saveData.networkKey);
   log.info("Watch Path:", saveData.watchPath);
   log.info("Peer Seed:", saveData.seed || "Not set");
+  if (publicKey) log.info("Peer Key:", publicKey);
   log.info(
     "Relay Mode: " + saveData.indexOpts.relay ? "🟢 Enabled" : "🔴 Disabled"
   );

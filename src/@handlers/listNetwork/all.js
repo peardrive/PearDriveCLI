@@ -43,8 +43,16 @@ export function req(clear = true) {
       io.slashBorder();
       io.slashBorder(`🍐 PearDrive [${index}]`);
       io.slashBorder();
-      io.pearDriveSaveData(pearDrive.saveData, pearDrive.connected);
-      utils.pearDrive.logSaveData(pearDrive.saveData, pearDrive.connected);
+      io.pearDriveSaveData(
+        pearDrive.saveData,
+        pearDrive.connected,
+        pearDrive.publicKey
+      );
+      utils.pearDrive.logSaveData(
+        pearDrive.saveData,
+        pearDrive.connected,
+        pearDrive.publicKey
+      );
       io.slashBorder();
     });
   }

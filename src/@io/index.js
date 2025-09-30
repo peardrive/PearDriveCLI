@@ -70,8 +70,15 @@ class IO {
     }
   }
 
-  /** Print out a PearDrive saveData object */
-  pearDriveSaveData(saveData, connected = false, detailed = false) {
+  /**
+   * Print out a PearDrive saveData object
+   *
+   * @param {Object} saveData - The saveData object to print
+   * @param {boolean} connected - Whether the PearDrive is connected
+   * @param {string} [publicKey] - The peer key of the PearDrive
+   * @param {boolean} [detailed=false] - Whether to print detailed options
+   */
+  pearDriveSaveData(saveData, connected = false, publicKey, detailed = false) {
     if (!saveData) {
       this.slashBorder("No save data available");
       return;
@@ -80,6 +87,8 @@ class IO {
     this.slashBorder(
       `Connection: ${connected ? "🟢 Connected" : "🔴 Disconnected"}`
     );
+    publicKey && this.slashBorder("Peer Public Key:");
+    publicKey && this.slashBorder(`    ${publicKey}`);
     this.slashBorder("Network Key:");
     this.slashBorder(`    ${saveData.networkKey}`);
     this.slashBorder("Watch Path:");

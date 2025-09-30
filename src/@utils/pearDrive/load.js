@@ -8,8 +8,9 @@
  * (at your option) any later version.
  */
 
-import PearDrive from "@peardrive/core";
+import PearDrive, { EVENT } from "@peardrive/core";
 
+import * as utils from "..";
 import globalState from "../../@globalState";
 import * as log from "../../@log";
 
@@ -21,6 +22,9 @@ export async function load(saveData) {
     const drive = new PearDrive(saveData);
     await drive.ready();
     await drive.joinNetwork(saveData.networkKey);
+    drive.on(EVENT.SAVE_DATA_UPDATE, (newSaveData) => {
+      utils.saveData.save(newSaveData);
+    });
 
     globalState.pearDrives.push(drive);
   } catch (error) {

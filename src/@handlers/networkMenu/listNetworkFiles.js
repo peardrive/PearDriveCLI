@@ -28,7 +28,7 @@ function formatNonlocalFileMap(fileMap) {
   // Convery nonlocalFileMap to an array of files with peer keys
   fileMap.forEach((entry, index) => {
     // For each peer (entry), loop through files
-    entry.files.forEach((file) => {
+    entry.forEach((file) => {
       // Check if file has already been added (from another peer)
       let updatedFile = false;
       formattedFiles.forEach((tmpFile) => {

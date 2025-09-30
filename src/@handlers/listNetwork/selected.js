@@ -53,6 +53,7 @@ export function req(clear = true) {
     // Get selected PearDrive and data
     const selectedPearDrive = globalState.getSelectedPearDrive();
     const saveData = selectedPearDrive.saveData;
+    const publicKey = selectedPearDrive.publicKey;
 
     // Header
     io.mainDivider();
@@ -63,8 +64,12 @@ export function req(clear = true) {
 
     // PearDrive details
     io.slashBorder();
-    io.pearDriveSaveData(saveData, selectedPearDrive.connected);
-    utils.pearDrive.logSaveData(saveData, selectedPearDrive.connected);
+    io.pearDriveSaveData(saveData, selectedPearDrive.connected, publicKey);
+    utils.pearDrive.logSaveData(
+      saveData,
+      selectedPearDrive.connected,
+      publicKey
+    );
     io.slashBorder();
     io.divider();
 

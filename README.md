@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### 1.2.0
+
+- Update dependencies
+- Dynamic saving of peardrive save data for download queue consistency
+- Print out peer public keys when listing all or selected PearDrives
+
 ### 1.1.1
 
 - red relay indicator -> grey relay indicator
