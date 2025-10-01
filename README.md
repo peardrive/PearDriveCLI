@@ -4,6 +4,10 @@
 
 ## Changelog
 
+### 2.0.1
+
+- Update core 2.0.2
+
 ### 1.2.0
 
 - Update dependencies
