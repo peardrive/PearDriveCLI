@@ -4,6 +4,11 @@
 
 ## Changelog
 
+### 2.0.2
+
+- Update dependencies
+- Core 2.0.3: fix buildIndex bug
+
 ### 2.0.1
 
 - Update core 2.0.2
