@@ -94,11 +94,6 @@ pear run -d .
 npm test
 ```
 
-### Linting
-```bash
-npm run lint
-```
-
 ## Troubleshooting
 
 ### Common Issues and Solutions
@@ -127,7 +122,6 @@ npm run lint
 
 **Files not syncing between peers**
 - Verify all peers are connected to the same network
-- Check that relay mode is enabled if you're behind restrictive network settings
 - Ensure sufficient peers are online and connected
 
 ---
