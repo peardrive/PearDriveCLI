@@ -72,7 +72,7 @@ Once the application starts, you'll see an interactive menu with the following o
 **Network Management:**
 - Generate QR codes for easy network sharing
 - Set custom network nicknames
-- Toggle relay mode for network connectivity
+- Toggle relay mode (full seeder/archive mode)
 - View connected peers and their public keys
 
 **Example Workflow:**
@@ -81,6 +81,15 @@ Once the application starts, you'll see an interactive menu with the following o
 3. Upload files you want to share
 4. Share your network key with others (via QR code or text)
 5. Download files shared by other network participants
+
+### Relay Mode (Full Seeder)
+Relay mode transforms your device into a complete archive node for the PearDrive network. When enabled:
+- Your device automatically downloads and stores **every file** shared on the network
+- Acts as a persistent backup ensuring data availability even when original uploaders go offline
+- Helps strengthen network resilience by maintaining complete copies of all shared content
+- Requires sufficient storage space as it will download all network content
+
+**Note:** This feature may be renamed in future versions for clarity.
 
 ## Development
 
@@ -117,7 +126,6 @@ npm test
 
 **Network connection issues**
 - Ensure your firewall allows the application to access the network
-- Try toggling relay mode in the network options menu
 - Check that you're using the correct network key when joining
 
 **Files not syncing between peers**
