@@ -10,9 +10,9 @@
 
 import fs from "fs";
 
-import globalState from "../../@globalState";
-import * as utils from "..";
-import * as log from "../../@log";
+import globalState from "../../@globalState/index.js";
+import * as utils from "../index.js";
+import * as log from "../../@log/index.js";
 
 /** Delete a specific PearDrive network save data
  *

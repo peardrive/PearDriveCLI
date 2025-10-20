@@ -8,9 +8,9 @@
  * (at your option) any later version.
  */
 
-import * as C from "../@constants";
-import * as handlers from "../@handlers";
-import globalState from "../@globalState";
+import * as C from "../@constants/index.js";
+import * as handlers from "../@handlers/index.js";
+import globalState from "../@globalState/index.js";
 
 /**
  * Handle CLI state commands for a given input

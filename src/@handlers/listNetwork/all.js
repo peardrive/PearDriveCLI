@@ -8,12 +8,12 @@
  * (at your option) any later version.
  */
 
-import * as C from "../../@constants";
-import globalState from "../../@globalState";
-import * as utils from "../../@utils";
-import * as log from "../../@log";
-import io from "../../@io";
-import * as handlers from "..";
+import * as C from "../../@constants/index.js";
+import globalState from "../../@globalState/index.js";
+import * as utils from "../../@utils/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import * as handlers from "../index.js";
 
 /** LIST_NETWORK.all request handler
  *

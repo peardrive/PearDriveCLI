@@ -8,15 +8,15 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
-import path from "bare-path";
+import fs from "fs";
+import path from "path";
 
-import * as utils from "../../@utils";
-import * as C from "../../@constants";
-import * as log from "../../@log";
-import io from "../../@io";
-import globalState from "../../@globalState";
-import { mainMenu } from "..";
+import * as utils from "../../@utils/index.js";
+import * as C from "../../@constants/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import globalState from "../../@globalState/index.js";
+import { mainMenu } from "../index.js";
 
 /** CREATE.WATCH_PATH request handler */
 export function req() {

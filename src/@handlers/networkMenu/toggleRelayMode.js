@@ -8,11 +8,11 @@
  * (at your option) any later version.
  */
 
-import * as handlers from "..";
-import * as log from "../../@log";
-import globalState from "../../@globalState";
-import io from "../../@io";
-import * as C from "../../@constants";
+import * as handlers from "../index.js";
+import * as log from "../../@log/index.js";
+import globalState from "../../@globalState/index.js";
+import io from "../../@io/index.js";
+import * as C from "../../@constants/index.js";
 
 /** NETWORK_MENU.TOGGLE_RELAY_MODE handler
  *

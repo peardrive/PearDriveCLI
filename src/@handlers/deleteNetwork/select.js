@@ -8,10 +8,10 @@
  * (at your option) any later version.
  */
 
-import globalState from "../../@globalState";
-import * as log from "../../@log";
-import io from "../../@io";
-import { mainMenu } from "..";
+import globalState from "../../@globalState/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import { mainMenu } from "../index.js";
 
 /** DELETE_NETWORK.SELECT request handler*/
 export function req() {

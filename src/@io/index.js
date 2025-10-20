@@ -11,9 +11,9 @@
 import readline from "readline";
 import tty from "tty";
 
-import * as log from "../@log";
-import { cliStateCommands } from "./cliStateCommands";
-import { universalCommands } from "./universalCommands";
+import * as log from "../@log/index.js";
+import { cliStateCommands } from "./cliStateCommands.js";
+import { universalCommands } from "./universalCommands.js";
 
 class IO {
   /** ReadLine interface */

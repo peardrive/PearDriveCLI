@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-import * as log from "../@log";
+import * as log from "../@log/index.js";
 
 /**
  *  Generate a random string of specified length

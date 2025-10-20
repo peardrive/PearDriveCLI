@@ -11,8 +11,8 @@
 /* eslint-disable-next-line no-unused-vars */
 import PearDrive from "@peardrive/core";
 
-import * as C from "../@constants";
-import * as log from "../@log";
+import * as C from "../@constants/index.js";
+import * as log from "../@log/index.js";
 
 /** Global state */
 class GlobalState {

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*!
  * Copyright (C) 2025 PearDrive
  * Copyright (C) 2025 Jenna Baudelaire
@@ -10,15 +11,15 @@
  */
 
 // /** @typedef {import('pear-interface')} */ /* global Pear */
-import fs from "bare-fs";
-import process from "bare-process";
+import fs from "fs";
+import process from "process";
 
-import io from "./@io";
-import * as C from "./@constants";
-import * as log from "./@log";
-import * as utils from "./@utils";
-import * as handlers from "./@handlers";
-import globalState from "./@globalState";
+import io from "./@io/index.js";
+import * as C from "./@constants/index.js";
+import * as log from "./@log/index.js";
+import * as utils from "./@utils/index.js";
+import * as handlers from "./@handlers/index.js";
+import globalState from "./@globalState/index.js";
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Setup methods

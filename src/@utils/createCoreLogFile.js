@@ -8,11 +8,11 @@
  * (at your option) any later version.
  */
 
-import path from "bare-path";
+import path from "path";
 
-import * as C from "../@constants";
-import * as log from "../@log";
-import * as utils from ".";
+import * as C from "../@constants/index.js";
+import * as log from "../@log/index.js";
+import * as utils from "./index.js";
 
 /** Create log file for an instance of PearDrive core */
 export function createCoreLogFile(name = utils.generateString()) {

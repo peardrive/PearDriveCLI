@@ -8,12 +8,12 @@
  * (at your option) any later version.
  */
 
-import globalState from "../../@globalState";
-import * as C from "../../@constants";
-import * as utils from "../../@utils";
-import * as log from "../../@log";
-import io from "../../@io";
-import * as handlers from "..";
+import globalState from "../../@globalState/index.js";
+import * as C from "../../@constants/index.js";
+import * as utils from "../../@utils/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import * as handlers from "../index.js";
 
 /**
  * MAIN_MENU request handler

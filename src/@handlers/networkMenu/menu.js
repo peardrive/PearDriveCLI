@@ -8,8 +8,8 @@
  * (at your option) any later version.
  */
 
-import globalState from "../../@globalState";
-import * as handlers from "..";
+import globalState from "../../@globalState/index.js";
+import * as handlers from "../index.js";
 
 /** NETWORK_MENU.MENU request handler
  *

@@ -158,6 +158,8 @@ npm test
 
 ## Changelog
 
+- Make compatible for npm module deployment
+
 ### 2.0.3
 
 - Update to Core 2.0.3

@@ -8,10 +8,10 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../../@constants";
-import * as log from "../../@log";
+import * as C from "../../@constants/index.js";
+import * as log from "../../@log/index.js";
 
 /** Retrieve parsed JSON data from save file */
 export function getAll() {

@@ -2,7 +2,7 @@
  * Copyright (C) 2025 PearDrive
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import * as log from "../../@log";
+import * as log from "../../@log/index.js";
 
 /**
  * Print a given saveData object of a PearDrive

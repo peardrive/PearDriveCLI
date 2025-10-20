@@ -8,9 +8,9 @@
  * (at your option) any later version.
  */
 
-import process from "bare-process";
+import process from "process";
 
-import * as log from "../@log";
+import * as log from "../@log/index.js";
 
 /** End the process */
 export function exit() {

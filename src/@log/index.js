@@ -8,10 +8,10 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../@constants";
-import * as utils from "../@utils";
+import * as C from "../@constants/index.js";
+import * as utils from "../@utils/index.js";
 
 /**
  * Log to logfile

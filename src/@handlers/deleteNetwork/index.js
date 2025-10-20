@@ -3,4 +3,4 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export * as select from "./select";
+export * as select from "./select.js";

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export { create } from "./create";
-export { destroy } from "./destroy";
-export { load } from "./load";
-export { logSaveData } from "./logSaveData";
+export { create } from "./create.js";
+export { destroy } from "./destroy.js";
+export { load } from "./load.js";
+export { logSaveData } from "./logSaveData.js";

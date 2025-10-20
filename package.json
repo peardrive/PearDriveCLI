@@ -3,17 +3,29 @@
   "main": "src/index.js",
   "version": "2.0.3",
   "author": "PearDrive Team",
-  "pear": {
-    "name": "tmp",
-    "type": "terminal"
-  },
   "type": "module",
   "license": "AGPL-3.0-only",
+  "pear": {
+    "name": "peardrive-cli",
+    "type": "terminal"
+  },
+  "bin": {
+    "peardrivecli": "dist/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "start": "pear run .",
     "dev": "pear run -d .",
     "test": "brittle test/*.test.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build": "cp -R src/. dist/"
   },
   "imports": {
     "fs": {
@@ -59,9 +71,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@types/node": "^24.9.0",
     "brittle": "^3.17.1",
     "eslint": "^9.33.0",
-    "pear-interface": "^1.1.0"
+    "pear-interface": "^1.1.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@peardrive/core": "^2.0.3",

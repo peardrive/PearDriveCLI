@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-import path from "bare-path";
+import path from "path";
 
 /** Root path directory */
 export const CUR_PATH = path.resolve(".");
