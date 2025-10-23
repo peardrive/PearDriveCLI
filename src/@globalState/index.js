@@ -56,6 +56,14 @@ class GlobalState {
 
   set appDir(dirPath) {
     this.#appDir = dirPath;
+
+    // Create directory structure if it doesn't exist
+    utils.ensureDirSecure(this.appDir);
+    utils.ensureDirSecure(this.logsDir);
+    utils.ensureDirSecure(this.saveDir);
+    utils.ensureDirSecure(this.storeDir);
+    utils.ensureDirSecure(this.coreLogsDir);
+    utils.ensureDirSecure(this.watchDir);
   }
 
   /**
@@ -129,12 +137,8 @@ class GlobalState {
   }
 
   set currentState(newState) {
-    if (this.#isValidState(newState)) {
-      log.info(`CLI state changed to: ${newState} in globalState`);
-      this.#currentState = newState;
-    } else {
-      log.error(`Invalid CLI state: ${newState}`);
-    }
+    log.info(`CLI state changed to: ${newState} in globalState`);
+    this.#currentState = newState;
   }
 
   /**
@@ -186,19 +190,7 @@ class GlobalState {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Ensure the folder structure for app data exists
-   */
-  ensureAppDirs() {
-    console.log("App dir", this.appDir);
-    console.log("Logs dir", this.logsDir);
-    utils.ensureDirSecure(this.appDir);
-    utils.ensureDirSecure(this.logsDir);
-    utils.ensureDirSecure(this.saveDir);
-    utils.ensureDirSecure(this.storeDir);
-    utils.ensureDirSecure(this.coreLogsDir);
-    utils.ensureDirSecure(this.watchDir);
-  }
-  /** Add a PearDrive instance to the pearDrives array
+   * Add a PearDrive instance to the pearDrives array
    *
    * @param {PearDrive} pearDrive - PearDrive instance to add
    *
@@ -210,7 +202,8 @@ class GlobalState {
     return this.pearDrives.length - 1;
   }
 
-  /** Remove a PearDrive instance with given network key from the pearDrives
+  /**
+   * Remove a PearDrive instance with given network key from the pearDrives
    * array
    *
    * @param {number} index - Index of PearDrive to remove
@@ -240,7 +233,8 @@ class GlobalState {
     }
   }
 
-  /** Retrieve a PearDrive instance based on given network key
+  /**
+   * Retrieve a PearDrive instance based on given network key
    *
    * @param {number} networkKey - Network key of the PearDrive to retrieve.
    *
@@ -313,37 +307,6 @@ class GlobalState {
     log.warn("No PearDrive found with seed", seed);
     return -1;
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Private functions
-  //////////////////////////////////////////////////////////////////////////////
-
-  /** Check if a given string is a valid state *
-   *
-   * @param {string} state - State to check
-   * @param {Object} obj - Object to check against, key is state name,
-   * value is state value. This should only be for CLI_STATE
-   *
-   * @returns {boolean} - True if state is valid, false otherwise
-   */
-  #isValidState = (/*state, obj*/) => {
-    // TODO fix this
-    return true;
-    /* if (!obj) obj = C.CLI_STATE;
-
-    for (const key in obj) {
-      if (obj[key] === state) {
-        return true;
-      } else if (
-        typeof obj[key] === "object" &&
-        this.#isValidState(state, obj[key])
-      ) {
-        console.log("Checking for valid state in", key);
-        return true;
-      }
-      return false;
-    } */
-  };
 }
 
 // Export singleton

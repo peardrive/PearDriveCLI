@@ -43,7 +43,6 @@ async function initialize() {
   }
 
   G.appDir = appDir;
-  G.ensureAppDirs();
 
   if (firstTimeSetup) {
     io.slashBorder("First time setup process completed.");
