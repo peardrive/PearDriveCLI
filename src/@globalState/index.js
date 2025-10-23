@@ -10,9 +10,11 @@
 
 /* eslint-disable-next-line no-unused-vars */
 import PearDrive from "@peardrive/core";
+import path from "path";
 
 import * as C from "../@constants/index.js";
 import * as log from "../@log/index.js";
+import * as utils from "../@utils/index.js";
 
 /** Global state */
 class GlobalState {
@@ -20,6 +22,8 @@ class GlobalState {
   #currentState;
   /** Index of a selected PearDrive (in pearDrives array) */
   #selectedPearDrive;
+  /** Root directory of app data */
+  #appDir;
 
   constructor() {
     this.#currentState = C.CLI_STATE.INITIALIZING;
@@ -33,11 +37,87 @@ class GlobalState {
     this.nonlocalFiles = [];
     /** Temp storage for local files of a PearDrive instance */
     this.localFiles = [];
+    /** CLI data folder */
+    this.#appDir = "";
   }
 
   //////////////////////////////////////////////////////////////////////////////
   // Getters / Setters
   //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Base directory path for PearDrive CLI data
+   *
+   * @type {string}
+   */
+  get appDir() {
+    return this.#appDir;
+  }
+
+  set appDir(dirPath) {
+    this.#appDir = dirPath;
+  }
+
+  /**
+   * Directory path for logs
+   *
+   * @type {string}
+   */
+  get logsDir() {
+    return path.join(this.appDir, "logs");
+  }
+
+  /**
+   * Directory path for core logs
+   *
+   * @type {string}
+   */
+  get coreLogsDir() {
+    return path.join(this.logsDir, "core");
+  }
+
+  /**
+   * Get log file path
+   *
+   * @type {string}
+   */
+  get logFilePath() {
+    return path.join(this.logsDir, "cli.log");
+  }
+
+  /**
+   * Directory for default watch paths
+   *
+   * @type {string}
+   */
+  get watchDir() {
+    return path.join(this.appDir, "watch");
+  }
+
+  /**
+   * Directory path for saves
+   *
+   * @type {string}
+   */
+  get saveDir() {
+    return path.join(this.appDir, "save");
+  }
+
+  /**
+   * File path for save data file
+   */
+  get saveFilePath() {
+    return path.join(this.saveDir, "save.json");
+  }
+
+  /**
+   * Directory path for stores
+   *
+   * @type {string}
+   */
+  get storeDir() {
+    return path.join(this.appDir, "store");
+  }
 
   /**
    * Current CLI state (Must be a **CLI_STATE**)
@@ -105,6 +185,19 @@ class GlobalState {
   // Public functions
   //////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Ensure the folder structure for app data exists
+   */
+  ensureAppDirs() {
+    console.log("App dir", this.appDir);
+    console.log("Logs dir", this.logsDir);
+    utils.ensureDirSecure(this.appDir);
+    utils.ensureDirSecure(this.logsDir);
+    utils.ensureDirSecure(this.saveDir);
+    utils.ensureDirSecure(this.storeDir);
+    utils.ensureDirSecure(this.coreLogsDir);
+    utils.ensureDirSecure(this.watchDir);
+  }
   /** Add a PearDrive instance to the pearDrives array
    *
    * @param {PearDrive} pearDrive - PearDrive instance to add
@@ -175,7 +268,8 @@ class GlobalState {
     return -1; // Not found
   }
 
-  /** Get the currently selected PearDrive instance
+  /**
+   * Get the currently selected PearDrive instance
    *
    * @returns {PearDrive} - PearDrive instance with given network key
    */

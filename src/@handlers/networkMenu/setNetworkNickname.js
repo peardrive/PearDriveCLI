@@ -9,7 +9,7 @@
  */
 
 import * as C from "../../@constants/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as log from "../../@log/index.js";
 import io from "../../@io/index.js";
 import * as handlers from "../index.js";
@@ -23,10 +23,10 @@ export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.SET_NETWORK_NICKNAME");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.NETWORK_MENU.SET_NETWORK_NICKNAME;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.SET_NETWORK_NICKNAME;
 
   // Get selected PearDrive
-  const pearDrive = globalState.getSelectedPearDrive();
+  const pearDrive = G.getSelectedPearDrive();
 
   // Ensure a PearDrive is selected
   if (!pearDrive) {
@@ -73,7 +73,7 @@ export function res(response) {
   }
 
   // Set nickname
-  const pearDrive = globalState.getSelectedPearDrive();
+  const pearDrive = G.getSelectedPearDrive();
   pearDrive.setNetworkNickname(response);
   console.log(`Network nickname set to: ${response}`);
   handlers.listNetwork.all.req(false);

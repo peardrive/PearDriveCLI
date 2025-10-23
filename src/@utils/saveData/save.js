@@ -10,7 +10,7 @@
 
 import fs from "fs";
 
-import * as C from "../../@constants/index.js";
+import G from "../../@globalState/index.js";
 import * as utils from "../index.js";
 import * as log from "../../@log/index.js";
 
@@ -39,11 +39,11 @@ export function save(saveData) {
       // Overwrite existing save, or add new save
       if (existingIndex !== -1) saveDataList[existingIndex] = saveData;
       else saveDataList.push(saveData);
-      fs.writeFileSync(C.SAVE_FILE, JSON.stringify(saveDataList));
+      fs.writeFileSync(G.saveFilePath, JSON.stringify(saveDataList));
     }
 
     // Create new save file if it doesn't exist
-    else fs.writeFileSync(C.SAVE_FILE, JSON.stringify([saveData]));
+    else fs.writeFileSync(G.saveFilePath, JSON.stringify([saveData]));
   } catch (error) {
     log.error("Error saving save data", error);
   }

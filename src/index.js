@@ -15,11 +15,10 @@ import fs from "fs";
 import process from "process";
 
 import io from "./@io/index.js";
-import * as C from "./@constants/index.js";
 import * as log from "./@log/index.js";
 import * as utils from "./@utils/index.js";
 import * as handlers from "./@handlers/index.js";
-import globalState from "./@globalState/index.js";
+import G from "./@globalState/index.js";
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Setup methods
@@ -31,49 +30,24 @@ async function initialize() {
   io.doubleSlashBorder("🚧 Initializing PearDrive CLI 🚧");
   io.divider();
   io.slashBorder();
-  // Ensure folders exist
-  const firstTimeSetup = !fs.existsSync(C.DATA_DIR);
+
+  // Determine if first time setup
+  const appDir = utils.resolveAppHome();
+  const firstTimeSetup = !fs.existsSync(appDir);
   if (firstTimeSetup) {
-    io.slashBorder("First time setup detected");
-    io.slashBorder("Creating data directory at", C.DATA_DIR);
-    io.slashBorder();
-    fs.mkdirSync(C.DATA_DIR);
-  }
-  if (!fs.existsSync(C.CORESTORE_DIR)) {
-    io.slashBorder("Creating corestore directory at", C.CORESTORE_DIR);
-    io.slashBorder();
-    fs.mkdirSync(C.CORESTORE_DIR);
-  }
-  if (!fs.existsSync(C.WATCH_DIR)) {
-    io.slashBorder("Creating watchPath directory at", C.WATCH_DIR);
-    io.slashBorder();
-    fs.mkdirSync(C.WATCH_DIR);
-  }
-  if (!fs.existsSync(C.SAVE_DIR)) {
-    io.slashBorder("Creating save directory at", C.SAVE_DIR);
-    io.slashBorder();
-    fs.mkdirSync(C.SAVE_DIR);
-  }
-  if (!fs.existsSync(C.LOG_DIR)) {
-    io.slashBorder("Creating log directory at", C.LOG_DIR);
-    io.slashBorder();
-    fs.mkdirSync(C.LOG_DIR);
-  }
-  if (!fs.existsSync(C.CORE_LOG_DIR)) {
-    io.slashBorder("Creating core log directory at", C.CORE_LOG_DIR);
-    io.slashBorder();
-    fs.mkdirSync(C.CORE_LOG_DIR);
-  }
-  if (firstTimeSetup) {
-    io.slashBorder("First time setup process completed.");
+    io.slashBorder(
+      "First time setup detected, creating app directory at",
+      appDir
+    );
     io.slashBorder();
   }
 
-  // Init logging
-  if (fs.existsSync(C.LOG_FILE)) {
-    io.slashBorder("Deleting log file at", C.LOG_FILE);
+  G.appDir = appDir;
+  G.ensureAppDirs();
+
+  if (firstTimeSetup) {
+    io.slashBorder("First time setup process completed.");
     io.slashBorder();
-    fs.unlinkSync(C.LOG_FILE);
   }
 
   // Load PearDrive networks (if any exist)
@@ -91,8 +65,8 @@ async function initialize() {
   // Add global error handling
   process.on("uncaughtException", async (err) => {
     log.error("Uncaught Exception:", err);
-    if (globalState.pearDrives.length) {
-      for (const drive of globalState.pearDrives) {
+    if (G.pearDrives.length) {
+      for (const drive of G.pearDrives) {
         try {
           await drive.close();
         } catch (closeError) {
@@ -107,8 +81,8 @@ async function initialize() {
   });
   process.on("unhandledRejection", async (reason, promise) => {
     log.error("Unhandled Rejection at:", promise, "reason:", reason);
-    if (globalState.pearDrives.length) {
-      for (const drive of globalState.pearDrives) {
+    if (G.pearDrives.length) {
+      for (const drive of G.pearDrives) {
         try {
           await drive.close();
         } catch (closeError) {
@@ -146,4 +120,4 @@ async function main() {
   }
 }
 
-main();
+await main();

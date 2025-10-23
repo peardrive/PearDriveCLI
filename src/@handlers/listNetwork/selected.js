@@ -9,7 +9,7 @@
  */
 
 import * as C from "../../@constants/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as utils from "../../@utils/index.js";
 import * as log from "../../@log/index.js";
 import * as all from "./all.js";
@@ -26,10 +26,10 @@ export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.SELECTED");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.LIST_NETWORK.SELECTED;
+  G.currentState = C.CLI_STATE.LIST_NETWORK.SELECTED;
 
   // Ensure there is a selected PearDrive
-  if (globalState.selectedPearDrive === null) {
+  if (G.selectedPearDrive === null) {
     io.mainDivider();
     io.slashBorder("No PearDrive network selected");
     log.error("No PearDrive network selected");
@@ -40,7 +40,7 @@ export function req(clear = true) {
   }
 
   // Ensure selected PearDrive exists
-  if (!globalState.pearDrives.length) {
+  if (!G.pearDrives.length) {
     io.mainDivider();
     io.slashBorder("No PearDrive networks found");
     io.mainDivider();
@@ -51,15 +51,13 @@ export function req(clear = true) {
 
   try {
     // Get selected PearDrive and data
-    const selectedPearDrive = globalState.getSelectedPearDrive();
+    const selectedPearDrive = G.getSelectedPearDrive();
     const saveData = selectedPearDrive.saveData;
     const publicKey = selectedPearDrive.publicKey;
 
     // Header
     io.mainDivider();
-    io.doubleSlashBorder(
-      `🍐 Selected PearDrive [${globalState.selectedPearDrive}]`
-    );
+    io.doubleSlashBorder(`🍐 Selected PearDrive [${G.selectedPearDrive}]`);
     io.divider();
 
     // PearDrive details

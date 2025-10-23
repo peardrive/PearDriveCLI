@@ -9,7 +9,7 @@
  */
 
 import * as C from "../../@constants/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as log from "../../@log/index.js";
 import io from "../../@io/index.js";
 import { create } from "../index.js";
@@ -19,7 +19,7 @@ export function req(clear = true) {
   log.info("Requesting JOIN_EXISTING.NETWORK_KEY");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
+  G.currentState = C.CLI_STATE.JOIN_EXISTING.NETWORK_KEY;
 
   io.mainDivider();
   io.doubleSlashBorder("Enter network key:");
@@ -31,6 +31,6 @@ export function req(clear = true) {
 /** JOIN_EXISTING.NETWORK_KEY response handler */
 export function res(response) {
   log.info("Handling JOIN_EXISTING.NETWORK_KEY with:", response);
-  globalState.createNewPearDriveArgs.networkKey = response;
+  G.createNewPearDriveArgs.networkKey = response;
   create.relayMode.req();
 }

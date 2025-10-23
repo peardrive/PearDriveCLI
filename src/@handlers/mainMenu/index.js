@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as C from "../../@constants/index.js";
 import * as utils from "../../@utils/index.js";
 import * as log from "../../@log/index.js";
@@ -25,7 +25,7 @@ export function req(clear = true) {
   log.info("Requesting MAIN_MENU");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.MAIN;
+  G.currentState = C.CLI_STATE.MAIN;
   io.mainDivider();
   io.doubleSlashBorder("🍐 Welcome to PearDrive CLI 🍐");
   io.divider();

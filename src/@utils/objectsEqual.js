@@ -8,7 +8,8 @@
  * (at your option) any later version.
  */
 
-/** Check if two objects match
+/**
+ * Check if two objects match
  *
  *
  * @param {Object} a - The first object to compare

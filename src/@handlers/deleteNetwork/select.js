@@ -17,6 +17,7 @@ import { mainMenu } from "../index.js";
 export function req() {
   log.info("Requesting DELETE_NETWORK.SELECT");
   io.clear();
+
   // Get peardrive data
   const pearDriveData = globalState.pearDrives.map((drive) => {
     const saveData = drive.saveData;

@@ -9,7 +9,7 @@
  */
 
 import * as C from "../../@constants/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as utils from "../../@utils/index.js";
 import * as log from "../../@log/index.js";
 import io from "../../@io/index.js";
@@ -23,9 +23,9 @@ export async function req(clear = true) {
   log.info("Requesting NETWORK_MENU.DELETE_DRIVE");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE;
 
-  const pearDrive = globalState.pearDrives[globalState.selectedPearDrive];
+  const pearDrive = G.pearDrives[G.selectedPearDrive];
   const networkKey = pearDrive.saveData.networkKey;
 
   try {

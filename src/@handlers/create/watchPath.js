@@ -15,13 +15,13 @@ import * as utils from "../../@utils/index.js";
 import * as C from "../../@constants/index.js";
 import * as log from "../../@log/index.js";
 import io from "../../@io/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import { mainMenu } from "../index.js";
 
 /** CREATE.WATCH_PATH request handler */
 export function req() {
   log.info("Requesting CREATE.WATCH_PATH");
-  globalState.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
+  G.currentState = C.CLI_STATE.CREATE.WATCH_PATH;
 
   io.mainDivider();
   io.doubleSlashBorder(
@@ -35,13 +35,10 @@ export function req() {
 /** CREATE.WATCH_PATH response handler */
 export function res(response) {
   log.info("Handling CREATE.WATCH_PATH with:", response);
-  if (response.length) globalState.createNewPearDriveArgs.watchPath = response;
+  if (response.length) G.createNewPearDriveArgs.watchPath = response;
   else {
-    fs.mkdirSync(path.join(C.WATCH_DIR, "default"), { recursive: true });
-    globalState.createNewPearDriveArgs.watchPath = path.resolve(
-      C.WATCH_DIR,
-      "default"
-    );
+    fs.mkdirSync(path.join(G.watchDir, "default"), { recursive: true });
+    G.createNewPearDriveArgs.watchPath = path.resolve(G.watchDir, "default");
   }
 
   utils.pearDrive.create().then(() => {

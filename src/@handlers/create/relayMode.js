@@ -11,7 +11,7 @@
 import * as C from "../../@constants/index.js";
 import * as log from "../../@log/index.js";
 import io from "../../@io/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import { create } from "../index.js";
 
 /** CREATE.RELAY_MODE request handler */
@@ -19,7 +19,7 @@ export function req(clear = true) {
   log.info("Requesting CREATE.RELAY_MODE");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
+  G.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
 
   io.mainDivider();
   io.doubleSlashBorder("Enter relay mode(T/f):");
@@ -33,16 +33,16 @@ export function res(response) {
   log.info("Handling CREATE.RELAY_MODE with:", response);
   // Check for existing networkKey
   let networkKey = undefined;
-  if (Object.keys(globalState.createNewPearDriveArgs).includes("networkKey")) {
-    networkKey = globalState.createNewPearDriveArgs["networkKey"];
+  if (Object.keys(G.createNewPearDriveArgs).includes("networkKey")) {
+    networkKey = G.createNewPearDriveArgs["networkKey"];
   }
 
   let relayMode = true;
   if (response === "f" || response === "false") relayMode = false;
 
-  globalState.createNewPearDriveArgs = {
-    corestorePath: C.CORESTORE_DIR,
-    localDrivePath: C.WATCH_DIR,
+  G.createNewPearDriveArgs = {
+    corestorePath: G.storeDir,
+    localDrivePath: G.watchDir,
     indexOpts: {
       relay: relayMode,
     },

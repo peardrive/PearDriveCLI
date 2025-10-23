@@ -8,20 +8,20 @@
  * (at your option) any later version.
  */
 
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as handlers from "../index.js";
 
 /** NETWORK_MENU.MENU request handler
  *
  */
 export function req() {
-  if (!globalState.selectedPearDrive) {
+  if (!G.selectedPearDrive) {
     console.log("No PearDrive selected");
     handlers.listNetwork.all.req(false);
     return;
   }
 
-  const curPearDrive = globalState.pearDrives[globalState.selectedPearDrive];
+  const curPearDrive = G.pearDrives[G.selectedPearDrive];
 
   //TODO
 }

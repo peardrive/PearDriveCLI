@@ -9,13 +9,14 @@
  */
 
 import * as C from "../../@constants/index.js";
-import globalState from "../../@globalState/index.js";
+import G from "../../@globalState/index.js";
 import * as utils from "../../@utils/index.js";
 import * as log from "../../@log/index.js";
 import io from "../../@io/index.js";
 import * as handlers from "../index.js";
 
-/** LIST_NETWORK.all request handler
+/**
+ * LIST_NETWORK.all request handler
  *
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed
@@ -24,7 +25,7 @@ export function req(clear = true) {
   log.info("Requesting LIST_NETWORK.ALL");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.LIST_NETWORK.ALL;
+  G.currentState = C.CLI_STATE.LIST_NETWORK.ALL;
 
   // Header
   io.mainDivider();
@@ -32,13 +33,13 @@ export function req(clear = true) {
   io.divider();
 
   // PearDrives List
-  const hasPearDrives = globalState.pearDrives.length > 0;
+  const hasPearDrives = G.pearDrives.length > 0;
   if (!hasPearDrives) {
     io.slashBorder();
     io.slashBorder("No saved PearDrive networks");
     io.slashBorder();
   } else {
-    globalState.pearDrives.map((pearDrive, index) => {
+    G.pearDrives.map((pearDrive, index) => {
       if (index !== 0) io.divider();
       io.slashBorder();
       io.slashBorder(`🍐 PearDrive [${index}]`);
@@ -76,11 +77,7 @@ export function res(response) {
   }
 
   // Validate input
-  if (
-    isNaN(response) ||
-    response < 0 ||
-    response >= globalState.pearDrives.length
-  ) {
+  if (isNaN(response) || response < 0 || response >= G.pearDrives.length) {
     io.mainDivider();
     io.doubleSlashBorder("Invalid input. Please enter a number.");
     io.mainDivider();
@@ -92,7 +89,7 @@ export function res(response) {
 
   // Select PearDrive
   try {
-    globalState.selectedPearDrive = parseInt(response);
+    G.selectedPearDrive = parseInt(response);
     handlers.listNetwork.selected.req();
   } catch (error) {
     log.error("Error selecting PearDrive in LIST_NETWORK.ALL", error);
