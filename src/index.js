@@ -109,7 +109,7 @@ async function initialize() {
 async function main() {
   try {
     await initialize();
-    io.configure();
+    await io.ready();
     log.info("PearDrive CLI initialized");
     handlers.mainMenu.req(false);
   } catch (error) {

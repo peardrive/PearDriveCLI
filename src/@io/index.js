@@ -10,12 +10,13 @@
 
 import readline from "readline";
 import tty from "tty";
+import ReadyResource from "ready-resource";
 
 import * as log from "../@log/index.js";
 import { cliStateCommands } from "./cliStateCommands.js";
 import { universalCommands } from "./universalCommands.js";
 
-class IO {
+class IO extends ReadyResource {
   /** ReadLine interface */
   #rl = null;
 
@@ -125,10 +126,27 @@ class IO {
     console.log("\x1B[2J\x1B[0f");
   }
 
-  //-- Lifecycle methods --//
+  //////////////////////////////////////////////////////////////////////////////
+  //  Private methods
+  //////////////////////////////////////////////////////////////////////////////
 
-  /** Set up ReadLine interface */
-  configure() {
+  /** Break a string into chunks fitting into an output card */
+  #chunkString(str, chunkSize = 74) {
+    if (!str) return [""]; // Return empty array if str is empty or undefined
+
+    const chunks = [];
+    for (let i = 0; i < str.length; i += chunkSize) {
+      chunks.push(str.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Lifecycle methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /** Ready */
+  async _open() {
     /** Readline Interface */
     this.#rl = readline.createInterface({
       input: new tty.ReadStream(0),
@@ -159,20 +177,9 @@ class IO {
     });
   }
 
-  /** Close ReadLine interface */
-  close() {
+  /** Close */
+  async _close() {
     this.#rl.close();
-  }
-
-  /** Break a string into chunks fitting into an output card */
-  #chunkString(str, chunkSize = 74) {
-    if (!str) return [""]; // Return empty array if str is empty or undefined
-
-    const chunks = [];
-    for (let i = 0; i < str.length; i += chunkSize) {
-      chunks.push(str.slice(i, i + chunkSize));
-    }
-    return chunks;
   }
 }
 
