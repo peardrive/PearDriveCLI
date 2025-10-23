@@ -141,40 +141,59 @@ class IO extends ReadyResource {
     return chunks;
   }
 
+  #wireEvents() {
+    // fire once per line user submits
+    this.#rl.on("line", async (line) => {
+      const res = line.trim();
+      log.info("Received user input:", res);
+
+      try {
+        // universal commands
+        const handledUniversal = await universalCommands(res);
+        if (handledUniversal) return this.#rl.prompt();
+
+        // state-specific commands
+        const handledState = await cliStateCommands(res);
+        if (handledState) return this.#rl.prompt();
+
+        // invalid command
+        log.warn("Invalid command:", res);
+        console.warn("Invalid command");
+      } catch (err) {
+        log.error("Error processing user input", err);
+        console.error("Error processing user input:", err?.message || err);
+      } finally {
+        this.#rl.prompt(); // keep the REPL alive
+      }
+    });
+
+    // nice Ctrl+C behavior
+    this.#rl.on("SIGINT", () => {
+      console.log("\n(press Ctrl+C again to exit)");
+      this.#rl.prompt();
+    });
+
+    this.#rl.on("close", () => {
+      console.log("\nGoodbye!");
+      process.exit(0);
+    });
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Lifecycle methods
   //////////////////////////////////////////////////////////////////////////////
 
   /** Ready */
   async _open() {
-    /** Readline Interface */
     this.#rl = readline.createInterface({
-      input: new tty.ReadStream(0),
-      output: new tty.WriteStream(1),
-      prompt: "\nPearDrive CLI> ",
+      input: process.stdin,
+      output: process.stdout,
+      terminal: process.stdout.isTTY, // critical for interactive behavior
+      crlfDelay: Infinity, // handle \r\n cleanly
     });
 
-    // Wire up event listener for user input
-    this.#rl.on("data", async (res) => {
-      log.info("Received user i/o input:", res);
-
-      try {
-        // Process universal command first
-        const universalCommand = universalCommands(res);
-        if (universalCommand) return;
-
-        // Process cli-state specific command
-        const cliStateCommand = cliStateCommands(res);
-        if (cliStateCommand) return;
-
-        // Invalid command
-        log.warn("Invalid command");
-        console.warn("Invalid command");
-      } catch (error) {
-        log.error("Error processing user input", error);
-        console.error("Error processing user input", error);
-      }
-    });
+    this.#rl.setPrompt("\nPearDrive CLI> ");
+    this.#wireEvents();
   }
 
   /** Close */
