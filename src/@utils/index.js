@@ -13,6 +13,7 @@ export { ensureDirSecure } from "./ensureDirSecure.js";
 export { exit } from "./exit.js";
 export { fileSizeStr } from "./fileSizeStr.js";
 export { generateString } from "./generateString.js";
+export { isPearRuntime } from "./isPearRuntime.js";
 export { objectsEqual } from "./objectsEqual.js";
 export { relativeTimeAgoStr } from "./relativeTimeAgoStr.js";
 export { resolveAppHome } from "./resolveAppHome.js";

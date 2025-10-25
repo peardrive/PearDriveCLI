@@ -11,8 +11,10 @@
 import readline from "readline";
 import tty from "tty";
 import ReadyResource from "ready-resource";
+import process from "process";
 
 import * as log from "../@log/index.js";
+import * as utils from "../@utils/index.js";
 import { cliStateCommands } from "./cliStateCommands.js";
 import { universalCommands } from "./universalCommands.js";
 
@@ -142,18 +144,23 @@ class IO extends ReadyResource {
   }
 
   #wireEvents() {
+    // Figure out proper event hook for Pear vs. Node
+    let dataEvent;
+    if (utils.isPearRuntime()) dataEvent = "data";
+    else dataEvent = "line";
+
     // fire once per line user submits
-    this.#rl.on("line", async (line) => {
+    this.#rl.on(dataEvent, async (line) => {
       const res = line.trim();
       log.info("Received user input:", res);
 
       try {
         // universal commands
-        const handledUniversal = await universalCommands(res);
+        const handledUniversal = universalCommands(res);
         if (handledUniversal) return this.#rl.prompt();
 
         // state-specific commands
-        const handledState = await cliStateCommands(res);
+        const handledState = cliStateCommands(res);
         if (handledState) return this.#rl.prompt();
 
         // invalid command
@@ -185,11 +192,27 @@ class IO extends ReadyResource {
 
   /** Ready */
   async _open() {
+    // Construct ReadLine interface for cross compatibility with Pear and Node
+    let input;
+    let output;
+    let terminal;
+    let crlfDelay;
+    if (utils.isPearRuntime()) {
+      input = new tty.ReadStream(0);
+      output = new tty.WriteStream(1);
+      terminal = true;
+      crlfDelay = Infinity;
+    } else {
+      input = process.stdin;
+      output = process.stdout;
+      terminal = process.stdout.isTTY;
+      crlfDelay = Infinity;
+    }
     this.#rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      terminal: process.stdout.isTTY, // critical for interactive behavior
-      crlfDelay: Infinity, // handle \r\n cleanly
+      input,
+      output,
+      terminal,
+      crlfDelay,
     });
 
     this.#rl.setPrompt("\nPearDrive CLI> ");
