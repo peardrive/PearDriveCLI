@@ -14,7 +14,7 @@ A command-line interface for managing PearDrive networks - decentralized file sh
 
 ### Method 1: Install via npm (Recommended)
 
-#### Step 1: Install Pear Runtime
+#### Step 1: (Optional) Install Pear Runtime
 
 ```bash
 npm install -g pear
@@ -28,8 +28,10 @@ npm install -g @peardrive/cli
 
 #### Step 3: Run the application
 
+> Runs from directory once you've installed globally!
+
 ```bash
-npm start
+peardrivecli
 ```
 
 ### Method 2: Clone and run locally
@@ -56,7 +58,7 @@ npm install
 #### Step 4: Run the application
 
 ```bash
-pear run .
+npm run start
 ```
 
 ## Usage
@@ -83,7 +85,7 @@ Once the application starts, you'll see an interactive menu with the following o
 
 - Generate QR codes for easy network sharing
 - Set custom network nicknames
-- Toggle relay mode (full seeder/archive mode)
+- Toggle archive mode
 - View connected peers and their public keys
 
 ### Example Workflow
@@ -94,16 +96,14 @@ Once the application starts, you'll see an interactive menu with the following o
 4. Share your network key with others (via QR code or text)
 5. Download files shared by other network participants
 
-### Relay Mode (Full Seeder)
+### Archive Mode (Automatically save all new files on network)
 
-Relay mode transforms your device into a complete archive node for the PearDrive network. When enabled:
+Archive mode transforms your device into a complete archive node for the PearDrive network. When enabled:
 
 - Your device automatically downloads and stores **every file** shared on the network
 - Acts as a persistent backup ensuring data availability even when original uploaders go offline
 - Helps strengthen network resilience by maintaining complete copies of all shared content
 - Requires sufficient storage space as it will download all network content
-
-**Note:** This feature may be renamed in future versions for clarity.
 
 ## Development
 

@@ -99,7 +99,7 @@ class IO extends ReadyResource {
     this.slashBorder("Peer Seed:");
     this.slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
     this.slashBorder(
-      `Relay Mode: ${saveData.indexOpts.relay ? "🟢 Enabled" : "⚫ Disabled"}`
+      `Archive Mode: ${saveData.indexOpts.relay ? "🟢 Enabled" : "⚫ Disabled"}`
     );
 
     if (detailed) {

@@ -14,37 +14,36 @@ import io from "../../@io/index.js";
 import G from "../../@globalState/index.js";
 import { create } from "../index.js";
 
-/** CREATE.RELAY_MODE request handler */
+/** CREATE.ARCHIVE_MODE request handler */
 export function req(clear = true) {
-  log.info("Requesting CREATE.RELAY_MODE");
+  log.info("Requesting CREATE.ARCHIVE_MODE");
   if (clear) io.clear();
   else io.newLine();
-  G.currentState = C.CLI_STATE.CREATE.RELAY_MODE;
+  G.currentState = C.CLI_STATE.CREATE.ARCHIVE_MODE;
 
   io.mainDivider();
-  io.doubleSlashBorder("Enter relay mode(T/f):");
+  io.doubleSlashBorder("Enter archive mode(T/f):");
   io.mainDivider();
 
   io.prompt();
 }
 
-/** CREATE.RELAY_MODE response handler */
+/** CREATE.ARCHIVE_MODE response handler */
 export function res(response) {
-  log.info("Handling CREATE.RELAY_MODE with:", response);
+  log.info("Handling CREATE.ARCHIVE_MODE with:", response);
   // Check for existing networkKey
   let networkKey = undefined;
   if (Object.keys(G.createNewPearDriveArgs).includes("networkKey")) {
     networkKey = G.createNewPearDriveArgs["networkKey"];
   }
 
-  let relayMode = true;
-  if (response === "f" || response === "false") relayMode = false;
-
+  let archiveMode = true;
+  if (response === "f" || response === "false") archiveMode = false;
   G.createNewPearDriveArgs = {
     corestorePath: G.storeDir,
     localDrivePath: G.watchDir,
     indexOpts: {
-      relay: relayMode,
+      relay: archiveMode,
     },
     networkKey,
   };

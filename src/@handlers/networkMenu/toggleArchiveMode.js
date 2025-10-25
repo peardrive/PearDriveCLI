@@ -14,16 +14,16 @@ import G from "../../@globalState/index.js";
 import io from "../../@io/index.js";
 import * as C from "../../@constants/index.js";
 
-/** NETWORK_MENU.TOGGLE_RELAY_MODE handler
+/** NETWORK_MENU.TOGGLE_ARCHIVE_MODE handler
  *
  * @param {boolean} [clear=true] - whether to clear the terminal before
  * the menu is displayed
  */
 export function req(clear = true) {
-  log.info("Requesting NETWORK_MENU.TOGGLE_RELAY_MODE");
+  log.info("Requesting NETWORK_MENU.TOGGLE_ARCHIVE_MODE");
   if (clear) io.clear();
   else io.newLine();
-  G.currentState = C.CLI_STATE.NETWORK_MENU.TOGGLE_RELAY_MODE;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.TOGGLE_ARCHIVE_MODE;
 
   // Get the selected PearDrive
   const pearDrive = G.getSelectedPearDrive();
@@ -33,24 +33,24 @@ export function req(clear = true) {
     io.mainDivider();
     io.doubleSlashBorder("No PearDrive selected");
     io.mainDivider();
-    log.error("Tried to toggle relay mode without a selected PearDrive");
+    log.error("Tried to toggle archive mode without a selected PearDrive");
     handlers.mainMenu.req(false);
     return;
   }
 
-  // Get relay mode status
+  // Get archive mode status
   const saveData = pearDrive.saveData;
-  const relayMode = saveData.indexOpts.relay;
+  const archiveMode = saveData.indexOpts.relay;
 
-  // Toggle relay mode
-  relayMode ? pearDrive.deactivateRelay() : pearDrive.activateRelay();
+  // Toggle archive mode
+  archiveMode ? pearDrive.deactivateRelay() : pearDrive.activateRelay();
 
   // Print notification
   io.mainDivider();
   io.doubleSlashBorder(
-    relayMode
-      ? "🔴 Relay mode disabled for network:"
-      : "🟢 Relay mode enabled for network:"
+    archiveMode
+      ? "🔴 Archive mode disabled for network:"
+      : "🟢 Archive mode enabled for network:"
   );
   io.doubleSlashBorder(saveData.networkKey);
   io.divider();
@@ -60,6 +60,6 @@ export function req(clear = true) {
 }
 
 export function res(response) {
-  log.info("Handling NETWORK_MENU.TOGGLE_RELAY_MODE with:", response);
+  log.info("Handling NETWORK_MENU.TOGGLE_ARCHIVE_MODE with:", response);
   handlers.listNetwork.all.req();
 }

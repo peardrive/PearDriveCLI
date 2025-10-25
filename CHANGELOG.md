@@ -2,6 +2,7 @@
 
 - Make compatible for npm module deployment
 - Fix cross-compatibility issues for IO on Pear and Node
+- Rename relay -> archive
 
 ## 2.0.3
 
