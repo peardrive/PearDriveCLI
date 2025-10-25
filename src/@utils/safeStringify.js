@@ -8,7 +8,8 @@
  * (at your option) any later version.
  */
 
-/** Safely stringify objects
+/**
+ * Safely stringify objects
  *
  * @param {Object} obj - The object to stringify
  *

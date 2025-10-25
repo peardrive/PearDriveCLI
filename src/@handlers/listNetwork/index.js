@@ -8,5 +8,5 @@
  * (at your option) any later version.
  */
 
-export * as all from "./all";
-export * as selected from "./selected";
+export * as all from "./all.js";
+export * as selected from "./selected.js";

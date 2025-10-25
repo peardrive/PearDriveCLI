@@ -8,35 +8,6 @@
  * (at your option) any later version.
  */
 
-import path from "bare-path";
-
-/** Root path directory */
-export const CUR_PATH = path.resolve(".");
-
-/** Base data directory */
-export const DATA_DIR = path.join(CUR_PATH, "data");
-
-/** Local filesystem directory */
-export const WATCH_DIR = path.join(DATA_DIR, "local");
-
-/** Corestore data directory */
-export const CORESTORE_DIR = path.join(DATA_DIR, "store");
-
-/** Save data directory */
-export const SAVE_DIR = path.join(DATA_DIR, "save");
-
-/** Save file path */
-export const SAVE_FILE = path.join(SAVE_DIR, "save.json");
-
-/** Logs path */
-export const LOG_DIR = path.join(DATA_DIR, "logs");
-
-/** Core logs path */
-export const CORE_LOG_DIR = path.join(LOG_DIR, "core");
-
-/** Log file path */
-export const LOG_FILE = path.join(LOG_DIR, "log.log");
-
 /** Different states of the CLI, what is the next input for */
 export const CLI_STATE = {
   INITIALIZING: "INITIALIZING",

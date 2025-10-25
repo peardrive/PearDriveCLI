@@ -8,9 +8,9 @@
  * (at your option) any later version.
  */
 
-import * as handlers from "../@handlers";
-import * as C from "../@constants";
-import * as utils from "../@utils";
+import * as handlers from "../@handlers/index.js";
+import * as C from "../@constants/index.js";
+import * as utils from "../@utils/index.js";
 
 /**
  * Handle the universal commands for a given input

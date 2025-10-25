@@ -10,12 +10,15 @@
 
 import readline from "readline";
 import tty from "tty";
+import ReadyResource from "ready-resource";
+import process from "process";
 
-import * as log from "../@log";
-import { cliStateCommands } from "./cliStateCommands";
-import { universalCommands } from "./universalCommands";
+import * as log from "../@log/index.js";
+import * as utils from "../@utils/index.js";
+import { cliStateCommands } from "./cliStateCommands.js";
+import { universalCommands } from "./universalCommands.js";
 
-class IO {
+class IO extends ReadyResource {
   /** ReadLine interface */
   #rl = null;
 
@@ -125,44 +128,9 @@ class IO {
     console.log("\x1B[2J\x1B[0f");
   }
 
-  //-- Lifecycle methods --//
-
-  /** Set up ReadLine interface */
-  configure() {
-    /** Readline Interface */
-    this.#rl = readline.createInterface({
-      input: new tty.ReadStream(0),
-      output: new tty.WriteStream(1),
-      prompt: "\nPearDrive CLI> ",
-    });
-
-    // Wire up event listener for user input
-    this.#rl.on("data", async (res) => {
-      log.info("Received user i/o input:", res);
-
-      try {
-        // Process universal command first
-        const universalCommand = universalCommands(res);
-        if (universalCommand) return;
-
-        // Process cli-state specific command
-        const cliStateCommand = cliStateCommands(res);
-        if (cliStateCommand) return;
-
-        // Invalid command
-        log.warn("Invalid command");
-        console.warn("Invalid command");
-      } catch (error) {
-        log.error("Error processing user input", error);
-        console.error("Error processing user input", error);
-      }
-    });
-  }
-
-  /** Close ReadLine interface */
-  close() {
-    this.#rl.close();
-  }
+  //////////////////////////////////////////////////////////////////////////////
+  //  Private methods
+  //////////////////////////////////////////////////////////////////////////////
 
   /** Break a string into chunks fitting into an output card */
   #chunkString(str, chunkSize = 74) {
@@ -173,6 +141,87 @@ class IO {
       chunks.push(str.slice(i, i + chunkSize));
     }
     return chunks;
+  }
+
+  #wireEvents() {
+    // Figure out proper event hook for Pear vs. Node
+    let dataEvent;
+    if (utils.isPearRuntime()) dataEvent = "data";
+    else dataEvent = "line";
+
+    // fire once per line user submits
+    this.#rl.on(dataEvent, async (line) => {
+      const res = line.trim();
+      log.info("Received user input:", res);
+
+      try {
+        // universal commands
+        const handledUniversal = universalCommands(res);
+        if (handledUniversal) return this.#rl.prompt();
+
+        // state-specific commands
+        const handledState = cliStateCommands(res);
+        if (handledState) return this.#rl.prompt();
+
+        // invalid command
+        log.warn("Invalid command:", res);
+        console.warn("Invalid command");
+      } catch (err) {
+        log.error("Error processing user input", err);
+        console.error("Error processing user input:", err?.message || err);
+      } finally {
+        this.#rl.prompt(); // keep the REPL alive
+      }
+    });
+
+    // nice Ctrl+C behavior
+    this.#rl.on("SIGINT", () => {
+      console.log("\n(press Ctrl+C again to exit)");
+      this.#rl.prompt();
+    });
+
+    this.#rl.on("close", () => {
+      console.log("\nGoodbye!");
+      process.exit(0);
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Lifecycle methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /** Ready */
+  async _open() {
+    // Construct ReadLine interface for cross compatibility with Pear and Node
+    let input;
+    let output;
+    let terminal;
+    let crlfDelay;
+    if (utils.isPearRuntime()) {
+      input = new tty.ReadStream(0);
+      output = new tty.WriteStream(1);
+      terminal = true;
+      crlfDelay = Infinity;
+    } else {
+      input = process.stdin;
+      output = process.stdout;
+      terminal = process.stdout.isTTY;
+      crlfDelay = Infinity;
+    }
+    this.#rl = readline.createInterface({
+      input,
+      output,
+      terminal,
+      crlfDelay,
+    });
+
+    this.#rl.setPrompt("\nPearDrive CLI> ");
+    this.#wireEvents();
+  }
+
+  /** Close */
+  async _close() {
+    this.#rl.close();
   }
 }
 

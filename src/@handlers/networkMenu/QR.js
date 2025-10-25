@@ -10,11 +10,11 @@
 
 import qrcode from "qrcode-terminal";
 
-import * as C from "../../@constants";
-import globalState from "../../@globalState";
-import * as log from "../../@log";
-import io from "../../@io";
-import * as handlers from "..";
+import * as C from "../../@constants/index.js";
+import G from "../../@globalState/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import * as handlers from "../index.js";
 
 /** NETWORK_MENU.QR request handler
  *
@@ -25,10 +25,10 @@ export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.QR");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.NETWORK_MENU.QR;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.QR;
 
   // Get the selected PearDrive
-  const pearDrive = globalState.getSelectedPearDrive();
+  const pearDrive = G.getSelectedPearDrive();
 
   // Ensure a PearDrive is selected
   if (!pearDrive) {
@@ -41,9 +41,7 @@ export function req(clear = true) {
 
   // Header
   io.mainDivider();
-  io.doubleSlashBorder(
-    `🍐 QR Code for PearDrive [${globalState.selectedPearDrive}]`
-  );
+  io.doubleSlashBorder(`🍐 QR Code for PearDrive [${G.selectedPearDrive}]`);
   io.divider();
 
   // Generate QR code for the network key

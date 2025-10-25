@@ -8,10 +8,11 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../@constants";
-import * as utils from "../@utils";
+import G from "../@globalState/index.js";
+import * as C from "../@constants/index.js";
+import * as utils from "../@utils/index.js";
 
 /**
  * Log to logfile
@@ -32,7 +33,7 @@ function log(level, ...message) {
     .join(" ");
   const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${messageString}\n`;
 
-  fs.appendFileSync(C.LOG_FILE, logEntry, (err) => {
+  fs.appendFileSync(G.logFilePath, logEntry, (err) => {
     if (err) console.error("Error writing to log file:", err);
   });
 }

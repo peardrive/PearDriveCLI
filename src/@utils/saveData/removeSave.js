@@ -8,11 +8,11 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../../@constants";
-import * as utils from "..";
-import * as log from "../../@log";
+import G from "../../@globalState/index.js";
+import * as utils from "../index.js";
+import * as log from "../../@log/index.js";
 
 /** Remove save data from save file
  *
@@ -40,7 +40,7 @@ export function removeSave(saveData) {
     const newData = data.filter(
       (d) => d.swarmOpts.seed !== saveData.swarmOpts.seed
     );
-    fs.writeFileSync(C.SAVE_FILE, JSON.stringify(newData));
+    fs.writeFileSync(G.saveFilePath, JSON.stringify(newData));
   } catch (error) {
     console.error("Error removing save data", error);
     log.error("Error removing save data", error);

@@ -8,17 +8,17 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../../@constants";
-import * as log from "../../@log";
+import G from "../../@globalState/index.js";
+import * as log from "../../@log/index.js";
 
 /** Retrieve parsed JSON data from save file */
 export function getAll() {
   log.info("Getting save data");
   try {
-    if (fs.existsSync(C.SAVE_FILE)) {
-      return JSON.parse(fs.readFileSync(C.SAVE_FILE));
+    if (fs.existsSync(G.saveFilePath)) {
+      return JSON.parse(fs.readFileSync(G.saveFilePath));
     }
   } catch (error) {
     log.error("Error getting save data", error);

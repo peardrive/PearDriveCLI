@@ -8,11 +8,11 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../../@constants";
-import * as utils from "..";
-import * as log from "../../@log";
+import G from "../../@globalState/index.js";
+import * as utils from "../index.js";
+import * as log from "../../@log/index.js";
 
 /**
  * Given a saveData object, save it to the save file. Overwrite existing
@@ -39,11 +39,11 @@ export function save(saveData) {
       // Overwrite existing save, or add new save
       if (existingIndex !== -1) saveDataList[existingIndex] = saveData;
       else saveDataList.push(saveData);
-      fs.writeFileSync(C.SAVE_FILE, JSON.stringify(saveDataList));
+      fs.writeFileSync(G.saveFilePath, JSON.stringify(saveDataList));
     }
 
     // Create new save file if it doesn't exist
-    else fs.writeFileSync(C.SAVE_FILE, JSON.stringify([saveData]));
+    else fs.writeFileSync(G.saveFilePath, JSON.stringify([saveData]));
   } catch (error) {
     log.error("Error saving save data", error);
   }

@@ -8,16 +8,17 @@
  * (at your option) any later version.
  */
 
-import fs from "bare-fs";
+import fs from "fs";
 
-import * as C from "../@constants";
-import * as utils from ".";
-import * as log from "../@log";
+import G from "../@globalState/index.js";
+import * as C from "../@constants/index.js";
+import * as utils from "./index.js";
+import * as log from "../@log/index.js";
 
 /** Create Corestore folder for given PearDrive instance */
 export function createCorestoreFolder() {
   try {
-    const folderPath = utils.createNewFolderPath(C.CORESTORE_DIR);
+    const folderPath = utils.createNewFolderPath(G.storeDir);
     log.info("Creating Corestore folder at", folderPath);
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });

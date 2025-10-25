@@ -8,12 +8,12 @@
  * (at your option) any later version.
  */
 
-import * as C from "../../@constants";
-import globalState from "../../@globalState";
-import * as utils from "../../@utils";
-import * as log from "../../@log";
-import io from "../../@io";
-import * as handlers from "..";
+import * as C from "../../@constants/index.js";
+import G from "../../@globalState/index.js";
+import * as utils from "../../@utils/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import * as handlers from "../index.js";
 
 /**
  * Format datatype for nonlocal files
@@ -75,10 +75,10 @@ export async function req(clear = true, message = "") {
   log.info("Requesting NETWORK_MENU.NETWORK");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.NETWORK;
 
   // Get the selected PearDrive
-  const pearDrive = globalState.getSelectedPearDrive();
+  const pearDrive = G.getSelectedPearDrive();
 
   // Ensure a PearDrive is selected
   if (!pearDrive) {
@@ -94,12 +94,12 @@ export async function req(clear = true, message = "") {
     // Get nonlocal files, add to global state
     const nonlocalFileMap = await pearDrive.listNonLocalFiles();
     const formattedFiles = formatNonlocalFileMap(nonlocalFileMap);
-    globalState.nonlocalFiles = formattedFiles || [];
+    G.nonlocalFiles = formattedFiles || [];
 
     // Header
     io.mainDivider();
     io.doubleSlashBorder(
-      `🍐 Nonlocal Files for PearDrive [${globalState.selectedPearDrive}]`
+      `🍐 Nonlocal Files for PearDrive [${G.selectedPearDrive}]`
     );
     io.divider();
     io.doubleSlashBorder("  Path | (Size) | - Last Modified | [Peers]");
@@ -157,7 +157,7 @@ export async function res(response) {
     !response ||
     isNaN(response) ||
     parseInt(response) < 0 ||
-    parseInt(response) >= globalState.nonlocalFiles.length
+    parseInt(response) >= G.nonlocalFiles.length
   ) {
     console.log("Invalid input. Please enter a valid file number.");
     log.error("Invalid input in NETWORK_MENU.NETWORK response");
@@ -167,7 +167,7 @@ export async function res(response) {
 
   // Get the file for download
   const resIndex = parseInt(response);
-  const selectedFile = globalState.nonlocalFiles[resIndex];
+  const selectedFile = G.nonlocalFiles[resIndex];
   const downloadPath = selectedFile.path;
   const downloadPeer = selectedFile.peer[0]; // Download from the first peer
   io.mainDivider();
@@ -176,7 +176,7 @@ export async function res(response) {
   io.doubleSlashBorder(`Selected file: ${selectedFile} Downloading...`);
   io.mainDivider();
   try {
-    const pearDrive = globalState.getSelectedPearDrive();
+    const pearDrive = G.getSelectedPearDrive();
     await pearDrive.downloadFileFromPeer(downloadPeer, downloadPath);
     req(true, "File downloaded successfully.");
   } catch (error) {

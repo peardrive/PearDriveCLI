@@ -10,10 +10,13 @@
 
 import process from "process";
 
-import * as log from "../@log/index.js";
+/** Pear/Bare detector with an override */
+export function isPearRuntime() {
+  if (process.versions?.bare) return true;
+  if (process.release?.name === "bare") return true;
+  if (typeof globalThis.Pear !== "undefined") return true;
+  const exec = (process.execPath || "").toLowerCase();
+  if (exec.includes("pear") || exec.includes("bare")) return true;
 
-/** End the process */
-export function exit() {
-  log.info("Exiting process");
-  process.exit(0);
+  return false;
 }

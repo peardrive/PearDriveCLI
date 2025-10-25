@@ -8,18 +8,18 @@
  * (at your option) any later version.
  */
 
-import path from "bare-path";
+import path from "path";
 
-import * as C from "../@constants";
-import * as log from "../@log";
-import * as utils from ".";
+import G from "../@globalState/index.js";
+import * as log from "../@log/index.js";
+import * as utils from "./index.js";
 
 /** Create log file for an instance of PearDrive core */
 export function createCoreLogFile(name = utils.generateString()) {
   log.info("Creating core log file for", name);
 
   try {
-    const filePath = path.join(C.CORE_LOG_DIR, `${name}.log`);
+    const filePath = path.join(G.coreLogsDir, `${name}.log`);
     log.debug("Core log file created at", filePath);
     return filePath;
   } catch (error) {

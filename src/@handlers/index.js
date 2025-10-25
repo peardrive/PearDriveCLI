@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export * as create from "./create";
-export * as deleteNetwork from "./deleteNetwork";
-export * as joinExisting from "./joinExisting";
-export * as listNetwork from "./listNetwork";
-export * as mainMenu from "./mainMenu";
-export * as networkMenu from "./networkMenu";
+export * as create from "./create/index.js";
+export * as deleteNetwork from "./deleteNetwork/index.js";
+export * as joinExisting from "./joinExisting/index.js";
+export * as listNetwork from "./listNetwork/index.js";
+export * as mainMenu from "./mainMenu/index.js";
+export * as networkMenu from "./networkMenu/index.js";

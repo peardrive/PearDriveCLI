@@ -8,11 +8,11 @@
  * (at your option) any later version.
  */
 
-import * as handlers from "..";
-import * as log from "../../@log";
-import globalState from "../../@globalState";
-import io from "../../@io";
-import * as C from "../../@constants";
+import * as handlers from "../index.js";
+import * as log from "../../@log/index.js";
+import G from "../../@globalState/index.js";
+import io from "../../@io/index.js";
+import * as C from "../../@constants/index.js";
 
 /** NETWORK_MENU.TOGGLE_RELAY_MODE handler
  *
@@ -23,10 +23,10 @@ export function req(clear = true) {
   log.info("Requesting NETWORK_MENU.TOGGLE_RELAY_MODE");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.NETWORK_MENU.TOGGLE_RELAY_MODE;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.TOGGLE_RELAY_MODE;
 
   // Get the selected PearDrive
-  const pearDrive = globalState.getSelectedPearDrive();
+  const pearDrive = G.getSelectedPearDrive();
 
   // Ensure a PearDrive is selected
   if (!pearDrive) {

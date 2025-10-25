@@ -10,9 +10,9 @@
 
 import PearDrive, { EVENT } from "@peardrive/core";
 
-import * as utils from "..";
-import globalState from "../../@globalState";
-import * as log from "../../@log";
+import * as utils from "../index.js";
+import globalState from "../../@globalState/index.js";
+import * as log from "../../@log/index.js";
 
 /** Load existing PearDrive instance from args */
 export async function load(saveData) {

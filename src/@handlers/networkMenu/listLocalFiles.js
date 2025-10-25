@@ -8,12 +8,12 @@
  * (at your option) any later version.
  */
 
-import * as C from "../../@constants";
-import globalState from "../../@globalState";
-import * as utils from "../../@utils";
-import * as log from "../../@log";
-import io from "../../@io";
-import * as handlers from "..";
+import * as C from "../../@constants/index.js";
+import G from "../../@globalState/index.js";
+import * as utils from "../../@utils/index.js";
+import * as log from "../../@log/index.js";
+import io from "../../@io/index.js";
+import * as handlers from "../index.js";
 
 /** Format the string for printing a file given the Core file object */
 function fileLog(file) {
@@ -32,10 +32,10 @@ export async function req(clear = true) {
   log.info("Handling NETWORK_MENU.LOCAL");
   if (clear) io.clear();
   else io.newLine();
-  globalState.currentState = C.CLI_STATE.NETWORK_MENU.LOCAL;
+  G.currentState = C.CLI_STATE.NETWORK_MENU.LOCAL;
 
   // Get the selected PearDrive
-  const pearDrive = globalState.getSelectedPearDrive();
+  const pearDrive = G.getSelectedPearDrive();
   if (!pearDrive) {
     console.log("No PearDrive selected");
     handlers.mainMenu.req(false);
@@ -48,14 +48,12 @@ export async function req(clear = true) {
 
   // Header
   io.mainDivider();
-  io.doubleSlashBorder(
-    `🍐 Local Files for PearDrive [${globalState.selectedPearDrive}]`
-  );
+  io.doubleSlashBorder(`🍐 Local Files for PearDrive [${G.selectedPearDrive}]`);
   io.divider();
 
   // Print local files
   io.slashBorder();
-  globalState.localFiles = files || [];
+  G.localFiles = files || [];
   files.length === 0
     ? io.slashBorder("No local PearDrive files found.")
     : files.forEach((file, index) => {

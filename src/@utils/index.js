@@ -3,15 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export * as pearDrive from "./pearDrive";
-export * as saveData from "./saveData";
+export * as pearDrive from "./pearDrive/index.js";
+export * as saveData from "./saveData/index.js";
 
-export { createCoreLogFile } from "./createCoreLogFile";
-export { createCorestoreFolder } from "./createCorestoreFolder";
-export { createNewFolderPath } from "./createNewFolderPath";
-export { exit } from "./exit";
-export { fileSizeStr } from "./fileSizeStr";
-export { generateString } from "./generateString";
-export { objectsEqual } from "./objectsEqual";
-export { relativeTimeAgoStr } from "./relativeTimeAgoStr";
-export { safeStringify } from "./safeStringify";
+export { createCoreLogFile } from "./createCoreLogFile.js";
+export { createCorestoreFolder } from "./createCorestoreFolder.js";
+export { createNewFolderPath } from "./createNewFolderPath.js";
+export { ensureDirSecure } from "./ensureDirSecure.js";
+export { exit } from "./exit.js";
+export { fileSizeStr } from "./fileSizeStr.js";
+export { generateString } from "./generateString.js";
+export { isPearRuntime } from "./isPearRuntime.js";
+export { objectsEqual } from "./objectsEqual.js";
+export { relativeTimeAgoStr } from "./relativeTimeAgoStr.js";
+export { resolveAppHome } from "./resolveAppHome.js";
+export { safeStringify } from "./safeStringify.js";

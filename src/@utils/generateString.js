@@ -8,8 +8,6 @@
  * (at your option) any later version.
  */
 
-import * as log from "../@log";
-
 /**
  *  Generate a random string of specified length
  *
@@ -18,22 +16,14 @@ import * as log from "../@log";
  * @returns {string} - Randomly generated string
  */
 export function generateString(length = 8) {
-  log.info("Generating random string of length", length);
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
 
-  try {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-
-    return result;
-  } catch (error) {
-    log.error("Error generating random string", error);
-    console.error("Error generating random string", error);
-    throw new Error(error);
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
   }
+
+  return result;
 }

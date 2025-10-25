@@ -10,9 +10,11 @@
 
 /* eslint-disable-next-line no-unused-vars */
 import PearDrive from "@peardrive/core";
+import path from "path";
 
-import * as C from "../@constants";
-import * as log from "../@log";
+import * as C from "../@constants/index.js";
+import * as log from "../@log/index.js";
+import * as utils from "../@utils/index.js";
 
 /** Global state */
 class GlobalState {
@@ -20,6 +22,8 @@ class GlobalState {
   #currentState;
   /** Index of a selected PearDrive (in pearDrives array) */
   #selectedPearDrive;
+  /** Root directory of app data */
+  #appDir;
 
   constructor() {
     this.#currentState = C.CLI_STATE.INITIALIZING;
@@ -33,11 +37,95 @@ class GlobalState {
     this.nonlocalFiles = [];
     /** Temp storage for local files of a PearDrive instance */
     this.localFiles = [];
+    /** CLI data folder */
+    this.#appDir = "";
   }
 
   //////////////////////////////////////////////////////////////////////////////
   // Getters / Setters
   //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Base directory path for PearDrive CLI data
+   *
+   * @type {string}
+   */
+  get appDir() {
+    return this.#appDir;
+  }
+
+  set appDir(dirPath) {
+    this.#appDir = dirPath;
+
+    // Create directory structure if it doesn't exist
+    utils.ensureDirSecure(this.appDir);
+    utils.ensureDirSecure(this.logsDir);
+    utils.ensureDirSecure(this.saveDir);
+    utils.ensureDirSecure(this.storeDir);
+    utils.ensureDirSecure(this.coreLogsDir);
+    utils.ensureDirSecure(this.watchDir);
+  }
+
+  /**
+   * Directory path for logs
+   *
+   * @type {string}
+   */
+  get logsDir() {
+    return path.join(this.appDir, "logs");
+  }
+
+  /**
+   * Directory path for core logs
+   *
+   * @type {string}
+   */
+  get coreLogsDir() {
+    return path.join(this.logsDir, "core");
+  }
+
+  /**
+   * Get log file path
+   *
+   * @type {string}
+   */
+  get logFilePath() {
+    return path.join(this.logsDir, "cli.log");
+  }
+
+  /**
+   * Directory for default watch paths
+   *
+   * @type {string}
+   */
+  get watchDir() {
+    return path.join(this.appDir, "watch");
+  }
+
+  /**
+   * Directory path for saves
+   *
+   * @type {string}
+   */
+  get saveDir() {
+    return path.join(this.appDir, "save");
+  }
+
+  /**
+   * File path for save data file
+   */
+  get saveFilePath() {
+    return path.join(this.saveDir, "save.json");
+  }
+
+  /**
+   * Directory path for stores
+   *
+   * @type {string}
+   */
+  get storeDir() {
+    return path.join(this.appDir, "store");
+  }
 
   /**
    * Current CLI state (Must be a **CLI_STATE**)
@@ -49,12 +137,8 @@ class GlobalState {
   }
 
   set currentState(newState) {
-    if (this.#isValidState(newState)) {
-      log.info(`CLI state changed to: ${newState} in globalState`);
-      this.#currentState = newState;
-    } else {
-      log.error(`Invalid CLI state: ${newState}`);
-    }
+    log.info(`CLI state changed to: ${newState} in globalState`);
+    this.#currentState = newState;
   }
 
   /**
@@ -105,7 +189,8 @@ class GlobalState {
   // Public functions
   //////////////////////////////////////////////////////////////////////////////
 
-  /** Add a PearDrive instance to the pearDrives array
+  /**
+   * Add a PearDrive instance to the pearDrives array
    *
    * @param {PearDrive} pearDrive - PearDrive instance to add
    *
@@ -117,7 +202,8 @@ class GlobalState {
     return this.pearDrives.length - 1;
   }
 
-  /** Remove a PearDrive instance with given network key from the pearDrives
+  /**
+   * Remove a PearDrive instance with given network key from the pearDrives
    * array
    *
    * @param {number} index - Index of PearDrive to remove
@@ -147,7 +233,8 @@ class GlobalState {
     }
   }
 
-  /** Retrieve a PearDrive instance based on given network key
+  /**
+   * Retrieve a PearDrive instance based on given network key
    *
    * @param {number} networkKey - Network key of the PearDrive to retrieve.
    *
@@ -175,7 +262,8 @@ class GlobalState {
     return -1; // Not found
   }
 
-  /** Get the currently selected PearDrive instance
+  /**
+   * Get the currently selected PearDrive instance
    *
    * @returns {PearDrive} - PearDrive instance with given network key
    */
@@ -219,37 +307,6 @@ class GlobalState {
     log.warn("No PearDrive found with seed", seed);
     return -1;
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Private functions
-  //////////////////////////////////////////////////////////////////////////////
-
-  /** Check if a given string is a valid state *
-   *
-   * @param {string} state - State to check
-   * @param {Object} obj - Object to check against, key is state name,
-   * value is state value. This should only be for CLI_STATE
-   *
-   * @returns {boolean} - True if state is valid, false otherwise
-   */
-  #isValidState = (/*state, obj*/) => {
-    // TODO fix this
-    return true;
-    /* if (!obj) obj = C.CLI_STATE;
-
-    for (const key in obj) {
-      if (obj[key] === state) {
-        return true;
-      } else if (
-        typeof obj[key] === "object" &&
-        this.#isValidState(state, obj[key])
-      ) {
-        console.log("Checking for valid state in", key);
-        return true;
-      }
-      return false;
-    } */
-  };
 }
 
 // Export singleton

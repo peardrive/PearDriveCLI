@@ -8,4 +8,4 @@
  * (at your option) any later version.
  */
 
-export * as networkKey from "./networkKey";
+export * as networkKey from "./networkKey.js";
