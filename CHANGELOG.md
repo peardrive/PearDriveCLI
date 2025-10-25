@@ -1,6 +1,7 @@
 # 🚧 PearDrive CLI Changelog
 
 - Make compatible for npm module deployment
+- Fix cross-compatibility issues for IO on Pear and Node
 
 ## 2.0.3
 
