@@ -54,7 +54,7 @@ export function res(response) {
     // Create new PearDrive
     case "1":
     case "create":
-      handlers.create.relayMode.req(true);
+      handlers.create.archiveMode.req(true);
       break;
 
     // Join existing PearDrive network

@@ -32,5 +32,5 @@ export function req(clear = true) {
 export function res(response) {
   log.info("Handling JOIN_EXISTING.NETWORK_KEY with:", response);
   G.createNewPearDriveArgs.networkKey = response;
-  create.relayMode.req();
+  create.archiveMode.req();
 }

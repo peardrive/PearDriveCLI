@@ -77,7 +77,7 @@ export function req(clear = true) {
     io.slashBorder();
     io.slashBorder("1. 'qr' View network QR code");
     io.slashBorder(
-      `2. 'relay' turn relay mode ${saveData.relayMode ? "off" : "on"}`
+      `2. 'archive' turn archive mode ${saveData.relayMode ? "off" : "on"}`
     );
     io.slashBorder("3. 'local' list all local PearDrive files");
     io.slashBorder("4. 'network' list all nonlocal PearDrive files");
@@ -103,8 +103,8 @@ export function res(response) {
       break;
 
     case "2":
-    case "relay":
-      handlers.networkMenu.toggleRelayMode.req();
+    case "archive":
+      handlers.networkMenu.toggleArchiveMode.req();
       break;
 
     case "3":

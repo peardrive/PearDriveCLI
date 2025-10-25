@@ -28,8 +28,8 @@ export function cliStateCommands(input) {
       handlers.mainMenu.res(input);
       return true;
 
-    case C.CLI_STATE.CREATE.RELAY_MODE:
-      handlers.create.relayMode.res(input);
+    case C.CLI_STATE.CREATE.ARCHIVE_MODE:
+      handlers.create.archiveMode.res(input);
       return true;
 
     case C.CLI_STATE.CREATE.WATCH_PATH:
@@ -56,8 +56,8 @@ export function cliStateCommands(input) {
       handlers.networkMenu.setNetworkNickname.res(input);
       return true;
 
-    case C.CLI_STATE.NETWORK_MENU.TOGGLE_RELAY_MODE:
-      handlers.networkMenu.toggleRelayMode.res(input);
+    case C.CLI_STATE.NETWORK_MENU.TOGGLE_ARCHIVE_MODE:
+      handlers.networkMenu.toggleArchiveMode.res(input);
       return true;
 
     case C.CLI_STATE.NETWORK_MENU.DELETE_DRIVE:

@@ -8,4 +8,4 @@ export * as listLocalFiles from "./listLocalFiles.js";
 export * as listNetworkFiles from "./listNetworkFiles.js";
 export * as qr from "./QR.js";
 export * as setNetworkNickname from "./setNetworkNickname.js";
-export * as toggleRelayMode from "./toggleRelayMode.js";
+export * as toggleArchiveMode from "./toggleArchiveMode.js";
