@@ -1,5 +1,7 @@
 # 🚧 PearDrive CLI Changelog
 
+## 3.0.0
+
 - Make compatible for npm module deployment
 - Fix cross-compatibility issues for IO on Pear and Node
 - Rename relay -> archive
