@@ -22,6 +22,7 @@ export function logSaveData(saveData, connected, publicKey) {
   log.info("Peer Seed:", saveData.seed || "Not set");
   if (publicKey) log.info("Peer Key:", publicKey);
   log.info(
-    "Archive Mode: " + saveData.indexOpts.relay ? "🟢 Enabled" : "🔴 Disabled"
+    "Archive Mode: " +
+      (saveData.indexOpts.archive ? "🟢 Enabled" : "⚫️ Disabled")
   );
 }

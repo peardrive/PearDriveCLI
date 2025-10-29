@@ -86,7 +86,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@peardrive/core": "^2.0.3",
+    "@peardrive/core": "^3.0.0",
     "bare-fs": "^4.0.1",
     "bare-os": "^3.6.2",
     "bare-path": "^3.0.0",

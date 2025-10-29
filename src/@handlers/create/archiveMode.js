@@ -43,7 +43,7 @@ export function res(response) {
     corestorePath: G.storeDir,
     localDrivePath: G.watchDir,
     indexOpts: {
-      relay: archiveMode,
+      archive: archiveMode,
     },
     networkKey,
   };
