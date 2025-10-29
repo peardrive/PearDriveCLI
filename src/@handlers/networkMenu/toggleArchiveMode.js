@@ -40,10 +40,10 @@ export function req(clear = true) {
 
   // Get archive mode status
   const saveData = pearDrive.saveData;
-  const archiveMode = saveData.indexOpts.relay;
+  const archiveMode = saveData.indexOpts.archive;
 
   // Toggle archive mode
-  archiveMode ? pearDrive.deactivateRelay() : pearDrive.activateRelay();
+  archiveMode ? pearDrive.deactivateArchive() : pearDrive.activateArchive();
 
   // Print notification
   io.mainDivider();

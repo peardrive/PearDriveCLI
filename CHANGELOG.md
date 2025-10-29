@@ -1,5 +1,7 @@
 # 🚧 PearDrive CLI Changelog
 
+- Update to core v3.0.0
+
 ## 3.0.0
 
 - Make compatible for npm module deployment
