@@ -1,5 +1,7 @@
 # 🚧 PearDrive CLI Changelog
 
+## 4.0.0
+
 - Update to core v3.0.0
 
 ## 3.0.0
