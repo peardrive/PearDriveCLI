@@ -28,7 +28,7 @@ npm install -g @peardrive/cli
 
 #### Step 3: Run the application
 
-> Runs from directory once you've installed globally!
+> Runs from any directory in the terminal once you've installed globally!
 
 ```bash
 peardrivecli
