@@ -106,7 +106,7 @@ async function initialize() {
 ////////////////////////////////////////////////////////////////////////////////
 
 /** Entry point function */
-async function main() {
+export async function main() {
   try {
     await initialize();
     await io.ready();
