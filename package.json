@@ -25,7 +25,8 @@
     "dev": "pear run -d .",
     "test": "brittle test/*.test.js",
     "lint": "eslint",
-    "build": "cp -R src/. dist/"
+    "build": "cp -R src/. dist/",
+    "build-docs": "typedoc"
   },
   "imports": {
     "fs": {
@@ -83,6 +84,7 @@
     "brittle": "^3.17.1",
     "eslint": "^9.33.0",
     "pear-interface": "^1.1.0",
+    "typedoc": "^0.28.14",
     "typescript": "^5.9.3"
   },
   "dependencies": {

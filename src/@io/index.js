@@ -18,7 +18,7 @@ import * as utils from "../@utils/index.js";
 import { cliStateCommands } from "./cliStateCommands.js";
 import { universalCommands } from "./universalCommands.js";
 
-class IO extends ReadyResource {
+export class IO extends ReadyResource {
   /** ReadLine interface */
   #rl = null;
 
@@ -99,7 +99,9 @@ class IO extends ReadyResource {
     this.slashBorder("Peer Seed:");
     this.slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
     this.slashBorder(
-      `Archive Mode: ${saveData.indexOpts.relay ? "🟢 Enabled" : "⚫ Disabled"}`
+      `Archive Mode: ${
+        saveData.indexOpts.archive ? "🟢 Enabled" : "⚫ Disabled"
+      }`
     );
 
     if (detailed) {

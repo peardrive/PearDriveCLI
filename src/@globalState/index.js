@@ -17,7 +17,7 @@ import * as log from "../@log/index.js";
 import * as utils from "../@utils/index.js";
 
 /** Global state */
-class GlobalState {
+export class GlobalState {
   /** Internal value for state of CLI */
   #currentState;
   /** Index of a selected PearDrive (in pearDrives array) */
