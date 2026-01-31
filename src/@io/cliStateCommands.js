@@ -48,6 +48,10 @@ export function cliStateCommands(input) {
       handlers.listNetwork.selected.res(input);
       return true;
 
+    case C.CLI_STATE.LIST_NETWORK.ADVANCED:
+      handlers.listNetwork.selected.resAdvanced(input);
+      return true;
+
     case C.CLI_STATE.NETWORK_MENU.QR:
       handlers.networkMenu.qr.res(input);
       return true;

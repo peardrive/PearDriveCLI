@@ -63,11 +63,6 @@ export function req(clear = true) {
     // PearDrive details
     io.slashBorder();
     io.pearDriveSaveData(saveData, selectedPearDrive.connected, publicKey);
-    utils.pearDrive.logSaveData(
-      saveData,
-      selectedPearDrive.connected,
-      publicKey
-    );
     io.slashBorder();
     io.divider();
 
@@ -77,12 +72,13 @@ export function req(clear = true) {
     io.slashBorder();
     io.slashBorder("1. 'qr' View network QR code");
     io.slashBorder(
-      `2. 'archive' turn archive mode ${saveData.archiveMode ? "off" : "on"}`
+      `2. 'archive' turn archive mode ${saveData.indexOpts.archive ? "off" : "on"}`
     );
     io.slashBorder("3. 'local' list all local PearDrive files");
     io.slashBorder("4. 'network' list all nonlocal PearDrive files");
-    io.slashBorder("5. 'delete' Delete network");
-    io.slashBorder("6. 'back' Return to network list");
+    io.slashBorder("5. 'advanced' Show advanced details");
+    io.slashBorder("6. 'delete' Delete network");
+    io.slashBorder("7. 'back' Return to network list");
     io.slashBorder();
     io.mainDivider();
     io.prompt();
@@ -118,15 +114,66 @@ export function res(response) {
       break;
 
     case "5":
+    case "advanced":
+      showAdvancedDetails();
+      break;
+
+    case "6":
     case "delete":
       handlers.networkMenu.deleteDrive.req();
       break;
 
-    case "6":
+    case "7":
     case "back":
       console.log("Returning to LIST_NETWORK.all...");
       log.info("Returning to LIST_NETWORK.all from LIST_NETWORK.selected");
       all.req();
+      break;
+
+    default:
+      console.log("Invalid input, please try again");
+      break;
+  }
+}
+
+/**
+ * Show advanced details for the selected PearDrive
+ */
+function showAdvancedDetails() {
+  log.info("Showing advanced details for selected PearDrive");
+  
+  G.currentState = C.CLI_STATE.LIST_NETWORK.ADVANCED;
+  
+  const selectedPearDrive = G.getSelectedPearDrive();
+  const saveData = selectedPearDrive.saveData;
+  const publicKey = selectedPearDrive.publicKey;
+
+  io.clear();
+  io.mainDivider();
+  io.doubleSlashBorder(`🍐 Advanced Details [${G.selectedPearDrive}]`);
+  io.divider();
+  io.slashBorder();
+  io.pearDriveSaveData(saveData, selectedPearDrive.connected, publicKey, true);
+  io.slashBorder();
+  io.divider();
+  io.doubleSlashBorder("OPTIONS");
+  io.divider();
+  io.slashBorder();
+  io.slashBorder("1. 'back' Return to network details");
+  io.slashBorder();
+  io.mainDivider();
+  io.prompt();
+}
+
+/**
+ * Handle responses in the advanced details view
+ */
+export function resAdvanced(response) {
+  log.info("Handling LIST_NETWORK.ADVANCED with:", response);
+  switch (response) {
+    case "1":
+    case "back":
+      req();
       break;
 
     default:

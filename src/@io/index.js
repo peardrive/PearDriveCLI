@@ -90,14 +90,10 @@ export class IO extends ReadyResource {
     this.slashBorder(
       `Connection: ${connected ? "🟢 Connected" : "🔴 Disconnected"}`
     );
-    publicKey && this.slashBorder("Peer Public Key:");
-    publicKey && this.slashBorder(`    ${publicKey}`);
-    this.slashBorder("Network Key:");
+    this.slashBorder("Share Key:");
     this.slashBorder(`    ${saveData.networkKey}`);
     this.slashBorder("Watch Path:");
     this.slashBorder(`    ${saveData.watchPath}`);
-    this.slashBorder("Peer Seed:");
-    this.slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
     this.slashBorder(
       `Archive Mode: ${
         saveData.indexOpts.archive ? "🟢 Enabled" : "⚫ Disabled"
@@ -105,6 +101,14 @@ export class IO extends ReadyResource {
     );
 
     if (detailed) {
+      this.divider();
+      this.slashBorder("ADVANCED DETAILS");
+      this.divider();
+      publicKey && this.slashBorder("Peer Public Key:");
+      publicKey && this.slashBorder(`    ${publicKey}`);
+      this.slashBorder("Peer Seed:");
+      this.slashBorder(`    ${saveData.swarmOpts.seed || "Not set"}`);
+      
       this.divider();
       this.slashBorder("Swarm Options:");
       Object.entries(saveData.swarmOpts || {}).forEach(([key, value]) => {
